@@ -1,3 +1,4 @@
+
 -- Creating user and/or his car --
 DELIMITER |
 CREATE PROCEDURE createUserWithCar(
@@ -35,8 +36,15 @@ BEGIN
     	    INSERT INTO users
     	            (firstName, lastName, username, email, password, address, city, cp, phone, privilege, is_driver, id_car, createdAt, updatedAt)
     	    VALUES  (_firstName, _lastName, _username, _email, _password, _address, _city, _cp, _phone, 1,_is_driver, lastCar, SYSDATE(), SYSDATE());
+            
+    	ELSE
+		INSERT INTO users
+    	           	(firstName, lastName, username, email, password, address, city, cp, phone, privilege, is_driver, createdAt, updatedAt)
+    	    	VALUES  (_firstName, _lastName, _username, _email, _password, _address, _city, _cp, _phone, 1,_is_driver, SYSDATE(), SYSDATE());
 
-    END IF;
+    	END IF;
+
 
 END|
 -- ---------------------------------- --
+

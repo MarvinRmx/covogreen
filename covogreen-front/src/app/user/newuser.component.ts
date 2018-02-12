@@ -50,8 +50,8 @@ export class NewuserComponent implements OnInit {
             address: this.formBulder.control('', Validators.required),
             cp: this.formBulder.control('', Validators.required),
             phone: this.formBulder.control('', Validators.required),
-            is_driver: "",
-            have_car: "",
+            is_driver: "false",
+            have_car: "false",
 
             licencePlate: this.formBulder.control(''),
             make: this.formBulder.control(''),

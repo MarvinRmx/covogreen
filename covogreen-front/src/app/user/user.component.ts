@@ -102,7 +102,7 @@ export class UserComponent implements OnInit {
 
     updateUser() {
 
-        this.userService.updateUser(this.updateUserForm.value)
+        /*this.userService.updateUser(this.updateUserForm.value)
             .subscribe(result => {
                 alert(result);
 
@@ -113,25 +113,25 @@ export class UserComponent implements OnInit {
                         this.user = JSON.parse(tokenUser);
                         this.router.navigate(['/user']);
                     });
-            });
+            });*/
     }
 
     updatePassword() {
         console.log(this.updatePasswordForm.value);
 
-        this.userService.updatePassword(this.updatePasswordForm.value)
+        /*this.userService.updatePassword(this.updatePasswordForm.value)
             .subscribe(result => {
                 alert(result);
-            });
+            });*/
 
     }
 
     deleteUser() {
-        this.userService.deleteUser(this.user)
+        /*this.userService.deleteUser(this.user)
             .subscribe(result => {
                 alert(result);
                 localStorage.removeItem('currentUser');
                 this.router.navigate(['/']);
-            });
+            });*/
     }
 }

@@ -46,7 +46,7 @@ var LoginController = {
 
 
     /**
-     * For creating an new user and his car.
+     * For creating an new user and/or his car.
      * @param req
      * @param res
      */
@@ -86,26 +86,20 @@ var LoginController = {
             });
         }
         else {
+
+            req.body.user.privilege = 1;
+
             User.create(req.body.user)
                 .then(function (response) {
                     res.status(200).send("Ajout de l'utilisateur OK");
                 })
                 .catch(function (error) {
+                    console.log(error);
                     res.status(500).send("Echec de l'ajout de l'utilisateur");
                 });
         }
     }
 
-    /*create: function  (req, res) {
-
-        User.create(req.body)
-            .then(function (response) {
-                res.status(200).send("Ajout de l'utilisateur OK");
-            })
-            .catch(function (error) {
-                res.status(500).send("Echec de l'ajout de l'utilisateur");
-            });
-    },*/
 };
 
 
