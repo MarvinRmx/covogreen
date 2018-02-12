@@ -2,12 +2,8 @@
 process.env.NODE_ENV = 'test';
 
 //Require the dev-dependencies
-var chai = require('chai');
-var chaiHttp = require('chai-http');
 var app = require('../app');
 const request = require('supertest');
-
-chai.use(chaiHttp);
 
 describe('User', function () {
 
