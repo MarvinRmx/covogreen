@@ -24,32 +24,6 @@ var LoginController = {
      * @param req
      * @param res
      */
-    /*login: co.wrap(function * (req, res) {
-
-        req.accepts('application/json');
-
-        try {
-            var response = yield User.findOne({
-                where: {
-                    username: req.body.username,
-                    password: req.body.password
-                }
-            });
-
-            var user = JSON.stringify({id: response.id_user, username: response.username, privilege: response.privilege});
-            var token = jwt.sign(user, skey);
-
-            res.header('Authorization', token);
-            res.send(token);
-            //res.send('');
-            res.status(200);
-        }
-        catch(error) {
-            res.status(500).send("Connexion refusée.");
-        }
-
-    }),*/
-
     login: function (req, res) {
 
         req.accepts('application/json');

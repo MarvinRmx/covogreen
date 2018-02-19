@@ -16,7 +16,7 @@ import { SelectModule } from 'ng-select';
 //import { TextEqualityValidatorModule } from 'ngx-text-equality-validator';
 
 import {AppComponent} from './app.component';
-import {DashboardComponent} from './dashboard/dashboard.component';
+import {HomeComponent} from './home/home.component';
 import {LoginComponent} from './login/login.component';
 
 import {AuthentificationService} from '../services/authentification.service';
@@ -62,7 +62,7 @@ import { TestComponent } from './test/test.component';
     ],
     declarations: [
         AppComponent,
-        DashboardComponent,
+        HomeComponent,
         LoginComponent,
         UserComponent,
         NewuserComponent,
