@@ -1,0 +1,53 @@
+<div *ngIf="offre">
+  <h2>{{ offre.name | uppercase }} Details</h2>
+  <div><span>id: </span>{{offre.id}}</div>
+  <div>
+
+    <div>
+    <label>name:
+      <input [(ngModel)]="offre.name" placeholder="name"/>
+    </label>
+    </div>
+
+    <div>
+    <label>surname:
+      <input [(ngModel)]="offre.surname" placeholder="surname"/>
+    </label>
+    </div>
+
+
+     <div>
+    <label>Date:
+      <input [(ngModel)]="offre.date" placeholder="date"/>
+    </label>
+    </div>
+
+     <div>
+    <label>Heure:
+      <input [(ngModel)]="offre.hdp" placeholder="hdp"/>
+    </label>
+    </div>
+      
+      <div>
+    <label>Départ:
+      <input [(ngModel)]="offre.dep" placeholder="dep"/>
+    </label>
+    </div>
+
+    <div>
+    <label>Arrivée:
+      <input [(ngModel)]="offre.arr" placeholder="arr"/>
+    </label>
+    </div>
+    
+  </div>
+  <button (click)="goBack()">go back</button>
+  <button (click)="save()">save</button>
+</div>
+
+
+<!-- 
+Copyright 2017-2018 Google Inc. All Rights Reserved.
+Use of this source code is governed by an MIT-style license that
+can be found in the LICENSE file at http://angular.io/license
+-->

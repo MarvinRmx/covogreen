@@ -1,0 +1,29 @@
+<h2>Mes Offres</h2>
+
+<div>
+  <label>Nom de l'offre :
+    <input #offreName />
+  </label>
+  
+  <!-- (click) passes input value to add() and then clears the input -->
+  <button (click)="add(offreName.value); offreName.value=''">
+    add
+  </button>
+</div>
+
+<ul class="offres">
+  <li *ngFor="let offre of offres">
+    <a routerLink="/detail/{{offre.id}}">
+      <span class="badge">{{offre.id}}</span> {{offre.name}}
+    </a>
+    <button class="delete" title="delete offre"
+    (click)="delete(offre)">x</button>
+  </li>
+</ul>
+
+
+<!-- 
+Copyright 2017-2018 Google Inc. All Rights Reserved.
+Use of this source code is governed by an MIT-style license that
+can be found in the LICENSE file at http://angular.io/license
+-->
