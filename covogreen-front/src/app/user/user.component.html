@@ -1,80 +1,72 @@
 <div id="user">
 
-        <section id="pannierProfil">
-            <h2>Mon panier</h2>
-    
-            <form class="form" role="form">
-                
-            </form>
-        </section><hr>
-
-    <section id="updateProfil">
+    <section id="updateUser">
         <h2>Modifier son profil</h2>
 
         <form (ngSubmit)="updateUser()" [formGroup]="updateUserForm" class="form" role="form" #f="ngForm" novalidate>
 
             <div class="form-group">
-                <input id="username" name="username" formControlName="username" [(ngModel)]="username" 
-                placeholder="Username" 
-                class="form-control form-control-sm" 
-                type="text"
-                disabled>
+                <input  id="username" name="username" formControlName="username"
+                        placeholder="Username"
+                        class="form-control form-control-sm"
+                        type="text"
+                        disabled>
             </div>
 
             <div class="form-group">
-                <input id="email" name="email" formControlName="email" [(ngModel)]="email" 
-                placeholder="Email" 
-                class="form-control form-control-sm" 
-                type="email" 
-                required>
+                <input  id="email" name="email" formControlName="email"
+                        placeholder="Email"
+                        class="form-control form-control-sm"
+                        type="email"
+                        required>
             </div>
 
             <div class="form-group">
-                <input id="firstname" name="firstname" formControlName="firstname" [(ngModel)]="firstname" 
-                placeholder="Prénom" 
-                class="form-control form-control-sm" 
-                type="text" 
-                required>
+                <input  id="firstName" name="firstName" formControlName="firstName"
+                        placeholder="Prénom"
+                        class="form-control form-control-sm"
+                        type="text"
+                        required>
             </div>
 
             <div class="form-group">
-                <input id="lastname" name="lastname" formControlName="lastname" [(ngModel)]="lastname" 
-                placeholder="Nom" 
-                class="form-control form-control-sm" 
-                type="text" 
-                required>
+                <input  id="lastName" name="lastName" formControlName="lastName"
+                        placeholder="Nom"
+                        class="form-control form-control-sm"
+                        type="text"
+                        required>
             </div>
 
             <div class="form-group">
-                <input id="city" name="city" formControlName="city" [(ngModel)]="city" 
-                placeholder="Ville" 
-                class="form-control form-control-sm" 
-                type="text" 
-                required>
+                <input id="phone" name="phone" formControlName="phone"
+                       placeholder="Téléphone portable"
+                       class="form-control form-control-sm"
+                       type="tel"
+                       required>
             </div>
 
             <div class="form-group">
-                <input id="street" name="street" formControlName="street" [(ngModel)]="street" 
-                placeholder="Adresse" 
-                class="form-control form-control-sm" 
-                type="text" 
-                required>
+                <input  id="city" name="city" formControlName="city"
+                        placeholder="Ville"
+                        class="form-control form-control-sm"
+                        type="text"
+                        required>
             </div>
 
             <div class="form-group">
-                <input id="cp" name="cp" formControlName="cp" [(ngModel)]="cp" 
-                placeholder="Code Postale" 
-                class="form-control form-control-sm" 
-                type="text" 
-                required>
+                <input  id="address" name="address" formControlName="address"
+                        placeholder="Adresse"
+                        class="form-control form-control-sm"
+                        type="text"
+                        required>
             </div>
 
             <div class="form-group">
-                <input id="country" name="country" formControlName="country" [(ngModel)]="country" 
-                placeholder="Pays" 
-                class="form-control form-control-sm" 
-                type="text" 
-                required>
+                <input  id="cp" name="cp" formControlName="cp"
+                        placeholder="Code Postale"
+                        class="form-control form-control-sm"
+                        type="text"
+                        required>
             </div>
 
             <div class="form-group">
@@ -84,31 +76,31 @@
 
     </section><hr>
 
-    <section id="deleteProfil">
+    <!--<section id="updatePassword">
         <h2>Modifier son mot de passe</h2>
 
         <form (ngSubmit)="updatePassword()" [formGroup]="updatePasswordForm" class="form" role="form" #f="ngForm" novalidate>
             <div class="form-group">
-                <input id="oldPassword" name="oldPassword" formControlName="old_password" 
-                placeholder="Mot de passe actuel" 
-                class="form-control form-control-sm" 
-                type="password" 
+                <input id="oldPassword" name="oldPassword" formControlName="old_password"
+                placeholder="Mot de passe actuel"
+                class="form-control form-control-sm"
+                type="password"
                 required>
             </div>
 
             <div class="form-group">
-                <input id="newPassword" name="newPassword" formControlName="new_password" 
-                placeholder="Nouveau Mot de passe" 
-                class="form-control form-control-sm" 
-                type="password" 
+                <input id="newPassword" name="newPassword" formControlName="new_password"
+                placeholder="Nouveau Mot de passe"
+                class="form-control form-control-sm"
+                type="password"
                 required validateEqualTo="confirm_password">
             </div>
 
             <div class="form-group">
-                <input id="confirmPassword" name="confirmPassword" formControlName="confirm_password" 
-                placeholder="Confirmer le mot de passe" 
-                class="form-control form-control-sm" 
-                type="password" 
+                <input id="confirmPassword" name="confirmPassword" formControlName="confirm_password"
+                placeholder="Confirmer le mot de passe"
+                class="form-control form-control-sm"
+                type="password"
                 required>
 
                 <p *ngIf="updatePasswordForm.get('new_password').hasError('validateEqual')" class="alert alert-danger">Les mots de passe doivent correspondre</p>
@@ -118,15 +110,15 @@
                 <button type="submit" [disabled]="updatePasswordForm.invalid" class="btn btn-primary btn-block">Modifier</button>
             </div>
         </form>
-    </section><hr>
+    </section><hr>-->
 
-    <section id="deleteProfil">
+    <!--<section id="deleteUser">
         <h2>Supprimer son profil</h2>
 
         <form (ngSubmit)="deleteUser()" class="form" role="form" #f="ngForm" novalidate>
             <div class="form-group">
                 <button type="submit" class="btn btn-primary btn-block">Supprimer</button>
-                <!--
+                &lt;!&ndash;
                 <button
                     class="btn btn-primary btn-block"
                     mwlConfirmationPopover
@@ -135,9 +127,9 @@
                     (cancel)="cancelClicked = true">
                         Supprimer
                 </button>
-                -->
+                &ndash;&gt;
             </div>
         </form>
-    </section><hr>
-            
+    </section><hr>-->
+
 </div>

@@ -8,6 +8,7 @@ import { Car } from '../class/car';
 export class UserService {
 
     private uri: string;
+    public user: User;
 
     constructor(
         private http: Http,
@@ -26,9 +27,6 @@ export class UserService {
         let headers = new Headers({ "Content-Type": "application/json" });
         let options = new RequestOptions({ headers: headers });
 
-        console.log(user);
-        console.log(car);
-
         return this.http.post(this.uri, JSON.stringify({user, car}), options)
             .map((response: Response) => {
                 console.log(response.text());
@@ -36,7 +34,7 @@ export class UserService {
             });
     }
 
-    /*updateUser(user: User): Observable<string> {
+    updateUser(user: User): Observable<string> {
         let headers = new Headers({ "Content-Type": "application/json" });
         let options = new RequestOptions({ headers: headers });
 
@@ -45,7 +43,7 @@ export class UserService {
                 console.log(response.text());
                 return response.text();
             });
-    }*/
+    }
 
     /*deleteUser(user: User): Observable<string> {
         let headers = new Headers({ "Content-Type": "application/json" });
@@ -66,8 +64,10 @@ export class UserService {
         let headers = new Headers({ "Content-Type": "application/json" });
         let options = new RequestOptions({ headers: headers });
 
-        let user = localStorage.getItem('currentUser');
-        return this.http.post(this.uri, user, options)
+        let token = localStorage.getItem('currentUser');
+        this.user = JSON.parse(token);
+
+        return this.http.get(this.uri +"/"+ this.user.id_user, options)
             .map((response: Response) => {
                 var result = response.text();
                 return JSON.parse(result);

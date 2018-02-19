@@ -26,7 +26,6 @@ export class NewuserComponent implements OnInit {
     public is_driver_ctrl: FormControl;
 
     public createUserForm: FormGroup;
-    //public createCarForm: FormGroup;
 
     constructor(
         private formBulder: FormBuilder,

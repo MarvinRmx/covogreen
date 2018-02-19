@@ -52,37 +52,9 @@ export class AuthentificationService {
                 if (response.status === 200) {
                     this.token = jwt.decode(response.text(), this.skey);
                     localStorage.setItem('currentUser', JSON.stringify(this.token));
+                    console.log('Token :', this.token);
 
                     return true;
-                }
-                else return false;
-
-            });
-    }
-
-    /**
-     * Method for accept or refuse connexion to dashboard administrator
-     * @param {User} user
-     * @returns {Observable<boolean>}
-     */
-    loginAdmin(user: User): Observable<boolean> {
-
-        let headers = new Headers({ "Content-Type": "application/json" });
-        let options = new RequestOptions({ headers: headers });
-
-        return this.http.post(this.uri + "user/login", JSON.stringify(user), options)
-            .map((response: Response) => {
-
-                if ( response.status === 200 ) {
-                    this.token = jwt.decode(response.text(), this.skey);
-                    this.user = this.token;
-
-                    console.log(this.user);
-                    if(this.user.privilege == 2){
-                        localStorage.setItem('currentAdmin', JSON.stringify(this.token));
-                        return true;
-                    } else return false;
-
                 }
                 else return false;
 
