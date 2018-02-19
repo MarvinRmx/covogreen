@@ -35,7 +35,7 @@ var LoginController = {
                 }
             })
             .then(function (response) {
-                var user = JSON.stringify({id: response.id_user, username: response.username, privilege: response.privilege});
+                var user = JSON.stringify({id_user: response.id_user, username: response.username, privilege: response.privilege});
                 var token = jwt.sign(user, skey);
 
                 res.header('Authorization', token);
@@ -70,6 +70,24 @@ var LoginController = {
         });
     },*/
 
+    /**
+     * For getting an new user and/or his car.
+     * @param req
+     * @param res
+     */
+    get: function  (id_user, res) {
+
+        User.findOne({
+            where: { id_user: id_user }
+        })
+        .then(function (response) {
+            res.status(200).send(response.dataValues);
+        })
+        .catch(function (error) {
+            console.log('Fail find for getting user :', error);
+            res.status(500).send("Echec de la récupération du profil.");
+        });
+    },
 
     /**
      * For creating an new user and/or his car.
@@ -124,6 +142,36 @@ var LoginController = {
                     res.status(500).send("Echec de l'ajout de l'utilisateur");
                 });
         }
+    },
+
+    /**
+     * For updating an new user and/or his car.
+     * @param req
+     * @param res
+     */
+    update: function  (req, res) {
+
+        req.accepts('application/json');
+
+        User.findOne({
+            where: { id_user: req.body.id_user }
+        })
+        .then(function (response) {
+
+            var user = req.body;
+            User.update(user, {where: {id_user: user.id_user}})
+                .then(function (response) {
+                    res.status(200).send("Succès de la mise-à-jour du profil.");
+                })
+                .catch(function (error) {
+                    console.log('Fail update user :', error);
+                    res.status(500).send("Echec de la mise-à-jour du profil.");
+                });
+        })
+        .catch(function (error) {
+            console.log('Fail find for update user :', error);
+            res.status(500).send("Echec de la mise-à-jour du profil.");
+        });
     }
 
 };

@@ -36,6 +36,21 @@ describe('User', function () {
 
     });
 
+    describe('get()', function () {
+
+        it('should accept and return user datas', function testGet (done) {
+            request(app)
+                .get('/user/1')
+                .expect(200)
+                .end(function(err, res) {
+                    if (err) return done(err);
+                    else console.log('Result:', res.text);
+                    done();
+                });
+        });
+
+    });
+
     describe('create()', function () {
 
         it('should a new user without car', function testCreateWithoutCar (done) {
@@ -106,6 +121,52 @@ describe('User', function () {
                     done();
                 });
         });
+
+    });
+
+    describe('update()', function () {
+
+        it('should update an user and return status 200', function testUpdate (done) {
+            request(app)
+                .put('/user')
+                .send({
+                    id_user: 1,
+                    firstName:"Toto",
+                    lastName:"Tata",
+                    username:"test",
+                    password:"098f6bcd4621d373cade4e832627b4f6",
+                    email:"test@test.fr",
+                    privilege: 1,
+                    is_driver: false
+                })
+                .expect(200)
+                .end(function(err, res) {
+                    if (err) return done(err);
+                    else console.log('Result:', res.text);
+                    done();
+                });
+        });
+
+        /*it('should update an user and return status 200', function testLogin (done) {
+            request(app)
+                .put('/user')
+                .send({
+                    id_user: 1,
+                    firstName:"Toto",
+                    lastName:"Tata",
+                    username:"test",
+                    password:"098f6bcd4621d373cade4e832627b4f6",
+                    email:"test@test.fr",
+                    privilege: 1,
+                    is_driver: false
+                })
+                .expect(200)
+                .end(function(err, res) {
+                    if (err) return done(err);
+                    else console.log('Result:', res.text);
+                    done();
+                });
+        });*/
 
     });
 
