@@ -76,7 +76,7 @@ export class RecherchePageComponent implements OnInit {
                 this.loadTrajets(new RechercheFormEnt(
                     "",
                     "",
-                    "",
+                    false,
                     ""
                 ), 1);
             }
