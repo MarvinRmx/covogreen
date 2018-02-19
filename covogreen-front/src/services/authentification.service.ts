@@ -51,7 +51,6 @@ export class AuthentificationService {
 
                 if (response.status === 200) {
                     this.token = jwt.decode(response.text(), this.skey);
-
                     localStorage.setItem('currentUser', JSON.stringify(this.token));
 
                     return true;
@@ -98,16 +97,6 @@ export class AuthentificationService {
         this.token = null;
         localStorage.removeItem('currentUser');
         this.router.navigate(['/login']);
-    }
-
-    /**
-     * Method disconnect administrator session.
-     */
-    logoutAdmin(): void {
-        // clear token remove user from local storage to log user out
-        this.token = null;
-        localStorage.removeItem('currentAdmin');
-        this.router.navigate(['/']);
     }
 
 }
