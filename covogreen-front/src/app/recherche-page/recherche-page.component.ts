@@ -4,12 +4,13 @@ import {RechercheFormEnt} from '../../class/RechercheFormEnt';
 import {RechercheTrajetService} from '../../services/recherche-trajet.service';
 import {isNullOrUndefined} from 'util';
 import {TrajetEnt} from '../../class/TrajetEnt';
+import {InscriptionTrajetService} from '../../services/inscription-trajet.service';
 
 @Component({
     selector: 'app-recherche-page',
     templateUrl: './recherche-page.component.html',
     styleUrls: ['./recherche-page.component.css'],
-    providers: [RechercheTrajetService]
+    providers: [RechercheTrajetService, InscriptionTrajetService]
 })
 export class RecherchePageComponent implements OnInit {
     rechercheFormEnt: RechercheFormEnt;
@@ -22,7 +23,7 @@ export class RecherchePageComponent implements OnInit {
     nb_total_page: number[];
     currentPage: number;
 
-    constructor(private route: ActivatedRoute, private rechercheService: RechercheTrajetService, private router: Router) {
+    constructor(private route: ActivatedRoute, private rechercheService: RechercheTrajetService, private inscriptionService: InscriptionTrajetService, private router: Router) {
         this.rechercheFormEnt = new RechercheFormEnt(null, null, false, null);
         this.offres = [];
         this.error = false;
@@ -111,5 +112,28 @@ export class RecherchePageComponent implements OnInit {
                 'page': page
             }
         });
+    }
+
+    /**
+     * Methode executé lorsqu'un utilisateur clique sur le bouton pour s'inscrire à une offre
+     */
+    inscriptionTrajet(event, offre: TrajetEnt) {
+        let token = localStorage.getItem('currentUser');
+
+        console.log(event);
+
+        // un utilisateur est loggé
+        if (token != null) {
+            // On inscription l'utilisateur.
+            this.inscriptionService.inscription(token, offre.id).subscribe((res: Response) => { // on récupère la réponse.
+                console.log(res);
+            });
+        }else{
+            // l'utilisateur n'est pas loggé, on affiche une erreur.
+            this.error = true;
+            this.messagesErreur = ['Veillez vous connecter pour participer à cette offre.'];
+        }
+
+        console.log(offre);
     }
 }
