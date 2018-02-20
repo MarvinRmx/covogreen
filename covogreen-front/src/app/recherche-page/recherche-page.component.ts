@@ -30,10 +30,35 @@ export class RecherchePageComponent implements OnInit {
         this.nb_total_page = [];
     }
 
-    get diagnostic() {
-        return JSON.stringify(this.offres);
+    ngOnInit() {
+        // On récupère les informations passé en paramètre
+        this.route.queryParams.subscribe(params => {
+            // L'utilisateur a complété les champs du formulaire.
+            if(params.depart && params.destination && params.date_trajet && params.place_libre && params.page){
+                this.loadTrajets(new RechercheFormEnt(
+                    params.depart,
+                    params.destination,
+                    params.date_trajet,
+                    params.place_libre
+                ), params.page);
+            }else{
+                // Première visite sur la page recherche.
+                this.loadTrajets(new RechercheFormEnt(
+                    "",
+                    "",
+                    false,
+                    ""
+                ), 1);
+            }
+        });
     }
 
+    /**
+     * Récupère les trajets pour une recherche donnée depuis le serveur.
+     *
+     * @param {RechercheFormEnt} rechercheEnt
+     * @param {number} page
+     */
     loadTrajets(rechercheEnt: RechercheFormEnt, page: number){
         this.rechercheFormEnt.depart      = rechercheEnt.depart;
         this.rechercheFormEnt.destination = rechercheEnt.destination;
@@ -60,35 +85,22 @@ export class RecherchePageComponent implements OnInit {
         });
     }
 
-    ngOnInit() {
-        // On récupère les informations passé en paramètre
-        this.route.queryParams.subscribe(params => {
-            // L'utilisateur a complété les champs du formulaire.
-            if(params.depart && params.destination && params.date_trajet && params.place_libre && params.page){
-                this.loadTrajets(new RechercheFormEnt(
-                    params.depart,
-                    params.destination,
-                    params.date_trajet,
-                    params.place_libre
-                ), params.page);
-            }else{
-                // Première visite sur la page recherche.
-                this.loadTrajets(new RechercheFormEnt(
-                    "",
-                    "",
-                    false,
-                    ""
-                ), 1);
-            }
-        });
-    }
-
+    /**
+     * Permet de créer les boutons dans la partie pagination.
+     *
+     * @param {number} num
+     */
     createArrayPagination(num: number) {
         for (let i = 1; i <= num; i++) {
             this.nb_total_page[i - 1] = i;
         }
     }
 
+    /**
+     * Methode appelé lorsqu'un utilisateur clique sur un lien dans la partie pagination.
+     *
+     * @param {number} page
+     */
     paginationPage(page: number) {
         this.router.navigate(['/recherche'], {
             queryParams: {
