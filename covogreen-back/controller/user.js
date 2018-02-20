@@ -28,6 +28,30 @@ var LoginController = {
 
         req.accepts('application/json');
 
+            User.findOne({
+                where: {
+                    username: req.body.username,
+                    password: req.body.password
+                }
+            })
+            .then(function (response) {
+                var user = JSON.stringify({id_user: response.id_user, username: response.username, privilege: response.privilege});
+                var token = jwt.sign(user, skey);
+
+                res.header('Authorization', token);
+                res.send(token);
+                //res.send('');
+                res.status(200);
+            })
+            .catch(function (error) {
+                res.status(500).send("Connexion refusée.");
+            });
+    },
+
+    /*login: function (req, res) {
+
+        req.accepts('application/json');
+
         User.findOne({
             where: {
                 username: req.body.username,
@@ -35,17 +59,38 @@ var LoginController = {
             }
         })
         .then(function (response) {
+            console.log('Response :', response);
+
             var user = JSON.stringify({id: response.id, username: response.username, privilege: response.privilege});
             var token = jwt.sign(user, skey);
             res.status(200).send(token);
         })
         .catch(function (error) {
-            res.status(500).json(error);
+            res.status(500).send("Connexion refusée.");
+        });
+    },*/
+
+    /**
+     * For getting an new user and/or his car.
+     * @param req
+     * @param res
+     */
+    get: function  (id_user, res) {
+
+        User.findOne({
+            where: { id_user: id_user }
+        })
+        .then(function (response) {
+            res.status(200).send(response.dataValues);
+        })
+        .catch(function (error) {
+            console.log('Fail find for getting user :', error);
+            res.status(500).send("Echec de la récupération du profil.");
         });
     },
 
     /**
-     * For creating an new user and his car.
+     * For creating an new user and/or his car.
      * @param req
      * @param res
      */
@@ -85,26 +130,50 @@ var LoginController = {
             });
         }
         else {
+
+            req.body.user.privilege = 1;
+
             User.create(req.body.user)
                 .then(function (response) {
                     res.status(200).send("Ajout de l'utilisateur OK");
                 })
                 .catch(function (error) {
+                    console.log(error);
                     res.status(500).send("Echec de l'ajout de l'utilisateur");
                 });
         }
+    },
+
+    /**
+     * For updating an new user and/or his car.
+     * @param req
+     * @param res
+     */
+    update: function  (req, res) {
+
+        req.accepts('application/json');
+
+        User.findOne({
+            where: { id_user: req.body.id_user }
+        })
+        .then(function (response) {
+
+            var user = req.body;
+            User.update(user, {where: {id_user: user.id_user}})
+                .then(function (response) {
+                    res.status(200).send("Succès de la mise-à-jour du profil.");
+                })
+                .catch(function (error) {
+                    console.log('Fail update user :', error);
+                    res.status(500).send("Echec de la mise-à-jour du profil.");
+                });
+        })
+        .catch(function (error) {
+            console.log('Fail find for update user :', error);
+            res.status(500).send("Echec de la mise-à-jour du profil.");
+        });
     }
 
-    /*create: function  (req, res) {
-
-        User.create(req.body)
-            .then(function (response) {
-                res.status(200).send("Ajout de l'utilisateur OK");
-            })
-            .catch(function (error) {
-                res.status(500).send("Echec de l'ajout de l'utilisateur");
-            });
-    },*/
 };
 
 

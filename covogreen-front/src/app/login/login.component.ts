@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgForm } from '@angular/forms';
+import {FormBuilder, FormGroup, NgForm, Validators} from '@angular/forms';
 import { AuthentificationService } from '../../services/authentification.service';
 import * as md5 from 'md5';
+import { User } from '../../class/user';
 
 @Component({
 	selector: 'app-login',
@@ -13,37 +14,47 @@ import * as md5 from 'md5';
 
 export class LoginComponent implements OnInit {
 
-    public username: string;
-	public password: string;
+    public user: User;
+    public loginForm: FormGroup;
 
 	constructor(
 		private router: Router,
         private authenticationService: AuthentificationService,
+        private formBulder: FormBuilder
 	) { }
 
-	ngOnInit() {}
+	ngOnInit() {
+        this.loginForm = this.formBulder.group({
+            username: "",
+            password: ""
+        });
+    }
 
-    login(username, password) {
+    /**
+     * Method for accept or refuse connexion for users.
+     */
+    login() {
+        this.user = this.loginForm.value;
+        this.user.password = md5(this.user.password);
 
-		this.authenticationService.login(username, md5(password))
+        this.authenticationService.login(this.user)
 			.subscribe(result => {
-                console.log(result);
 				if (result === true) {
 					this.router.navigate(['/']);
 				}
             },
-            err => alert(err.text())
-            //err => console.log(err)
+            err => alert("Connexion refusée.")
         );
     }
 
+    /**
+     * Method for checking the protected pages, reserved for authentified users.
+     * @returns {boolean}
+     */
     checkAuth(): boolean {
         let tokenUser = localStorage.getItem('currentUser');
 
-        if (tokenUser !== null) {
-            return true;
-        } else {
-            return false;
-        }
+        if (tokenUser !== null) return true;
+        else return false;
     }
 }

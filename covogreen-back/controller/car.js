@@ -5,7 +5,7 @@ var jwt = require('jsonwebtoken');
 var CarController = {
 
     /**
-     * For creating an new user.
+     * For creating an new car.
      * @param req
      * @param res
      */

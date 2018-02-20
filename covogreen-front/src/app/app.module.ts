@@ -16,7 +16,7 @@ import { SelectModule } from 'ng-select';
 //import { TextEqualityValidatorModule } from 'ngx-text-equality-validator';
 
 import {AppComponent} from './app.component';
-import {DashboardComponent} from './dashboard/dashboard.component';
+import {HomeComponent} from './home/home.component';
 import {LoginComponent} from './login/login.component';
 
 import {AuthentificationService} from '../services/authentification.service';
@@ -31,14 +31,12 @@ import { UserComponent } from './user/user.component';
 import { NewuserComponent } from './user/newuser.component';
 
 import { AdminComponent } from './admin/admin.component';
-import { AdminCategoryComponent } from './admin/admin.category.component';
-import { AdminProductComponent } from './admin/admin.product.component';
-import { LoginAdminComponent } from './login-admin/login-admin.component';
 import { RechercheFormComponent } from './recherche-form/recherche-form.component';
 import { RecherchePageComponent } from './recherche-page/recherche-page.component';
 
 import { NewCarComponent } from './car/newcar.component';
 import {CreateJourneyComponent} from './journey/create-journey/create-journey.component';
+import { TestComponent } from './test/test.component';
 
 
 @NgModule({
@@ -64,19 +62,17 @@ import {CreateJourneyComponent} from './journey/create-journey/create-journey.co
     ],
     declarations: [
         AppComponent,
-        DashboardComponent,
+        HomeComponent,
         LoginComponent,
         UserComponent,
         NewuserComponent,
         AdminComponent,
-        AdminCategoryComponent,
-        AdminProductComponent,
-        LoginAdminComponent,
         NewCarComponent,
         CreateJourneyComponent,
         RechercheFormComponent,
         RecherchePageComponent,
-        NewCarComponent
+        NewCarComponent,
+        TestComponent
     ],
     providers: [
         AuthentificationService,

@@ -8,6 +8,7 @@ import { Car } from '../class/car';
 export class UserService {
 
     private uri: string;
+    public user: User;
 
     constructor(
         private http: Http,
@@ -16,6 +17,12 @@ export class UserService {
 		this.uri = "http://localhost:1313/user";
 	}
 
+    /**
+     * Method for creating an user with or without his car.
+     * @param {User} user
+     * @param {Car} car
+     * @returns {Observable<string>}
+     */
     createUser(user: User, car: Car): Observable<string> {
         let headers = new Headers({ "Content-Type": "application/json" });
         let options = new RequestOptions({ headers: headers });
@@ -26,17 +33,6 @@ export class UserService {
                 return response.text();
             });
     }
-
-    /*createUser(user: User): Observable<string> {
-        let headers = new Headers({ "Content-Type": "application/json" });
-        let options = new RequestOptions({ headers: headers });
-
-        return this.http.post(this.uri, JSON.stringify(user), options)
-            .map((response: Response) => {
-                console.log(response.text());
-                return response.text();
-            });
-    }*/
 
     updateUser(user: User): Observable<string> {
         let headers = new Headers({ "Content-Type": "application/json" });
@@ -49,7 +45,7 @@ export class UserService {
             });
     }
 
-    deleteUser(user: User): Observable<string> {
+    /*deleteUser(user: User): Observable<string> {
         let headers = new Headers({ "Content-Type": "application/json" });
         let options = new RequestOptions({ headers: headers });
 
@@ -58,21 +54,27 @@ export class UserService {
                 console.log(response.text());
                 return response.text();
             });
-    }
+    }*/
 
+    /**
+     * Method for getting user data.
+     * @returns {Observable<User>}
+     */
     getUser(): Observable<User> {
         let headers = new Headers({ "Content-Type": "application/json" });
         let options = new RequestOptions({ headers: headers });
 
-        let user = localStorage.getItem('currentUser');
-        return this.http.post(this.uri, user, options)
+        let token = localStorage.getItem('currentUser');
+        this.user = JSON.parse(token);
+
+        return this.http.get(this.uri +"/"+ this.user.id_user, options)
             .map((response: Response) => {
                 var result = response.text();
                 return JSON.parse(result);
             });
     }
 
-    updatePassword(user: User): Observable<string> {
+    /*updatePassword(user: User): Observable<string> {
         let headers = new Headers({ "Content-Type": "application/json" });
         let options = new RequestOptions({ headers: headers });
 
@@ -81,6 +83,6 @@ export class UserService {
                 console.log(response.text());
                 return response.text();
             });
-    }
+    }*/
 
 }

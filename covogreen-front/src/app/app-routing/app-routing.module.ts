@@ -8,7 +8,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {GuardService} from '../../services/guard.service';
 import {GuardAdminService} from '../../services/guard-admin.service';
 
-import {DashboardComponent} from '../dashboard/dashboard.component';
+import {HomeComponent} from '../home/home.component';
 import {UserComponent} from '../user/user.component';
 import {NewuserComponent} from '../user/newuser.component';
 
@@ -19,7 +19,7 @@ import {RecherchePageComponent} from '../recherche-page/recherche-page.component
 
 
 const routes: Routes = [
-    { path: '', component: DashboardComponent},
+    { path: '', component: HomeComponent},
 
     { path: 'newuser', component: NewuserComponent },
 
