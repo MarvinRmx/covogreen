@@ -11,9 +11,11 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {MatButtonModule, MatCheckboxModule, MatRadioModule, MATERIAL_SANITY_CHECKS, MatSliderModule, MatFormFieldModule} from '@angular/material';
 import { AppRoutingModule } from './app-routing/app-routing.module';
-import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
+
+//import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
+import { CompareValidatorModule } from 'angular-compare-validator';
 import { SelectModule } from 'ng-select';
-//import { TextEqualityValidatorModule } from 'ngx-text-equality-validator';
+//import { EqualTextValidator } from "angular2-text-equality-validator";
 
 import {AppComponent} from './app.component';
 import {HomeComponent} from './home/home.component';
@@ -56,9 +58,8 @@ import { TestComponent } from './test/test.component';
         MatRadioModule,
         MatSliderModule,
         MatFormFieldModule,
-        ConfirmationPopoverModule.forRoot({
-            focusButton: 'confirm'
-        })
+        CompareValidatorModule
+        //EqualTextValidator
     ],
     declarations: [
         AppComponent,

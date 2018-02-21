@@ -172,7 +172,7 @@ var LoginController = {
             console.log('Fail find for update user :', error);
             res.status(500).send("Echec de la mise-à-jour du profil.");
         });
-    }
+    },
 
 };
 
