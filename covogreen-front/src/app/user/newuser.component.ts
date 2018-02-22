@@ -5,7 +5,6 @@ import { CarService } from '../../services/car.service';
 import { User } from '../../class/user';
 import { Car } from '../../class/car';
 import * as md5 from 'md5';
-//https://github.com/AngularClass/match-control [match passwords]
 
 @Component({
     selector: 'app-newuser',
@@ -30,7 +29,6 @@ export class NewuserComponent implements OnInit {
     constructor(
         private formBulder: FormBuilder,
         private userService: UserService,
-        private carService: CarService
     ) { }
 
     ngOnInit() {
@@ -44,7 +42,6 @@ export class NewuserComponent implements OnInit {
             firstName: this.formBulder.control('', Validators.required),
             lastName: this.formBulder.control('', Validators.required),
             password: this.formBulder.control('', Validators.required),
-            confirmPassword: this.formBulder.control('', Validators.required),
             city: this.formBulder.control('', Validators.required),
             address: this.formBulder.control('', Validators.required),
             cp: this.formBulder.control('', Validators.required),
@@ -57,14 +54,6 @@ export class NewuserComponent implements OnInit {
             model: this.formBulder.control(''),
             capacity: this.formBulder.control('')
         });
-
-        /*
-        this.createCarForm = this.formBulder.group({
-            licencePlate: this.formBulder.control('', Validators.required),
-            make: this.formBulder.control('', Validators.required),
-            capacity: this.formBulder.control('', Validators.required)
-        });
-        */
 
     }
 

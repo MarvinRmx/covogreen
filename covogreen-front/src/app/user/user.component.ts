@@ -5,14 +5,12 @@ import { User } from '../../class/user';
 import { Router } from '@angular/router';
 
 //import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
-import { EqualTextValidator } from "angular2-text-equality-validator";
+
 import * as md5 from 'md5';
-
 @Component({
-  selector: 'app-user',
-  templateUrl: './user.component.html',
-  providers: [UserService]
-
+    selector: 'app-user',
+    templateUrl: './user.component.html',
+    providers: [UserService]
 })
 export class UserComponent implements OnInit {
 
@@ -32,7 +30,6 @@ export class UserComponent implements OnInit {
         this.updatePasswordForm = this.formBulder.group({
             password: "",
             new_password: "",
-            confirm_password: [null, [this.passwordConfirming]]
         });
 
         this.updateUserForm = this.formBulder.group({
@@ -53,30 +50,32 @@ export class UserComponent implements OnInit {
             });
     }
 
-    passwordConfirming(c: AbstractControl): any {
-        if(!c.parent || !c) return;
-        const pwd = c.parent.get('password');
-        const cpwd= c.parent.get('confirm_password')
+    updatePassword() {
 
-        if(!pwd || !cpwd) return ;
-        if (pwd.value !== cpwd.value) {
-            return { invalid: true };
+        let old_password = "";
+        let password = md5(this.updatePasswordForm.value.password);
+        let new_password = md5(this.updatePasswordForm.value.new_password);
 
-        }
-    }
-
-    updateUser() {
-        this.userService.updateUser(this.updateUserForm.value)
+        this.userService.getUser()
             .subscribe(result => {
-                alert(result);
+                console.log(result);
+                old_password = result.password;
+
+                if(old_password === password)
+                {
+                    this.user.password = new_password;
+
+                    this.userService.updateUser(this.user)
+                        .subscribe(result => {
+                            alert(result);
+                        });
+                } else alert("Mot de passe actuel incorrect.");
             });
     }
 
-    // A VOIR : https://github.com/AngularClass/match-control
-    updatePassword() {
-        this.user.password = md5(this.updatePasswordForm.value.new_password);
+    updateUser() {
 
-        this.userService.updateUser(this.user)
+        this.userService.updateUser(this.updateUserForm.value)
             .subscribe(result => {
                 alert(result);
             });

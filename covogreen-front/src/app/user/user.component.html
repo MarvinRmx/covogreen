@@ -89,31 +89,11 @@
             </div>
 
             <div class="form-group">
-                <input  id="newPassword" name="newPassword" formControlName="new_password" [(ngModel)]="password"
+                <input  id="newPassword" name="newPassword" formControlName="new_password"
                         placeholder="Nouveau Mot de passe"
                         class="form-control form-control-sm"
                         type="password"
                         required>
-            </div>
-
-            <div class="form-group">
-                <input  id="confirmPassword" name="confirmPasswordInput" formControlName="confirm_password" [(ngModel)]="confirm_password"
-                        placeholder="Confirmer le mot de passe"
-                        class="form-control form-control-sm"
-                        type="password"
-                        required [compareEqual]="password">
-
-                <!--<span *ngIf="confirm_password.hasError('invalid')"> Invalid Password </span>-->
-                <!--<p *ngIf="updatePasswordForm.get('new_password').hasError('validateEqual')" class="alert alert-danger">Les mots de passe doivent correspondre</p>-->
-
-                <!--<p *ngIf="updatePasswordForm.get('new_password').hasError('validateEqual')"
-                   class="alert alert-danger">
-                    Les mots de passe doivent correspondre
-                </p>-->
-
-                <span *ngIf="confirmPasswordInput.errors && confirmPasswordInput.errors.compareEqual">
-                    Passwords do not match
-                </span>
             </div>
 
             <div class="form-group">
