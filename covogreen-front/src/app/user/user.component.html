@@ -70,6 +70,27 @@
             </div>
 
             <div class="form-group">
+                <label>Conducteur ?*</label>
+
+                <mat-radio-group formControlName="is_driver"
+                                 (change)="changeIsDriver($event)"
+                                 required>
+                    <mat-radio-button value="true">Oui</mat-radio-button>
+                    <mat-radio-button value="false">Non</mat-radio-button>
+                </mat-radio-group>
+            </div>
+
+            <div class="form-group" *ngIf="checkIsDriver()">
+                <label>Etes-vous véhiculé ?</label>
+
+                <mat-radio-group formControlName="have_car"
+                                 (change)="changeHaveCar($event)">
+                    <mat-radio-button value="true">Oui</mat-radio-button>
+                    <mat-radio-button value="false">Non</mat-radio-button>
+                </mat-radio-group>
+            </div>
+
+            <div class="form-group">
                 <button type="submit" [disabled]="updateUserForm.invalid" class="btn btn-primary btn-block">Modifier</button>
             </div>
         </form>
@@ -99,6 +120,46 @@
             <div class="form-group">
                 <button type="submit" [disabled]="updatePasswordForm.invalid" class="btn btn-primary btn-block">Modifier</button>
             </div>
+        </form>
+    </section><hr>
+
+    <section id="updateOrCreateCar" *ngIf="is_driver">
+        <h2>Modifier ou ajouter sa voiture</h2>
+
+        <form (ngSubmit)="updateOrCreateCar()" [formGroup]="updateOrCreateCarForm" class="form" role="form" #f="ngForm" novalidate>
+
+            <div class="form-group">
+                <input  id="licencePlateCreate" name="licencePlate" formControlName="licencePlate"
+                        placeholder="Plaque d'immatriculation"
+                        class="form-control form-control-sm"
+                        type="text">
+            </div>
+
+            <div class="form-group">
+                <input  id="makeCreate" name="make" formControlName="make"
+                        placeholder="Marque"
+                        class="form-control form-control-sm"
+                        type="text">
+            </div>
+
+            <div class="form-group">
+                <input  id="modelCreate" name="model" formControlName="model"
+                        placeholder="Model"
+                        class="form-control form-control-sm"
+                        type="text">
+            </div>
+
+            <div class="form-group">
+                <label>Capacité de la voiture</label>
+                <mat-slider min="1" max="5" step="1" thumbLabel
+                            id="capacityCreate" name="capacity" formControlName="capacity">
+                </mat-slider>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" [disabled]="updateOrCreateCarForm.invalid" class="btn btn-primary btn-block">Modifier/Créer</button>
+            </div>
+
         </form>
     </section><hr>
 

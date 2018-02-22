@@ -71,7 +71,7 @@ var LoginController = {
     },*/
 
     /**
-     * For getting an new user and/or his car.
+     * For getting an user.
      * @param req
      * @param res
      */

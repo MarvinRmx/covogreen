@@ -27,4 +27,30 @@ export class CarService {
             });
     }
 
+    updateCar(car: Car): Observable<string> {
+        let headers = new Headers({ "Content-Type": "application/json" });
+        let options = new RequestOptions({ headers: headers });
+
+        return this.http.put(this.uri, JSON.stringify(car), options)
+            .map((response: Response) => {
+                console.log(response.text());
+                return response.text();
+            });
+    }
+
+    /**
+     * Method for getting car data.
+     * @returns {Observable<User>}
+     */
+    getCar(car: Car): Observable<Car> {
+        let headers = new Headers({ "Content-Type": "application/json" });
+        let options = new RequestOptions({ headers: headers });
+
+        return this.http.get(this.uri +"/"+ car.id_car, options)
+            .map((response: Response) => {
+                var result = response.text();
+                return JSON.parse(result);
+            });
+    }
+
 }

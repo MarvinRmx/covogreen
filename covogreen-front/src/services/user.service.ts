@@ -74,15 +74,4 @@ export class UserService {
             });
     }
 
-    /*updatePassword(user: User): Observable<string> {
-        let headers = new Headers({ "Content-Type": "application/json" });
-        let options = new RequestOptions({ headers: headers });
-
-        return this.http.put(this.uri + "password", JSON.stringify(user), options)
-            .map((response: Response) => {
-                console.log(response.text());
-                return response.text();
-            });
-    }*/
-
 }
