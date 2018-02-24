@@ -123,7 +123,7 @@
         </form>
     </section><hr>
 
-    <section id="updateOrCreateCar" *ngIf="is_driver">
+    <section id="updateOrCreateCar" *ngIf="have_car">
         <h2>Modifier ou ajouter sa voiture</h2>
 
         <form (ngSubmit)="updateOrCreateCar()" [formGroup]="updateOrCreateCarForm" class="form" role="form" #f="ngForm" novalidate>

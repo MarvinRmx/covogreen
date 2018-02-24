@@ -16,11 +16,11 @@ export class CarService {
         this.uri = "http://localhost:1313/car";
     }
 
-    createCar(car: Car): Observable<string> {
+    createCar(car: Car, user: User): Observable<string> {
         let headers = new Headers({ "Content-Type": "application/json" });
         let options = new RequestOptions({ headers: headers });
 
-        return this.http.post(this.uri, JSON.stringify(car), options)
+        return this.http.post(this.uri, JSON.stringify({car, user}), options)
             .map((response: Response) => {
                 console.log(response.text());
                 return response.text();

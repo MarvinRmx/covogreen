@@ -48,28 +48,6 @@ var LoginController = {
             });
     },
 
-    /*login: function (req, res) {
-
-        req.accepts('application/json');
-
-        User.findOne({
-            where: {
-                username: req.body.username,
-                password: req.body.password
-            }
-        })
-        .then(function (response) {
-            console.log('Response :', response);
-
-            var user = JSON.stringify({id: response.id, username: response.username, privilege: response.privilege});
-            var token = jwt.sign(user, skey);
-            res.status(200).send(token);
-        })
-        .catch(function (error) {
-            res.status(500).send("Connexion refusée.");
-        });
-    },*/
-
     /**
      * For getting an user.
      * @param req
@@ -145,7 +123,7 @@ var LoginController = {
     },
 
     /**
-     * For updating an new user and/or his car.
+     * For updating a user.
      * @param req
      * @param res
      */

@@ -48,7 +48,28 @@ BEGIN
 END|
 -- ---------------------------------- --
 
+-- Creating car --
+DELIMITER |
+CREATE PROCEDURE createCar(
+	_id_user INTEGER,
 
+	_licencePlate VARCHAR(255),
+	_make VARCHAR(255),
+	_model VARCHAR(255),
+	_capacity INTEGER
+)
+BEGIN
+    	DECLARE lastCar INT;
+
+    	INSERT INTO cars (licencePlate, make, model, capacity, createdAt, updatedAt)
+   	VALUES(_licencePlate, _make, _model, _capacity, SYSDATE(), SYSDATE());
+	
+	SET lastCar := (SELECT id_car FROM cars WHERE licencePlate = _licencePlate);
+
+	IF ( lastCar != NULL OR lastCar != '' ) THEN
+    	    UPDATE users SET id_car = lastCar, updatedAt = SYSDATE() WHERE id_user = _id_user;   
+    	END IF;
+END|
 
 
 

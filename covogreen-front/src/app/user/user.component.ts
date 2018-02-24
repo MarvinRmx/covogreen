@@ -6,6 +6,7 @@ import { User } from '../../class/user';
 import { Car } from '../../class/car';
 import { Router } from '@angular/router';
 import * as md5 from 'md5';
+import {win} from "@angular/platform-browser/src/browser/tools/browser";
 
 @Component({
     selector: 'app-user',
@@ -125,7 +126,25 @@ export class UserComponent implements OnInit {
     }
 
     updateOrCreateCar() {
+        if(this.user.id_car !== null)
+        {
+            this.car = this.updateOrCreateCarForm.value;
+            console.log('Update car :', this.car);
 
+            this.carService.updateCar(this.car)
+                .subscribe(result => {
+                    alert(result);
+                });
+        } else {
+            this.car = this.updateOrCreateCarForm.value;
+            console.log('Create car :', this.car);
+
+            this.carService.createCar(this.car, this.user)
+                .subscribe(result => {
+                    alert(result);
+                    window.location.reload(true);
+                });
+        }
 
     }
 
