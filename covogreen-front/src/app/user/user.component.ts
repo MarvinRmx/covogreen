@@ -6,7 +6,6 @@ import { User } from '../../class/user';
 import { Car } from '../../class/car';
 import { Router } from '@angular/router';
 import * as md5 from 'md5';
-import {win} from "@angular/platform-browser/src/browser/tools/browser";
 
 @Component({
     selector: 'app-user',
