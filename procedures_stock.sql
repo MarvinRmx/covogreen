@@ -67,7 +67,7 @@ BEGIN
 	SET lastCar := (SELECT id_car FROM cars WHERE licencePlate = _licencePlate);
 
 	IF ( lastCar != NULL OR lastCar != '' ) THEN
-    	    UPDATE users SET id_car = lastCar, updatedAt = SYSDATE() WHERE id_user = _id_user;   
+    	    UPDATE users SET id_car = lastCar, is_driver = true, updatedAt = SYSDATE() WHERE id_user = _id_user;   
     	END IF;
 END|
 

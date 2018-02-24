@@ -158,8 +158,4 @@ export class UserComponent implements OnInit {
     checkIsDriver(): boolean {
         return this.is_driver;
     }
-
-    checkHaveCar(): boolean {
-        return this.have_car;
-    }
 }

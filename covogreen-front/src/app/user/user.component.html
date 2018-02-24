@@ -80,7 +80,7 @@
                 </mat-radio-group>
             </div>
 
-            <div class="form-group" *ngIf="checkIsDriver()">
+            <div class="form-group" *ngIf="is_driver">
                 <label>Etes-vous véhiculé ?</label>
 
                 <mat-radio-group formControlName="have_car"
@@ -123,7 +123,7 @@
         </form>
     </section><hr>
 
-    <section id="updateOrCreateCar" *ngIf="have_car">
+    <section id="updateOrCreateCar" *ngIf="have_car && is_driver">
         <h2>Modifier ou ajouter sa voiture</h2>
 
         <form (ngSubmit)="updateOrCreateCar()" [formGroup]="updateOrCreateCarForm" class="form" role="form" #f="ngForm" novalidate>
