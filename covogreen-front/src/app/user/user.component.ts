@@ -79,6 +79,8 @@ export class UserComponent implements OnInit {
                     have_car: this.user.id_car !== null ? "true" : "false"
                 });
 
+                this.car = new Car(null, null, null,  null, null);
+
                 if(this.have_car) {
                     this.car = new Car(null, null, null, null, null);
                     this.car.id_car = this.user.id_car;
@@ -147,6 +149,16 @@ export class UserComponent implements OnInit {
 
     }
 
+    deleteCar(){
+        console.log('Delete Car :', this.car);
+
+        this.carService.deleteCar(this.car)
+            .subscribe(result => {
+                alert(result);
+                window.location.reload(true);
+            });
+    }
+
     changeIsDriver($event): void {
         this.is_driver = JSON.parse($event.value);
     }
@@ -155,7 +167,7 @@ export class UserComponent implements OnInit {
         this.have_car = JSON.parse($event.value);
     }
 
-    checkIsDriver(): boolean {
-        return this.is_driver;
+    checkCar(): boolean {
+        return this.car.id_car != null;
     }
 }

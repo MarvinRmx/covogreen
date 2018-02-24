@@ -7,9 +7,17 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule, JsonpModule, Http, RequestOptions } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 
+import {
+    MatButtonModule,
+    MatCheckboxModule,
+    MatRadioModule,
+    MATERIAL_SANITY_CHECKS,
+    MatSliderModule,
+    MatFormFieldModule
+} from '@angular/material';
+
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
-import {MatButtonModule, MatCheckboxModule, MatRadioModule, MATERIAL_SANITY_CHECKS, MatSliderModule, MatFormFieldModule} from '@angular/material';
 import { AppRoutingModule } from './app-routing/app-routing.module';
 
 import { SelectModule } from 'ng-select';

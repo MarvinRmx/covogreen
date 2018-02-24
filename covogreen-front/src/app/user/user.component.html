@@ -126,6 +126,12 @@
     <section id="updateOrCreateCar" *ngIf="have_car && is_driver">
         <h2>Modifier ou ajouter sa voiture</h2>
 
+        <div id="deleteCar" class="form-group" *ngIf="checkCar()">
+            <form (ngSubmit)="deleteCar()" class="form" role="form" #f="ngForm" novalidate>
+                <button type="submit" mat-raised-button color="warn">Supprimer la voiture</button>
+            </form>
+        </div>
+
         <form (ngSubmit)="updateOrCreateCar()" [formGroup]="updateOrCreateCarForm" class="form" role="form" #f="ngForm" novalidate>
 
             <div class="form-group">

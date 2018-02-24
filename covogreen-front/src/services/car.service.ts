@@ -38,6 +38,17 @@ export class CarService {
             });
     }
 
+    deleteCar(car: Car): Observable<string> {
+        let headers = new Headers({ "Content-Type": "application/json" });
+        let options = new RequestOptions({ headers: headers });
+
+        return this.http.delete(this.uri +"/"+ car.id_car, options)
+            .map((response: Response) => {
+                console.log(response.text());
+                return response.text();
+            });
+    }
+
     /**
      * Method for getting car data.
      * @returns {Observable<User>}

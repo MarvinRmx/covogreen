@@ -46,6 +46,23 @@ var CarController = {
     },
 
     /**
+     * For deleting an car.
+     * @param id_car
+     * @param res
+     */
+    remove: function  (id_car, res) {
+
+        Car.destroy({where: {id_car: id_car}})
+            .then(function (response) {
+                    res.status(200).send("Succès de la suppression de la voiture.");
+                })
+            .catch(function (error) {
+                console.log('Fail update user :', error);
+                res.status(500).send("Echec de la suppression de la voiture.");
+            });
+    },
+
+    /**
      * For creating an new car.
      * @param req
      * @param res
