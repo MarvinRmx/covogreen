@@ -119,8 +119,9 @@ export class UserComponent implements OnInit {
     }
 
     updateUser() {
+        this.user = this.updateUserForm.value;
 
-        this.userService.updateUser(this.updateUserForm.value)
+        this.userService.updateUser(this.user)
             .subscribe(result => {
                 alert(result);
             });

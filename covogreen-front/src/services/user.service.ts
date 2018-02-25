@@ -38,6 +38,8 @@ export class UserService {
         let headers = new Headers({ "Content-Type": "application/json" });
         let options = new RequestOptions({ headers: headers });
 
+        user.id_user = this.user.id_user;
+
         return this.http.put(this.uri, JSON.stringify(user), options)
             .map((response: Response) => {
                 console.log(response.text());

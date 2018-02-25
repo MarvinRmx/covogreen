@@ -129,27 +129,16 @@ var LoginController = {
      */
     update: function  (req, res) {
 
-        req.accepts('application/json');
+        var user = req.body;
 
-        User.findOne({
-            where: { id_user: req.body.id_user }
-        })
-        .then(function (response) {
-
-            var user = req.body;
-            User.update(user, {where: {id_user: user.id_user}})
-                .then(function (response) {
-                    res.status(200).send("Succès de la mise-à-jour du profil.");
-                })
-                .catch(function (error) {
-                    console.log('Fail update user :', error);
-                    res.status(500).send("Echec de la mise-à-jour du profil.");
-                });
-        })
-        .catch(function (error) {
-            console.log('Fail find for update user :', error);
-            res.status(500).send("Echec de la mise-à-jour du profil.");
-        });
+        User.update(user, {where: {id_user: user.id_user}})
+            .then(function (response) {
+                res.status(200).send("Succès de la mise-à-jour du profil.");
+            })
+            .catch(function (error) {
+                console.log('Fail update user :', error);
+                res.status(500).send("Echec de la mise-à-jour du profil.");
+            });
     },
 
 };
