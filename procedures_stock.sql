@@ -70,8 +70,19 @@ BEGIN
     	    UPDATE users SET id_car = lastCar, is_driver = true, updatedAt = SYSDATE() WHERE id_user = _id_user;   
     	END IF;
 END|
+-- ---------------------------------- --
 
+-- Delete user --
+DELIMITER |
+CREATE PROCEDURE deleteUser(_id_user INTEGER)
+BEGIN
+    	DECLARE _id_car INT;
 
+	SET _id_car := (SELECT id_car FROM users WHERE id_user = _id_user);
+
+	DELETE FROM cars WHERE id_car = _id_car;
+	DELETE FROM users WHERE id_user = _id_user;
+END|
 
 
 

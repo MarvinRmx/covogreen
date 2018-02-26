@@ -141,6 +141,36 @@ var LoginController = {
             });
     },
 
+    /**
+     * For deleting an user.
+     * @param id_user
+     * @param res
+     */
+    remove: function  (id_user, res) {
+
+        sequelize.query('CALL deleteUser('+ id_user +')')
+            .then(function (response) {
+                res.status(200).send("Succès de la suppression du profil.");
+            })
+            .catch(function (error) {
+                console.log('Fail update user :', error);
+                res.status(500).send("Echec de la suppression du profil.");
+            });
+    },
+
+    /*remove: function  (id_user, res) {
+
+
+        User.destroy({where: {id_user: id_user}})
+            .then(function (response) {
+                res.status(200).send("Succès de la suppression du profil.");
+            })
+            .catch(function (error) {
+                console.log('Fail update user :', error);
+                res.status(500).send("Echec de la suppression du profil.");
+            });
+    },*/
+
 };
 
 
