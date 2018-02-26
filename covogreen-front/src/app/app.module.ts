@@ -21,6 +21,7 @@ import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing/app-routing.module';
 
 import { SelectModule } from 'ng-select';
+import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 
 import {AppComponent} from './app.component';
 import {HomeComponent} from './home/home.component';
@@ -62,7 +63,10 @@ import { TestComponent } from './test/test.component';
         MatCheckboxModule,
         MatRadioModule,
         MatSliderModule,
-        MatFormFieldModule
+        MatFormFieldModule,
+        ConfirmationPopoverModule.forRoot({
+            confirmButtonType: 'danger' // set defaults here
+        })
     ],
     declarations: [
         AppComponent,

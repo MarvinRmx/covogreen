@@ -47,16 +47,16 @@ export class UserService {
             });
     }
 
-    /*deleteUser(user: User): Observable<string> {
+    deleteUser(user: User): Observable<string> {
         let headers = new Headers({ "Content-Type": "application/json" });
         let options = new RequestOptions({ headers: headers });
 
-        return this.http.put(this.uri, JSON.stringify(user), options)
+        return this.http.delete(this.uri +"/"+ user.id_user, options)
             .map((response: Response) => {
                 console.log(response.text());
                 return response.text();
             });
-    }*/
+    }
 
     /**
      * Method for getting user data.

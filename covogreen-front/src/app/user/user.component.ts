@@ -20,6 +20,7 @@ export class UserComponent implements OnInit {
     public have_car: boolean;
     public is_driver: boolean;
 
+    //public confirm_delete: boolean = false;
     private updateUserForm: FormGroup = new FormGroup({});
     private updatePasswordForm: FormGroup = new FormGroup({});
     private updateOrCreateCarForm: FormGroup = new FormGroup({});
@@ -114,8 +115,31 @@ export class UserComponent implements OnInit {
                         .subscribe(result => {
                             alert(result);
                         });
-                } else alert("Mot de passe actuel incorrect.");
+                }
+                else alert("Mot de passe actuel incorrect.");
             });
+    }
+
+    deleteUser() {
+
+        this.userService.deleteUser(this.user)
+            .subscribe(result => {
+                alert(result);
+                this.user = null;
+                localStorage.removeItem('currentUser');
+                this.router.navigate(['/']);
+            });
+
+        /*if (this.confirm_delete) {
+            this.userService.deleteUser(this.user)
+                .subscribe(result => {
+                    alert(result);
+                    this.user = null;
+                    localStorage.removeItem('currentUser');
+                    this.router.navigate(['/']);
+                });
+        }*/
+
     }
 
     updateUser() {
