@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { IOption } from 'ng-select';
 import { Category } from '../class/category';
 import { Product } from '../class/product';
+import { User } from '../class/user';
 
 @Injectable()
 export class AdminService {
@@ -15,6 +16,20 @@ export class AdminService {
     )
     {
 		this.uri = "http://localhost:3000/";
+    }
+
+    // 27-02-18
+    // Ajout DELETE USER
+
+    deleteUser(user : User) : Observable<string> {
+        let headers = new Headers({"Content-Type": "application/json"});
+        let options = new RequestOptions({headers: headers});
+
+        return this.http.post(this.uri + "admin/user/delete", JSON.stringify(user), options)
+            .map((response: Response) => {
+                console.log(response.text());
+                return response.text();
+            })
     }
 
     createCategory(category: Category): Observable<string> {

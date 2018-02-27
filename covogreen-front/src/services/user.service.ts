@@ -44,8 +44,10 @@ export class UserService {
                 return response.text();
             });
     }
+    // 27-02-18
+    // Ajout DELETE USER
 
-    /*deleteUser(user: User): Observable<string> {
+    deleteUser(user: User): Observable<string> {
         let headers = new Headers({ "Content-Type": "application/json" });
         let options = new RequestOptions({ headers: headers });
 
@@ -54,11 +56,11 @@ export class UserService {
                 console.log(response.text());
                 return response.text();
             });
-    }*/
+    }
 
     /**
      * Method for getting user data.
-     * @returns {Observable<User>}
+     * @returns {Obsrevable<User>}
      */
     getUser(): Observable<User> {
         let headers = new Headers({ "Content-Type": "application/json" });

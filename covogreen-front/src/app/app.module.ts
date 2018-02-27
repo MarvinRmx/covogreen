@@ -44,6 +44,8 @@ import { RecherchePageComponent } from './recherche-page/recherche-page.componen
 import { NewCarComponent } from './car/newcar.component';
 import {CreateJourneyComponent} from './journey/create-journey/create-journey.component';
 import { TestComponent } from './test/test.component';
+import { AdminUserComponent } from './admin-user/admin-user.component';
+import { AdminUserDetailComponent } from './admin-user-detail/admin-user-detail.component';
 
 
 @NgModule({
@@ -76,7 +78,9 @@ import { TestComponent } from './test/test.component';
         RechercheFormComponent,
         RecherchePageComponent,
         NewCarComponent,
-        TestComponent
+        TestComponent,
+        AdminUserComponent,
+        AdminUserDetailComponent
     ],
     providers: [
         AuthentificationService,
