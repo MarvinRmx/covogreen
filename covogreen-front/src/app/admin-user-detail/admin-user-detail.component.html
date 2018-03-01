@@ -1,3 +1,107 @@
-<p>
-  admin-user-detail works!
-</p>
+<form [formGroup]="userForm" (ngSubmit)="onSubmit()" novalidate>
+    <div style="margin-bottom: 1em">
+        <button type="submit"
+                [disabled]="userForm.pristine" class="btn btn-success">Save</button> &nbsp;
+        <button type="reset" (click)="revert()"
+                [disabled]="userForm.pristine" class="btn btn-danger">Revert</button>
+    </div>
+
+    <!-- Hero Detail Controls -->
+    <div class="form-group">
+        <label class="center-block">Name:
+            <input class="form-control" formControlName="name">
+        </label>
+    </div>
+
+    <div formArrayName="secretLairs" class="well well-lg">
+        <div *ngFor="let user of username.controls; let i=index" [formGroupName]="i" >
+            <!-- The repeated address template -->
+            <h4>User #{{i + 1}}</h4>
+            <div style="margin-left: 1em;">
+
+                <div class="form-group">
+                    <label class="center-block">Prénom :
+                        <input class="form-control" formControlName="firstName">
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label class="center-block">Nom :
+                        <input class="form-control" formControlName="lastName">
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label class="center-block">Mot de Passe :
+                        <input class="form-control" formControlName="password">
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label class="center-block">Ville :
+                        <input class="form-control" formControlName="city">
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label class="center-block">Addresse :
+                        <input class="form-control" formControlName="address">
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label class="center-block">Code postal  :
+                        <input class="form-control" formControlName="cp">
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label class="center-block">Téléphone :
+                        <input class="form-control" formControlName="phone">
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label class="center-block">ID voiture :
+                        <input class="form-control" formControlName="id_car">
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label class="center-block">ID utilisateur :
+                        <input class="form-control" formControlName="id_user">
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label class="center-block">Privilège :
+                        <input class="form-control" formControlName="privilege">
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label class="center-block">Email :
+                        <input class="form-control" formControlName="email">
+                    </label>
+                </div>
+
+            </div>
+        </div>
+    </div>
+            <br>
+            <!-- End of the repeated address template -->
+
+
+</form>
+
+<p>heroForm value: {{ userForm.value | json}}</p>
+
+<h4>Name change log</h4>
+<div *ngFor="let name of nameChangeLog">{{name}}</div>
+
+
+<!--
+Copyright 2017-2018 Google Inc. All Rights Reserved.
+Use of this source code is governed by an MIT-style license that
+can be found in the LICENSE file at http://angular.io/license
+-->

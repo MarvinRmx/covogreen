@@ -1,3 +1,14 @@
-<p>
-  admin-user works!
-</p>
+<h3 *ngIf="isLoading"><i>Loading user ... </i></h3>
+<h3 *ngIf="!isLoading">Select a user:</h3>
+
+<nav>
+    <button (click)="getUser()" class="btn btn-primary">Refresh</button>
+    <a *ngFor="let user of user | async" (click)="select(user)">{{user.username}}</a>
+</nav>
+
+<div *ngIf="selectedUser">
+    <hr>
+    <h2>User Detail</h2>
+    <h3>Editing: {{selectedUser.username}}</h3>
+    <app-admin-user-detail[hero]="selectedUser"></app-admin-user-detail>
+</div>
