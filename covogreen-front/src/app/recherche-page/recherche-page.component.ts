@@ -60,7 +60,7 @@ export class RecherchePageComponent implements OnInit {
      * @param {RechercheFormEnt} rechercheEnt
      * @param {number} page
      */
-    loadTrajets(rechercheEnt: RechercheFormEnt, page: number){
+    loadTrajets(rechercheEnt: RechercheFormEnt, page: number) {
         this.rechercheFormEnt.depart      = rechercheEnt.depart;
         this.rechercheFormEnt.destination = rechercheEnt.destination;
         this.rechercheFormEnt.date_trajet = rechercheEnt.date_trajet;
@@ -120,20 +120,17 @@ export class RecherchePageComponent implements OnInit {
     inscriptionTrajet(event, offre: TrajetEnt) {
         let token = localStorage.getItem('currentUser');
 
-        console.log(event);
-
         // un utilisateur est loggé
-        if (token != null) {
+        if (token == null) { // todo : a modifier en !=
             // On inscription l'utilisateur.
-            this.inscriptionService.inscription(token, offre.id).subscribe((res: Response) => { // on récupère la réponse.
+            //offre.actionBouton = 'Inscrit';
+            /*this.inscriptionService.inscription(token, offre.id).subscribe((res: Response) => { // on récupère la réponse.
                 console.log(res);
-            });
-        }else{
+            });*/
+        } else {
             // l'utilisateur n'est pas loggé, on affiche une erreur.
             this.error = true;
             this.messagesErreur = ['Veillez vous connecter pour participer à cette offre.'];
         }
-
-        console.log(offre);
     }
 }
