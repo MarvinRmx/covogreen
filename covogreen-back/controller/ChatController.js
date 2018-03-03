@@ -1,16 +1,3 @@
-/*
-* 1 : Demander les 20 derniers messages
-/chat/getMessages -> POST
-Frontend { idTrajet : xx, nbElement: 20} --> Backend { massages : [{id:xx, message:XXXX, auteur:xxxx, date:xxxx}], errors : [] }
-
-2 : Demander les derniers messages apartire de l'identifiant ( le dernier message afficher dans le chat )
-/chat/getLastMessageById -> POST
-Frontend { idTrajet : xx, idMessage : XX} --> Backend { massages : [{id:xx, message:XXXX, auteur:xxxx, date:xxxx}], errors : [] }
-
-3 : Envoie un message
-/chat/add -> POST
-Frontend { idTrajet : xx, message : "mon text"} --> Backend { errors : [] }
-*/
 var Chat = require("../database/models/chat");
 const Op = require('sequelize').Op;
 
