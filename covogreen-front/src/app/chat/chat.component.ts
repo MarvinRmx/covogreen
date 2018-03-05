@@ -20,25 +20,27 @@ export class ChatComponent implements OnInit {
   }
 
   ngOnInit() {
-    var result = this.chatService.getMessages(this.idTrajet, 20);
-    if(result != null && result.errors.length > 0){
-      this.messages = result.massages;
+    this.chatService.getMessages(this.idTrajet, 20).subscribe((result: Response) => {
+      if(result != null && result['errors'].length > 0){
+        this.messages = result['massages'];
 
-      this.updateChat();
-      this.setScrollBarBottom();
-    }
+        this.updateChat();
+        this.setScrollBarBottom();
+      }
+    });
   }
 
   updateChat(){
-    var result = this.chatService.getMessages(this.idTrajet, 20);
-    if(result != null && result.errors.length > 0){
-      var newMassages = result.massages;
+    this.chatService.getMessages(this.idTrajet, 20).subscribe((result: Response) => {
+      if(result != null && result['errors'].length > 0){
+        var newMassages = result['massages'];
 
-      for(var i = 0; i < newMassages.length; i++){
-        this.messages.push(newMassages[i]);
+        for(var i = 0; i < newMassages.length; i++){
+          this.messages.push(newMassages[i]);
+        }
       }
-    }
-    setTimeout(this.updateChat.bind(this), 1000);
+      setTimeout(this.updateChat.bind(this), 1000);
+    });
   }
 
   setScrollBarBottom(){
@@ -48,8 +50,10 @@ export class ChatComponent implements OnInit {
   }
 
   sendMessage(){
-    this.chatService.setMessage(this.idTrajet, this.messageToSend);
-    this.messageToSend = "";
+    if(this.messageToSend != ""){
+      this.chatService.setMessage(this.idTrajet, this.messageToSend).subscribe((result: Response) => { });
+      this.messageToSend = "";
+    }
   }
 
 }
