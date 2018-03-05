@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import {ChatService} from '../../services/chat.service';
+import {TrajetEnt} from '../../class/TrajetEnt';
 
 @Component({
   selector: 'app-chat',
@@ -11,12 +12,14 @@ import {ChatService} from '../../services/chat.service';
 })
 export class ChatComponent implements OnInit {
   idTrajet : number;
+  offre : TrajetEnt;
   messages : {id:number, message:string, auteur:string, date:string}[];
   messageToSend : string;
 
   constructor(private route: ActivatedRoute, private location: Location, private chatService: ChatService) {
     this.idTrajet = +this.route.snapshot.paramMap.get('id');
     this.messageToSend = "";
+    this.offre = new TrajetEnt(this.idTrajet, "", "", new Date(), "", 0);
   }
 
   ngOnInit() {
@@ -29,16 +32,22 @@ export class ChatComponent implements OnInit {
   }
 
   updateChat(){
-    var lastMessageId = this.messages[this.messages.length-1].id;
+    if(this.messages.length > 0){
+      var lastMessageId = this.messages[this.messages.length-1].id;
 
-    this.chatService.getLastMessagesById(this.idTrajet, lastMessageId).subscribe((result: Response) => {
-      var newmessages = result['messages'];
+      this.chatService.getLastMessagesById(this.idTrajet, lastMessageId).subscribe((result: Response) => {
+        var newmessages = result['messages'];
 
-      for(var i = 0; i < newmessages.length; i++){
-        this.messages.push(newmessages[i]);
-      }
-    });
-    setTimeout(this.updateChat.bind(this), 1000);
+        for(var i = 0; i < newmessages.length; i++){
+          this.messages.push(newmessages[i]);
+        }
+      });
+
+      setTimeout(this.updateChat.bind(this), 1000);
+    }
+    else{
+      this.ngOnInit();
+    }
   }
 
   setScrollBarBottom(){
