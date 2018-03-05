@@ -5,6 +5,7 @@ var User = require('./models/user');
 var Journey = require('./models/journey');
 var Participation = require('./models/participation');
 var Chat = require('./models/chat');
+var InscriptionJourney = require('./models/inscriptionJourney');
 
 var initDB = co(
     function * (){
@@ -13,6 +14,7 @@ var initDB = co(
         yield Journey.sync({force: false});
         yield Participation.sync({force: false});
         yield Chat.sync({force: false});
+        yield InscriptionJourney.sync({force: false});
     }
 );
 
