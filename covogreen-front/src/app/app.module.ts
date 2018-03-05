@@ -39,6 +39,7 @@ import { RecherchePageComponent } from './recherche-page/recherche-page.componen
 
 import { NewCarComponent } from './car/newcar.component';
 import {CreateJourneyComponent} from './journey/create-journey/create-journey.component';
+import { ChatComponent } from './chat/chat.component';
 
 
 @NgModule({
@@ -76,7 +77,8 @@ import {CreateJourneyComponent} from './journey/create-journey/create-journey.co
         CreateJourneyComponent,
         RechercheFormComponent,
         RecherchePageComponent,
-        NewCarComponent
+        NewCarComponent,
+        ChatComponent
     ],
     providers: [
         AuthentificationService,

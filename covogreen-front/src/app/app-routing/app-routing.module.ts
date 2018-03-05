@@ -16,6 +16,7 @@ import {AdminComponent} from '../admin/admin.component';
 import {CreateJourneyComponent} from '../journey/create-journey/create-journey.component';
 
 import {RecherchePageComponent} from '../recherche-page/recherche-page.component';
+import {ChatComponent} from '../chat/chat.component';
 
 
 const routes: Routes = [
@@ -29,6 +30,7 @@ const routes: Routes = [
 
     { path: 'journey/create', component: CreateJourneyComponent, canActivate: [GuardService] },
     { path: 'recherche', component: RecherchePageComponent },
+    { path: 'chat/:id', component: ChatComponent },
 
     // otherwise redirect to home
     { path: '**', redirectTo: '' }
