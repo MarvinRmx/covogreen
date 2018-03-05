@@ -1,5 +1,6 @@
 var Chat = require("../database/models/chat");
 var User = require("../database/models/user");
+var Trajet = require("../database/models/journey");
 const Op = require('sequelize').Op;
 var co = require('co');
 
@@ -78,6 +79,19 @@ function verifierParametresAddMessage(idTrajet, message) {
 
     return out;
 };
+
+function verifierParametresGetTrajet(idTrajet){
+    var out = { "offre" : [], "errors" : [] };
+
+    // On vérifie que idTrajet est un entier et qu'il n'est pas négatif
+    if(!Number.isInteger(parseInt(idTrajet)))
+        out.errors.push("Le trajet n'est pas un chiffre");
+
+    if(idTrajet < 0)
+        out.errors.push("Le trajet ne peut pas être négatif");
+
+    return out;
+}
 
 var ChatController = {
     /**
@@ -209,11 +223,9 @@ var ChatController = {
 
         var req = yield Chat.create({id_auteur: 2, id_trajet: idTrajet, message: message});
         try{
-            if(req){
-                res.send("");
-            }else{
-                out["errors"].push("Une erreur est survenue lors de l'execution de la req sql");
-                res.status(500).send(out);
+            if(!req){
+                out["errors"].push("impossible d'ajouter le message");
+                res.send(out);
             }
         }catch(erreur){
             console.log(erreur);
@@ -223,8 +235,46 @@ var ChatController = {
 
     }),
 
+    /**
+     * On renvoi les info d'un trajet
+     */
+    getTrajet: co.wrap(function * (req, res){
+        // On vérifie les paramètres
+        var out = verifierParametresGetTrajet(req.body.idTrajet);
+        if(out["errors"].length > 0){
+            res.send(out);
+        }
 
+        var id = req.body.idTrajet;
+        var trajet = yield Trajet.findById(id);
+
+        try{
+            if(trajet){
+                var author = yield ChatController.getAuthorNameById(trajet.id_driver);
+                out["offre"] = {
+                    id      : trajet.id,
+                    depart : trajet.depart,
+                    destination  : trajet.destination,
+                    date_trajet    : trajet.date_journey,
+                    auteur : author.firstName + " " + author.firstName,
+                    nombre_place_disponible : trajet.seats_available
+                };
+
+                res.send(out);
+            }else{
+                out["errors"].push("Le trajet n'existe pas");
+                res.send(out);
+            }
+        }catch(erreur){
+            console.log(erreur);
+            out["errors"].push("Une erreur est survenue lors de l'execution de la req sql");
+            res.status(500).send(out);
+        }
+
+    })
 
 };
+
+
 
 module.exports = ChatController;
