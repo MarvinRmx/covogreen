@@ -1,3 +1,7 @@
+/**
+ * Author : Mohamed El karmoudi
+ * Date : 05/03/2018
+ */
 var controller = require("../../controller/ChatController");
 var co = require('co');
 
@@ -7,6 +11,13 @@ module.exports = function (router) {
      * Auteur : Mohamed El karmoudi
      */
     router.use(function (req, res, next) {
+        // On vérifie que le token existe.
+        // On vérifie que l'utilisateur peut visualiser le chat.
+            // On vérifie qu'il est inscrit au trajet (idTrajet).
+
+
+
+
         // On récupère le token
         var token = req.body.token || req.query.token || req.headers['x-access-token'];
 
@@ -43,10 +54,10 @@ module.exports = function (router) {
     // Récupérer le dernier message du trajet x.
     router.post('/getLastMessageById', co.wrap(controller.getLastMessageById));
 
-    // Ajouter un message
+    // Ajouter un message.
     router.post('/add', co.wrap(controller.addMessage));
 
-    // information sur un trajet
+    // information sur un trajet.
     router.post('/getTrajet', co.wrap(controller.getTrajet));
 };
 

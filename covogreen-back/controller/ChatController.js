@@ -1,3 +1,7 @@
+/**
+ * Author : Mohamed El karmoudi
+ * Date : 05/03/2018
+ */
 var Chat = require("../database/models/chat");
 var User = require("../database/models/user");
 var Trajet = require("../database/models/journey");
@@ -80,6 +84,12 @@ function verifierParametresAddMessage(idTrajet, message) {
     return out;
 };
 
+/**
+ * @param idTrajet
+ * @returns {{offre: Array, errors: Array}}
+ *
+ * Vérifie les champs recus dans la requete getTrajet.
+ */
 function verifierParametresGetTrajet(idTrajet){
     var out = { "offre" : [], "errors" : [] };
 
@@ -277,7 +287,5 @@ var ChatController = {
     })
 
 };
-
-
 
 module.exports = ChatController;
