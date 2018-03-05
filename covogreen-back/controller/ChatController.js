@@ -5,6 +5,7 @@
 var Chat = require("../database/models/chat");
 var User = require("../database/models/user");
 var Trajet = require("../database/models/journey");
+var InscriptionJourney =  require("../database/models/inscriptionJourney");
 const Op = require('sequelize').Op;
 var co = require('co');
 
@@ -104,6 +105,54 @@ function verifierParametresGetTrajet(idTrajet){
 }
 
 var ChatController = {
+    /**
+     * On vérifie que dans la table InscriptionTrajet l'utilisateur est inscrit au trajet demandé.
+     */
+    middlewareProtection: co.wrap(function * (req, res, next){
+        // On vérifie que le token existe.
+        var token = req.body.token || req.query.token || req.headers['x-access-token'];
+        //var token = {id_user: 1, username: "ddd", privilege: 1};
+
+        if (token) {
+            var idTrajet = req.body.idTrajet;
+            var idUser = token.id_user;
+
+            // On vérifie que l'utilisateur peut visualiser le chat.
+            // On vérifie qu'il est inscrit au trajet (idTrajet).
+            var inscriptionJourney = yield InscriptionJourney.find({ where: { id_trajet: idTrajet,  id_user : idUser } });
+
+            try {
+                if(inscriptionJourney){
+                    // Il peut accéder
+                    next();
+                }
+                else
+                {
+                    return res.status(403).send({
+                        success: false,
+                        message: "Impossible d'accéder à la page"
+                    });
+                }
+            }catch(erreur){
+                console.log(erreur);
+                out["errors"].push("Une erreur est survenue lors de l'execution de la req sql");
+                res.status(500).send(out);
+            }
+
+        }
+        else
+        {
+            // Aucun token n'existe
+            return res.status(403).send({
+                success: false,
+                message: 'Token inexistant.'
+            });
+        }
+
+        next();
+    }),
+
+
     /**
      * détermine les information d'un utilisateur.
      */
