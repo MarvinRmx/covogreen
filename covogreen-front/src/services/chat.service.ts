@@ -30,4 +30,9 @@ export class ChatService {
     return this.http.post(this.url + 'chat/add', jsonData, this.httpOptions);
   }
 
+  getInfoTrajet(idTrajet: number, message: string): Observable<any> {
+    let jsonData = { 'idTrajet' : idTrajet, 'token' : JSON.parse(localStorage.getItem('currentUser')) }
+    return this.http.post(this.url + 'chat/getTrajet', jsonData, this.httpOptions);
+  }
+
 }

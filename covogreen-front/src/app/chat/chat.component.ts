@@ -23,7 +23,10 @@ export class ChatComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.chatService.getMessages(this.idTrajet, 10).subscribe((result: Response) => {
+    this.chatService.getInfoTrajet(this.idTrajet).subscribe((result: Response) => {
+      this.offre = result['offre'];
+    });
+    this.chatService.getMessages(this.idTrajet, 0).subscribe((result: Response) => {
       this.messages = result['messages'];
       this.updateChat();
       this.setScrollBarBottom();
