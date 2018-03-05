@@ -1,22 +1,76 @@
 <div>
-    <mat-table id="map" [dataSource]="dataSource">
-        <ng-container matColumnDef="name">
-            <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-            <mat-cell *matCellDef="let user"> {{user.name}} </mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="email">
-            <mat-header-cell *matHeaderCellDef> E-Mail </mat-header-cell>
-            <mat-cell *matCellDef="let user"> {{user.email}} </mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="phone">
-            <mat-header-cell *matHeaderCellDef> Phone </mat-header-cell>
-            <mat-cell *matCellDef="let user"> {{user.phone}} </mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="company">
-            <mat-header-cell *matHeaderCellDef> Company </mat-header-cell>
-            <mat-cell *matCellDef="let user"> {{user.company.name}} </mat-cell>
-        </ng-container>
-        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-    </mat-table>
+    <h2>Gestion des profils</h2>
+
+    <div class="mat-elevation-z8">
+
+        <!--<mat-tab-group>-->
+
+        <div class="example-header">
+            <mat-form-field>
+                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+            </mat-form-field>
+        </div>
+
+        <mat-table #table [dataSource]="dataSource">
+
+            <ng-container matColumnDef="id_user">
+                <mat-header-cell *matHeaderCellDef> ID. </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.id_user}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="username">
+                <mat-header-cell *matHeaderCellDef> Username </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.username}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="privilege">
+                <mat-header-cell *matHeaderCellDef> Privilege </mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <mat-slide-toggle
+                        class="example-margin"
+                        [color]="color"
+                        [checked]="element.privilege === 2"
+                        [disabled]="disabled">
+                        Administrateur
+                    </mat-slide-toggle>
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="revoke">
+                <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <mat-slide-toggle
+                        class="example-margin"
+                        [color]="color"
+                        [checked]="checked"
+                        [disabled]="disabled">
+                        Revoquer
+                    </mat-slide-toggle>
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="update">
+                <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <button type="button"
+                            mat-raised-button
+                            color="primary">Modifier
+                    </button>
+                </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+        </mat-table>
+        <mat-paginator #paginator
+                       [pageSize]="10"
+                       [pageSizeOptions]="[5, 10, 20]"
+                       [showFirstLastButtons]="true">
+        </mat-paginator>
+
+        <!--</mat-tab-group>-->
+
+    </div>
+
 </div>

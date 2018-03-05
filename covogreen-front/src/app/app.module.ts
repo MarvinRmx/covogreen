@@ -2,7 +2,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/Rx';
 
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, AfterViewInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule, JsonpModule, Http, RequestOptions } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
@@ -14,8 +14,13 @@ import {
     MATERIAL_SANITY_CHECKS,
     MatSliderModule,
     MatFormFieldModule,
-    MatTableModule
+    MatTableModule,
+    MatInputModule,
+    MatPaginatorModule,
+    MatSlideToggleModule
 } from '@angular/material';
+import {MatTabsModule} from '@angular/material/tabs';
+
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
@@ -66,6 +71,10 @@ import { AdminUsersComponent } from './admin/admin-users/admin-users.component';
         MatSliderModule,
         MatFormFieldModule,
         MatTableModule,
+        MatInputModule,
+        MatPaginatorModule,
+        MatSlideToggleModule,
+        MatTabsModule,
         ConfirmationPopoverModule.forRoot({
             confirmButtonType: 'danger' // set defaults here
         })

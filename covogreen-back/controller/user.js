@@ -49,6 +49,24 @@ var LoginController = {
     },
 
     /**
+     * For getting all users.
+     * @param req
+     * @param res
+     */
+    all: function (req, res) {
+
+        req.accepts('application/json');
+
+        User.all()
+        .then(function (response) {
+            res.status(200).send(response);
+        })
+        .catch(function (error) {
+            res.status(500).send("Echec de la récupération de tous les utilisateurs.");
+        });
+    },
+
+    /**
      * For getting an user.
      * @param req
      * @param res
@@ -158,18 +176,6 @@ var LoginController = {
             });
     },
 
-    /*remove: function  (id_user, res) {
-
-
-        User.destroy({where: {id_user: id_user}})
-            .then(function (response) {
-                res.status(200).send("Succès de la suppression du profil.");
-            })
-            .catch(function (error) {
-                console.log('Fail update user :', error);
-                res.status(500).send("Echec de la suppression du profil.");
-            });
-    },*/
 
 };
 

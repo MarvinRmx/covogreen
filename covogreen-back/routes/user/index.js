@@ -6,6 +6,9 @@ module.exports = function (router) {
     var test = co.wrap(controller.test);
     router.get('/test', test);
 
+    var all = co.wrap(controller.all);
+    router.get('/', all);
+
     var login = co.wrap(controller.login);
     router.post('/login', login);
 

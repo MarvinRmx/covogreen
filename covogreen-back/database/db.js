@@ -3,7 +3,7 @@ const Sequelize = require('sequelize');
 
 const DB_NAME = 'covogreen';
 const USERNAME = 'root';
-const PASSWORD = '';
+const PASSWORD = 'root';
 const HOST = 'localhost';
 const DIALECT = 'mysql';
 
