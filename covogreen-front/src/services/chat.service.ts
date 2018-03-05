@@ -16,17 +16,17 @@ export class ChatService {
 
   getMessages(idTrajet: number, nbElement: number): Observable<any> {
     // requete vers le backend /recherche en post avec les information pour demander les "nbElement" derniers messages.
-    let jsonData = { 'idTrajet' : idTrajet, 'nbElement' : nbElement }
+    let jsonData = { 'idTrajet' : idTrajet, 'nbElement' : nbElement, 'token' : JSON.parse(localStorage.getItem('currentUser')) }
     return this.http.post(this.url + 'chat/getMessages', jsonData, this.httpOptions);
   }
 
   getLastMessagesById(idTrajet: number, idMessage: number): Observable<any> {
-    let jsonData = { 'idTrajet' : idTrajet, 'idMessage' : idMessage }
+    let jsonData = { 'idTrajet' : idTrajet, 'idMessage' : idMessage, 'token' : JSON.parse(localStorage.getItem('currentUser')) }
     return this.http.post(this.url + 'chat/getLastMessageById', jsonData, this.httpOptions);
   }
 
   setMessage(idTrajet: number, message: string): Observable<any> {
-    let jsonData = { 'idTrajet' : idTrajet, 'message' : message }
+    let jsonData = { 'idTrajet' : idTrajet, 'message' : message, 'token' : JSON.parse(localStorage.getItem('currentUser')) }
     return this.http.post(this.url + 'chat/add', jsonData, this.httpOptions);
   }
 
