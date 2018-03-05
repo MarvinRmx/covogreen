@@ -134,7 +134,7 @@ var ChatController = {
                     out["messages"].push({
                         id      : resultats[i].id,
                         message : resultats[i].message,
-                        auteur  : author.firstName + " " + author.firstName,
+                        auteur  : author.firstName + " " + author.lastName,
                         date    : resultats[i].createdAt
                     });
                 }
@@ -184,7 +184,7 @@ var ChatController = {
                     out["messages"].push({
                         id: chat.id,
                         message: chat.message,
-                        auteur: author.firstName + " " + author.firstName,
+                        auteur: author.firstName + " " + author.lastName,
                         date: chat.createdAt
                     });
                     res.send(out);
@@ -256,7 +256,7 @@ var ChatController = {
                     depart : trajet.depart,
                     destination  : trajet.destination,
                     date_trajet    : trajet.date_journey,
-                    auteur : author.firstName + " " + author.firstName,
+                    auteur : author.firstName + " " + author.lastName,
                     nombre_place_disponible : trajet.seats_available
                 };
 
