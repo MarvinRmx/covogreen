@@ -19,5 +19,8 @@ module.exports = function (router) {
 
     // Ajouter un message
     router.post('/add', co.wrap(controller.addMessage));
+
+    // information sur un trajet
+    router.post('/getTrajet', co.wrap(controller.getTrajet));
 };
 
