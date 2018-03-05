@@ -22,7 +22,7 @@ export class ChatService {
 
   getLastMessagesById(idTrajet: number, idMessage: number): Observable<any> {
     let jsonData = { 'idTrajet' : idTrajet, 'idMessage' : idMessage }
-    return this.http.post(this.url + 'chat/getLastMessagesById', jsonData, this.httpOptions);
+    return this.http.post(this.url + 'chat/getLastMessageById', jsonData, this.httpOptions);
   }
 
   setMessage(idTrajet: number, message: string): Observable<any> {

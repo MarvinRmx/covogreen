@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthentificationService } from '../services/authentification.service';
+import { User } from '../class/user';
 
 import 'hammerjs';
 
@@ -11,7 +12,7 @@ import 'hammerjs';
 })
 
 export class AppComponent {
-    public title = 'app';
+    public user: User;
 
     constructor(
 		private authenticationService: AuthentificationService
@@ -21,21 +22,17 @@ export class AppComponent {
         this.authenticationService.logout();
     }
 
-    logoutAdmin(): void {
-        this.authenticationService.logoutAdmin();
-    }
-
     checkAuth(): boolean {
         let tokenUser = localStorage.getItem('currentUser');
 
         if (tokenUser !== null) return true;
         return false;
     }
-
     checkAuthAdmin(): boolean {
-        let tokenUser = localStorage.getItem('currentAdmin');
+        let tokenUser = localStorage.getItem('currentUser');
+        this.user = JSON.parse(tokenUser) !== null ? JSON.parse(tokenUser) : {username: null, privilege: 0};
 
-        if (tokenUser !== null) return true;
+        if (this.user.privilege === 2) return true;
         return false;
     }
 }

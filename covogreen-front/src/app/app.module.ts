@@ -7,16 +7,24 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule, JsonpModule, Http, RequestOptions } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 
+import {
+    MatButtonModule,
+    MatCheckboxModule,
+    MatRadioModule,
+    MATERIAL_SANITY_CHECKS,
+    MatSliderModule,
+    MatFormFieldModule
+} from '@angular/material';
+
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
-import {MatButtonModule, MatCheckboxModule, MatRadioModule, MATERIAL_SANITY_CHECKS, MatSliderModule, MatFormFieldModule} from '@angular/material';
 import { AppRoutingModule } from './app-routing/app-routing.module';
-import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
+
 import { SelectModule } from 'ng-select';
-//import { TextEqualityValidatorModule } from 'ngx-text-equality-validator';
+import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
 
 import {AppComponent} from './app.component';
-import {DashboardComponent} from './dashboard/dashboard.component';
+import {HomeComponent} from './home/home.component';
 import {LoginComponent} from './login/login.component';
 
 import {AuthentificationService} from '../services/authentification.service';
@@ -31,15 +39,15 @@ import { UserComponent } from './user/user.component';
 import { NewuserComponent } from './user/newuser.component';
 
 import { AdminComponent } from './admin/admin.component';
-import { AdminCategoryComponent } from './admin/admin.category.component';
-import { AdminProductComponent } from './admin/admin.product.component';
-import { LoginAdminComponent } from './login-admin/login-admin.component';
 import { RechercheFormComponent } from './recherche-form/recherche-form.component';
 import { RecherchePageComponent } from './recherche-page/recherche-page.component';
 
 import { NewCarComponent } from './car/newcar.component';
 import {CreateJourneyComponent} from './journey/create-journey/create-journey.component';
+
 import { ChatComponent } from './chat/chat.component';
+import { TestComponent } from './test/test.component';
+
 
 
 @NgModule({
@@ -60,25 +68,23 @@ import { ChatComponent } from './chat/chat.component';
         MatSliderModule,
         MatFormFieldModule,
         ConfirmationPopoverModule.forRoot({
-            focusButton: 'confirm'
+            confirmButtonType: 'danger' // set defaults here
         })
     ],
     declarations: [
         AppComponent,
-        DashboardComponent,
+        HomeComponent,
         LoginComponent,
         UserComponent,
         NewuserComponent,
         AdminComponent,
-        AdminCategoryComponent,
-        AdminProductComponent,
-        LoginAdminComponent,
         NewCarComponent,
         CreateJourneyComponent,
         RechercheFormComponent,
         RecherchePageComponent,
         NewCarComponent,
-        ChatComponent
+        ChatComponent,
+        TestComponent
     ],
     providers: [
         AuthentificationService,

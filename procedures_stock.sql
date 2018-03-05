@@ -1,4 +1,5 @@
 
+-- Creating user and/or his car --
 DELIMITER |
 CREATE PROCEDURE createUserWithCar(
 	_firstName VARCHAR(255),
@@ -35,7 +36,62 @@ BEGIN
     	    INSERT INTO users
     	            (firstName, lastName, username, email, password, address, city, cp, phone, privilege, is_driver, id_car, createdAt, updatedAt)
     	    VALUES  (_firstName, _lastName, _username, _email, _password, _address, _city, _cp, _phone, 1,_is_driver, lastCar, SYSDATE(), SYSDATE());
+            
+    	ELSE
+		INSERT INTO users
+    	           	(firstName, lastName, username, email, password, address, city, cp, phone, privilege, is_driver, createdAt, updatedAt)
+    	    	VALUES  (_firstName, _lastName, _username, _email, _password, _address, _city, _cp, _phone, 1,_is_driver, SYSDATE(), SYSDATE());
 
-    END IF;
+    	END IF;
+
 
 END|
+-- ---------------------------------- --
+
+-- Creating car --
+DELIMITER |
+CREATE PROCEDURE createCar(
+	_id_user INTEGER,
+
+	_licencePlate VARCHAR(255),
+	_make VARCHAR(255),
+	_model VARCHAR(255),
+	_capacity INTEGER
+)
+BEGIN
+    	DECLARE lastCar INT;
+
+    	INSERT INTO cars (licencePlate, make, model, capacity, createdAt, updatedAt)
+   	VALUES(_licencePlate, _make, _model, _capacity, SYSDATE(), SYSDATE());
+	
+	SET lastCar := (SELECT id_car FROM cars WHERE licencePlate = _licencePlate);
+
+	IF ( lastCar != NULL OR lastCar != '' ) THEN
+    	    UPDATE users SET id_car = lastCar, is_driver = true, updatedAt = SYSDATE() WHERE id_user = _id_user;   
+    	END IF;
+END|
+-- ---------------------------------- --
+
+-- Delete user --
+DELIMITER |
+CREATE PROCEDURE deleteUser(_id_user INTEGER)
+BEGIN
+    	DECLARE _id_car INT;
+
+	SET _id_car := (SELECT id_car FROM users WHERE id_user = _id_user);
+
+	DELETE FROM cars WHERE id_car = _id_car;
+	DELETE FROM users WHERE id_user = _id_user;
+END|
+
+
+
+
+
+
+
+
+
+
+
+

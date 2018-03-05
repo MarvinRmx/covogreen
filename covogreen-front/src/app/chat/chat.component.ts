@@ -20,27 +20,25 @@ export class ChatComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.chatService.getMessages(this.idTrajet, 20).subscribe((result: Response) => {
-      if(result != null && result['errors'].length > 0){
-        this.messages = result['massages'];
-
-        this.updateChat();
-        this.setScrollBarBottom();
-      }
+    this.chatService.getMessages(this.idTrajet, 10).subscribe((result: Response) => {
+      this.messages = result['messages'];
+      this.updateChat();
+      this.setScrollBarBottom();
     });
+
   }
 
   updateChat(){
-    this.chatService.getMessages(this.idTrajet, 20).subscribe((result: Response) => {
-      if(result != null && result['errors'].length > 0){
-        var newMassages = result['massages'];
+    var lastMessageId = this.messages[this.messages.length-1].id;
 
-        for(var i = 0; i < newMassages.length; i++){
-          this.messages.push(newMassages[i]);
-        }
+    this.chatService.getLastMessagesById(this.idTrajet, lastMessageId).subscribe((result: Response) => {
+      var newmessages = result['messages'];
+
+      for(var i = 0; i < newmessages.length; i++){
+        this.messages.push(newmessages[i]);
       }
-      setTimeout(this.updateChat.bind(this), 1000);
     });
+    setTimeout(this.updateChat.bind(this), 1000);
   }
 
   setScrollBarBottom(){

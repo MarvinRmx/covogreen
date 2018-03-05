@@ -6,6 +6,7 @@ var Car = require('../database/models/car');
 var User = require('../database/models/user');
 var Journey = require('../database/models/journey');
 var Participation = require('../database/models/participation');
+var Chat = require('../database/models/chat');
 
 co(
     function * (){
@@ -13,6 +14,7 @@ co(
         yield User.sync({force: false});
         yield Journey.sync({force: false});
         yield Participation.sync({force: false});
+        yield Chat.sync({force: false});
     }
 );
 

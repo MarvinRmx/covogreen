@@ -1,137 +1,198 @@
-/*
- * https://www.concretepage.com/angular-2/angular-2-formcontrol-example
- */
-
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, FormBuilder, Validators, Validator } from '@angular/forms';
-import { TextEqualityValidatorModule } from 'ngx-text-equality-validator';
+import {FormGroup, FormBuilder, AbstractControl, FormControl} from '@angular/forms';
 import { UserService } from '../../services/user.service';
+import { CarService } from '../../services/car.service';
 import { User } from '../../class/user';
+import { Car } from '../../class/car';
 import { Router } from '@angular/router';
-
-import { ConfirmationPopoverModule } from 'angular-confirmation-popover';
+import * as md5 from 'md5';
 
 @Component({
-  selector: 'app-user',
-  templateUrl: './user.component.html',
-  providers: [UserService]
-
+    selector: 'app-user',
+    templateUrl: './user.component.html',
+    providers: [UserService, CarService]
 })
 export class UserComponent implements OnInit {
 
-
     public user: User;
+    public car: Car;
 
-    public id: number;
-    public username: string;
-    public password: string;
-    public email: string;
-    public lastname: string;
-    public firstname: string;
-    public city: string;
-    public street: string;
-    public cp: string;
-    public country: string;
+    public have_car: boolean;
+    public is_driver: boolean;
 
-    public username_ctrl: FormControl;
-    public email_ctrl: FormControl;
-    public firstname_ctrl: FormControl;
-    public lastname_ctrl: FormControl;
-    public city_ctrl: FormControl;
-    public street_ctrl: FormControl;
-    public cp_ctrl: FormControl;
-    public country_ctrl: FormControl;
-    public updateUserForm: FormGroup;
-
-    public oldPassword_ctrl: FormControl;
-    public newPassword_ctrl: FormControl;
-    public confirmPassword_ctrl: FormControl;
-    public updatePasswordForm: FormGroup;
+    //public confirm_delete: boolean = false;
+    private updateUserForm: FormGroup = new FormGroup({});
+    private updatePasswordForm: FormGroup = new FormGroup({});
+    private updateOrCreateCarForm: FormGroup = new FormGroup({});
 
     constructor(
         private router: Router,
         private formBulder: FormBuilder,
-        private userService: UserService
-
-    ) {
-        let token = localStorage.getItem('currentUser');
-        this.user = JSON.parse(token);
-    }
+        private userService: UserService,
+        private carService: CarService,
+    ) {}
 
     ngOnInit() {
 
-        this.username = this.user.username;
-        this.email = this.user.email;
-        this.firstname = this.user.firstName;
-        this.lastname = this.user.lastName;
-        this.city = this.user.city;
-        this.street = this.user.address;
-        this.cp = this.user.cp;
-
-        this.username_ctrl = this.formBulder.control(this.user.username);
-        this.email_ctrl = this.formBulder.control(this.user.email);
-        this.firstname_ctrl = this.formBulder.control(this.user.firstName);
-        this.lastname_ctrl = this.formBulder.control(this.user.lastName);
-        this.city_ctrl = this.formBulder.control(this.user.city);
-        this.street_ctrl = this.formBulder.control(this.user.address);
-        this.cp_ctrl = this.formBulder.control(this.user.cp);
-        this.country_ctrl = this.formBulder.control(this.user.city);
+        this.updatePasswordForm = this.formBulder.group({
+            password: "",
+            new_password: "",
+        });
 
         this.updateUserForm = this.formBulder.group({
-            username: this.username_ctrl,
-            email: this.email_ctrl,
-            lastname: this.lastname_ctrl,
-            firstname: this.firstname_ctrl,
-            city: this.city_ctrl,
-            street: this.street_ctrl,
-            cp: this.cp_ctrl,
-            country: this.country_ctrl
+            firstName: "",
+            lastName: "",
+            username: "",
+            email: "",
+            address: "",
+            city: "",
+            cp: "",
+            phone: "",
+
+            is_driver: "false",
+            have_car: "false"
         });
 
-        this.oldPassword_ctrl = this.formBulder.control('');
-        this.newPassword_ctrl = this.formBulder.control('');
-        this.confirmPassword_ctrl = this.formBulder.control('');
-
-        this.updatePasswordForm = this.formBulder.group({
-            username: this.user.username,
-            old_password: this.oldPassword_ctrl,
-            new_password: this.newPassword_ctrl,
-            confirm_password: this.confirmPassword_ctrl
+        this.updateOrCreateCarForm = this.formBulder.group({
+            licencePlate: "",
+            make: "",
+            model: "",
+            capacity: ""
         });
-    }
 
-    updateUser() {
-
-        this.userService.updateUser(this.updateUserForm.value)
+        this.userService.getUser()
             .subscribe(result => {
-                alert(result);
+                this.user = result;
+                this.is_driver = this.user.is_driver;
+                this.have_car = this.user.id_car !== null ? true : false;
 
-                this.userService.getUser()
-                    .subscribe(result => {
-                        localStorage.setItem('currentUser', JSON.stringify(result));
-                        let tokenUser = localStorage.getItem('currentUser');
-                        this.user = JSON.parse(tokenUser);
-                        this.router.navigate(['/user']);
-                    });
+                this.updateUserForm = this.formBulder.group({
+                    firstName: this.user.firstName,
+                    lastName: this.user.lastName,
+                    username: this.user.username,
+                    email: this.user.email,
+                    address: this.user.address,
+                    city: this.user.city,
+                    cp: this.user.cp,
+                    phone: this.user.phone,
+
+                    is_driver: JSON.stringify(this.user.is_driver),
+                    have_car: this.user.id_car !== null ? "true" : "false"
+                });
+
+                this.car = new Car(null, null, null,  null, null);
+
+                if(this.have_car) {
+                    this.car = new Car(null, null, null, null, null);
+                    this.car.id_car = this.user.id_car;
+
+                    this.carService.getCar(this.car)
+                        .subscribe(result => {
+                            this.car = result;
+                            this.updateOrCreateCarForm = this.formBulder.group(this.car);
+                        });
+                }
             });
+
     }
 
     updatePassword() {
-        console.log(this.updatePasswordForm.value);
 
-        this.userService.updatePassword(this.updatePasswordForm.value)
+        let old_password = "";
+        let password = md5(this.updatePasswordForm.value.password);
+        let new_password = md5(this.updatePasswordForm.value.new_password);
+
+        this.userService.getUser()
             .subscribe(result => {
-                alert(result);
-            });
+                console.log(result);
+                old_password = result.password;
 
+                if(old_password === password)
+                {
+                    this.user.password = new_password;
+
+                    this.userService.updateUser(this.user)
+                        .subscribe(result => {
+                            alert(result);
+                        });
+                }
+                else alert("Mot de passe actuel incorrect.");
+            });
     }
 
     deleteUser() {
+
         this.userService.deleteUser(this.user)
             .subscribe(result => {
                 alert(result);
+                this.user = null;
                 localStorage.removeItem('currentUser');
                 this.router.navigate(['/']);
             });
+
+        /*if (this.confirm_delete) {
+            this.userService.deleteUser(this.user)
+                .subscribe(result => {
+                    alert(result);
+                    this.user = null;
+                    localStorage.removeItem('currentUser');
+                    this.router.navigate(['/']);
+                });
+        }*/
+
+    }
+
+    updateUser() {
+        this.user = this.updateUserForm.value;
+
+        this.userService.updateUser(this.user)
+            .subscribe(result => {
+                alert(result);
+            });
+    }
+
+    updateOrCreateCar() {
+        if(this.user.id_car !== null)
+        {
+            this.car = this.updateOrCreateCarForm.value;
+            console.log('Update car :', this.car);
+
+            this.carService.updateCar(this.car)
+                .subscribe(result => {
+                    alert(result);
+                });
+        } else {
+            this.car = this.updateOrCreateCarForm.value;
+            console.log('Create car :', this.car);
+
+            this.carService.createCar(this.car, this.user)
+                .subscribe(result => {
+                    alert(result);
+                    window.location.reload(true);
+                });
+        }
+
+    }
+
+    deleteCar(){
+        console.log('Delete Car :', this.car);
+
+        this.carService.deleteCar(this.car)
+            .subscribe(result => {
+                alert(result);
+                window.location.reload(true);
+            });
+    }
+
+    changeIsDriver($event): void {
+        this.is_driver = JSON.parse($event.value);
+    }
+
+    changeHaveCar($event): void {
+        this.have_car = JSON.parse($event.value);
+    }
+
+    checkCar(): boolean {
+        return this.car.id_car != null;
     }
 }

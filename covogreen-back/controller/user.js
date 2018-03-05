@@ -28,25 +28,47 @@ var LoginController = {
 
         req.accepts('application/json');
 
+            User.findOne({
+                where: {
+                    username: req.body.username,
+                    password: req.body.password
+                }
+            })
+            .then(function (response) {
+                var user = JSON.stringify({id_user: response.id_user, username: response.username, privilege: response.privilege});
+                var token = jwt.sign(user, skey);
+
+                res.header('Authorization', token);
+                res.send(token);
+                //res.send('');
+                res.status(200);
+            })
+            .catch(function (error) {
+                res.status(500).send("Connexion refusée.");
+            });
+    },
+
+    /**
+     * For getting an user.
+     * @param req
+     * @param res
+     */
+    get: function  (id_user, res) {
+
         User.findOne({
-            where: {
-                username: req.body.username,
-                password: req.body.password
-            }
+            where: { id_user: id_user }
         })
         .then(function (response) {
-            var user = JSON.stringify({id: response.id, username: response.username, privilege: response.privilege});
-            var token = jwt.sign(user, skey);
-            res.status(200).send(token);
+            res.status(200).send(response.dataValues);
         })
         .catch(function (error) {
-            res.status(500).json(error);
+            console.log('Fail find for getting user :', error);
+            res.status(500).send("Echec de la récupération du profil.");
         });
     },
 
-
     /**
-     * For creating an new user and his car.
+     * For creating an new user and/or his car.
      * @param req
      * @param res
      */
@@ -86,26 +108,69 @@ var LoginController = {
             });
         }
         else {
+
+            req.body.user.privilege = 1;
+
             User.create(req.body.user)
                 .then(function (response) {
                     res.status(200).send("Ajout de l'utilisateur OK");
                 })
                 .catch(function (error) {
+                    console.log(error);
                     res.status(500).send("Echec de l'ajout de l'utilisateur");
                 });
         }
-    }
+    },
 
-    /*create: function  (req, res) {
+    /**
+     * For updating a user.
+     * @param req
+     * @param res
+     */
+    update: function  (req, res) {
 
-        User.create(req.body)
+        var user = req.body;
+
+        User.update(user, {where: {id_user: user.id_user}})
             .then(function (response) {
-                res.status(200).send("Ajout de l'utilisateur OK");
+                res.status(200).send("Succès de la mise-à-jour du profil.");
             })
             .catch(function (error) {
-                res.status(500).send("Echec de l'ajout de l'utilisateur");
+                console.log('Fail update user :', error);
+                res.status(500).send("Echec de la mise-à-jour du profil.");
+            });
+    },
+
+    /**
+     * For deleting an user.
+     * @param id_user
+     * @param res
+     */
+    remove: function  (id_user, res) {
+
+        sequelize.query('CALL deleteUser('+ id_user +')')
+            .then(function (response) {
+                res.status(200).send("Succès de la suppression du profil.");
+            })
+            .catch(function (error) {
+                console.log('Fail update user :', error);
+                res.status(500).send("Echec de la suppression du profil.");
+            });
+    },
+
+    /*remove: function  (id_user, res) {
+
+
+        User.destroy({where: {id_user: id_user}})
+            .then(function (response) {
+                res.status(200).send("Succès de la suppression du profil.");
+            })
+            .catch(function (error) {
+                console.log('Fail update user :', error);
+                res.status(500).send("Echec de la suppression du profil.");
             });
     },*/
+
 };
 
 
