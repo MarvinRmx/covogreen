@@ -17,7 +17,7 @@
 <div class="chatSubmitPanel" id="chatSubmitPanel" class="row">
   <div class="col-lg-10">
     <div class="form-group">
-      <input [(ngModel)]="messageToSend" type="text" name="messageToSend" class="form-control" placeholder="Tapez ici votre message !">
+      <input (keyup.enter)="sendMessage()" [(ngModel)]="messageToSend" type="text" name="messageToSend" class="form-control" placeholder="Tapez ici votre message !">
     </div>
   </div>
   <div class="col-lg-2">
