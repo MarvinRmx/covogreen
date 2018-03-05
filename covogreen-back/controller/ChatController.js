@@ -1,5 +1,7 @@
 var Chat = require("../database/models/chat");
+var User = require("../database/models/user");
 const Op = require('sequelize').Op;
+var co = require('co');
 
 
 /**
@@ -22,7 +24,7 @@ function verifierParametresGetMessages(idTrajet, nbElement) {
     if(!Number.isInteger(parseInt(nbElement)))
         out.errors.push("Le nombre d'élement n'est pas un chiffre");
 
-    if(nbElement < 1)
+    if(nbElement < 0)
         out.errors.push("Le nombre d'élement demandé doit être strictement positif");
 
     return out;
@@ -79,6 +81,14 @@ function verifierParametresAddMessage(idTrajet, message) {
 
 var ChatController = {
     /**
+     * détermine les information d'un utilisateur.
+     */
+    getAuthorNameById: co.wrap(function * (id){
+        return yield User.findById(id);
+
+    }),
+
+    /**
      * On récupère les X dernier messages entre les utilisateurs d'un trajet.
      * Auteur : Mohamed EL karmoudi
      *
@@ -86,7 +96,7 @@ var ChatController = {
      *      idTrajet : entier
      *      nbElement : entier
      */
-    getMessages: function(req, res){
+    getMessages: co.wrap(function * (req, res){
         // On vérifie les paramètres
         var out = verifierParametresGetMessages(req.body.idTrajet ,req.body.nbElement);
         if(out["errors"].length > 0){
@@ -96,23 +106,34 @@ var ChatController = {
         var idTrajet = parseInt(req.body.idTrajet);
         var nbElement = parseInt(req.body.nbElement);
 
-        // Si tt est ok on récupère les dernier 'nbMessage' du trajet idTrajet dans la table CHAT
-        Chat.findAll({ where: { id_trajet: idTrajet },  offset: 0,  limit : nbElement})
-        .then(function(chats) {
-            for (var i = 0; i< chats.length; i++){
-                out["messages"].push({
-                    id      : chats[i].id,
-                    message : chats[i].message,
-                    auteur  : chats[i].id_auteur,
-                    date    : chats[i].createdAt
-                });
+        // si nb element = 0 on renvoi ts les element.
+        // sinon on renvoi le nb element souhaitée.
+        var resultats = (nbElement===0) ?
+            yield Chat.findAll({ where: { id_trajet: idTrajet } }) :
+            yield Chat.findAll({ where: { id_trajet: idTrajet },  offset: 0,  limit : nbElement});
+
+        try{
+            if (resultats){
+                for (var i = 0; i< resultats.length; i++){
+                    var author = yield ChatController.getAuthorNameById(resultats[i].id_auteur);
+
+                    out["messages"].push({
+                        id      : resultats[i].id,
+                        message : resultats[i].message,
+                        auteur  : author.firstName + " " + author.firstName,
+                        date    : resultats[i].createdAt
+                    });
+                }
+                res.send(out);
+            }else{
+                // Aucun element
+                res.send(out);
             }
-            res.send(out);
-        }).catch(function (error) {
+        }catch(erreur){
             out["errors"].push("Une erreur est survenue lors de l'execution de la req sql");
             res.status(500).send(out);
-        });
-    },
+        }
+    }),
 
 
     /**
@@ -123,7 +144,7 @@ var ChatController = {
      *      idTrajet : entier
      *      idMessage : entier
      */
-    getLastMessageById: function (req, res) {
+    getLastMessageById: co.wrap(function * (req, res) {
         // On vérifie les paramètres
         var out = verifierParametresGetLastMessage(req.body.idTrajet, req.body.idMessage);
         if(out["errors"].length > 0){
@@ -133,53 +154,39 @@ var ChatController = {
         var idTrajet = req.body.idTrajet;
         var idMessage = req.body.idMessage;
 
-        // On récupere la date de creation du message passé en parametre.
-        Chat.find({
-            where: {
-                id_trajet: idTrajet,
-                id : idMessage
-            }
-        })
-            .then(function(chatMessage){
-                if(!chatMessage)
-                    // Aucun element ne correspond dans la db
-                    out["errors"].push("Aucun message ne correspond dans la db pour l'id : " + idMessage);
+        // On récupère les info du message passé en parametre
+        var messageData = yield Chat.find({ where: { id_trajet: idTrajet,  id : idMessage } });
 
-                // On récupère tous les messages qui ont étaient ajoutés apres la date récupéré au dessus.
-                var dateMessage = chatMessage.createdAt;
+        try {
+            if (messageData) {
+                var dateMessage = messageData.createdAt;
 
-                Chat.find({
-                    where: {
-                        id_trajet: idTrajet,
-                        createdAt:{
-                            [Op.gt]: dateMessage
-                        }
-                    }
-                })
-                    .then(function(chat){
-                        if(!chat) // aucun message n'existe
-                            res.send(out);
+                var chat = yield Chat.find({where: {id_trajet: idTrajet, createdAt: {[Op.gt]: dateMessage}}});
 
-                        // Un message existe
-                        out["messages"].push({
-                            id      : chat.id,
-                            message : chat.message,
-                            auteur  : chat.id_auteur,
-                            date    : chat.createdAt
-                        });
-                        res.send(out);
-                    })
-                    .catch(function (error) {
-                        out["errors"].push("Une erreur est survenue lors de l'execution de la req sql");
-                        res.status(500).send(out);
+                if (chat) {
+                    // Un message existe
+                    var author = yield ChatController.getAuthorNameById(chat.id_auteur);
+
+                    out["messages"].push({
+                        id: chat.id,
+                        message: chat.message,
+                        auteur: author.firstName + " " + author.firstName,
+                        date: chat.createdAt
                     });
-            })
-            .catch(function (error) {
-                out["errors"].push("Une erreur est survenue lors de l'execution de la req sql");
-                res.status(500).send(out);
-            });
-
-    },
+                    res.send(out);
+                } else {
+                    // Aucun message
+                    res.send(out);
+                }
+            } else {
+                // Aucun element ne correspond dans la db
+                res.send(out);
+            }
+        } catch(erreur){
+            out["errors"].push("Une erreur est survenue lors de l'execution de la req sql");
+            res.status(500).send(out);
+        }
+    }),
 
 
     /**
@@ -190,7 +197,7 @@ var ChatController = {
      *      idTrajet : entier
      *      message : string
      */
-    addMessage: function(req, res){
+    addMessage: co.wrap(function *  (req, res){
         // On vérifie les paramètres
         var out = verifierParametresAddMessage(req.body.idTrajet, req.body.message);
         if(out["errors"].length > 0){
@@ -200,19 +207,24 @@ var ChatController = {
         var idTrajet = req.body.idTrajet;
         var message = req.body.message;
 
-        Chat.create({
-            id_auteur   : 1,
-            id_trajet   : idTrajet,
-            message     : message
-        })
-        .then(function(chat){
-            res.send("");
-        })
-        .catch(function(e){
+        var req = yield Chat.create({id_auteur: 2, id_trajet: idTrajet, message: message});
+        try{
+            if(req){
+                res.send("");
+            }else{
+                out["errors"].push("Une erreur est survenue lors de l'execution de la req sql");
+                res.status(500).send(out);
+            }
+        }catch(erreur){
+            console.log(erreur);
             out["errors"].push("Une erreur est survenue lors de l'execution de la req sql");
             res.status(500).send(out);
-        });
-    },
+        }
+
+    }),
+
+
+
 };
 
 module.exports = ChatController;
