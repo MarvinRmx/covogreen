@@ -6,7 +6,7 @@ export class TrajetEnt {
     public auteur: string;
     public nombre_place_disponible: number;
 
-    constructor(id: number, depart: string, destination: string, date_trajet: Date, auteur: string, nombre_place_disponible: number ) {
+    constructor(id: number, depart: string, destination: string, date_trajet: Date, auteur: string, nombre_place_disponible: number) {
         this.id = id;
         this.depart = depart;
         this.destination = destination;

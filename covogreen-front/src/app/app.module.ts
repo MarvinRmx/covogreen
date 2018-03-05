@@ -44,7 +44,10 @@ import { RecherchePageComponent } from './recherche-page/recherche-page.componen
 
 import { NewCarComponent } from './car/newcar.component';
 import {CreateJourneyComponent} from './journey/create-journey/create-journey.component';
+
+import { ChatComponent } from './chat/chat.component';
 import { TestComponent } from './test/test.component';
+
 
 
 @NgModule({
@@ -80,6 +83,7 @@ import { TestComponent } from './test/test.component';
         RechercheFormComponent,
         RecherchePageComponent,
         NewCarComponent,
+        ChatComponent,
         TestComponent
     ],
     providers: [

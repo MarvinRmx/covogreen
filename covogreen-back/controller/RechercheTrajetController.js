@@ -39,16 +39,17 @@ var RechercheTrajetController = {
     if(journeyList != null)
       for(var i = 0; i < journeyList.length; i++){
         var driver = yield User.findById(journeyList[i].id_driver);
-        result.trajets.push(
-          {
-            id : journeyList[i].id_journey,
-    				depart : journeyList[i].origin,
-    				destination : journeyList[i].destination,
-    				auteur : driver.firstName + " " + driver.lastName,
-    				date_trajet : journeyList[i].date_journey,
-    				nombre_place_disponible : 2
-    			}
-        );
+        if( (journeyList[i].seats_available > 0 && request.place_libre) || !request.place_libre)
+          result.trajets.push(
+            {
+              id : journeyList[i].id_journey,
+      				depart : journeyList[i].origin,
+      				destination : journeyList[i].destination,
+      				auteur : driver.firstName + " " + driver.lastName,
+      				date_trajet : journeyList[i].date_journey,
+      				nombre_place_disponible : journeyList[i].seats_available
+      			}
+          );
       }
 
     return result;
@@ -74,23 +75,13 @@ var RechercheTrajetController = {
   }),
 
   /**
-   * Cette methode donne le nobre de places restante dans un trajet
-   * @param journey Le trajet
-   * @return le nobre de places restante
-   */
-  getAvailablePlaces: co.wrap(function * (journey)
-  {
-    // à coder
-  }),
-
-  /**
    * genere l'objet condition en fonctiont de la requete recu pour rechercher les trajets avec sequelize
    * @param request Trame envoier par les filtres
    * @return l'objet condition pour rechercher les trajets
    */
   getResearchCondition: function(request)
 	{
-    var condition = { 'where' : { [Op.and] : [] }, 'offset' : 0, 'limit' : 10 };
+    var condition = { 'where' : { [Op.and] : [] }, 'offset' : 0, 'limit' : 10, order: [['date_journey', 'DESC']] };
 
     if (request.depart != "")
       condition.where[Op.and].push({ "origin" : {[Op.like] : '%' + request.depart + '%'} });
