@@ -251,9 +251,12 @@ var ChatController = {
         try{
             if(trajet){
                 var author = yield ChatController.getAuthorNameById(trajet.id_driver);
+
+                console.log(trajet);
+
                 out["offre"] = {
                     id      : trajet.id,
-                    depart : trajet.depart,
+                    depart : trajet.origin,
                     destination  : trajet.destination,
                     date_trajet    : trajet.date_journey,
                     auteur : author.firstName + " " + author.lastName,
