@@ -52,7 +52,6 @@ export class AuthentificationService {
                 if (response.status === 200) {
                     this.token = jwt.decode(response.text(), this.skey);
                     localStorage.setItem('currentUser', JSON.stringify(this.token));
-                    console.log('Token :', this.token);
 
                     return true;
                 }

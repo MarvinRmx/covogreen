@@ -13,7 +13,8 @@ import {
     MatRadioModule,
     MATERIAL_SANITY_CHECKS,
     MatSliderModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatTableModule
 } from '@angular/material';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -45,7 +46,7 @@ import { RecherchePageComponent } from './recherche-page/recherche-page.componen
 import { NewCarComponent } from './car/newcar.component';
 import {CreateJourneyComponent} from './journey/create-journey/create-journey.component';
 import { TestComponent } from './test/test.component';
-
+import { AdminUsersComponent } from './admin/admin-users/admin-users.component';
 
 @NgModule({
     imports: [
@@ -64,6 +65,7 @@ import { TestComponent } from './test/test.component';
         MatRadioModule,
         MatSliderModule,
         MatFormFieldModule,
+        MatTableModule,
         ConfirmationPopoverModule.forRoot({
             confirmButtonType: 'danger' // set defaults here
         })
@@ -80,7 +82,8 @@ import { TestComponent } from './test/test.component';
         RechercheFormComponent,
         RecherchePageComponent,
         NewCarComponent,
-        TestComponent
+        TestComponent,
+        AdminUsersComponent
     ],
     providers: [
         AuthentificationService,
