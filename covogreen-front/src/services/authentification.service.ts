@@ -29,14 +29,6 @@ export class AuthentificationService {
 	}
 
     /**
-     * Method for getting all users.
-     * @returns {Observable<Response>}
-     */
-	public getUsers() {
-		return this.http.get(this.uri + "user/all");
-    }
-
-    /**
      * Method for accept or refuse connexion for users.
      * @param {User} user
      * @returns {Observable<boolean>}
@@ -51,12 +43,15 @@ export class AuthentificationService {
 
                 if (response.status === 200) {
                     this.token = jwt.decode(response.text(), this.skey);
+                    if(this.token.revoked === true) {
+                        alert('Compte bloqué');
+                        return false;
+                    }
                     localStorage.setItem('currentUser', JSON.stringify(this.token));
 
                     return true;
                 }
                 else return false;
-
             });
     }
 

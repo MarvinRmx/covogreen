@@ -12,7 +12,7 @@ export class AdminUsersComponent implements OnInit, AfterViewInit {
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
-    public displayedColumns = ['id_user', 'username', 'privilege', 'revoke', 'update'];
+    public displayedColumns = ['id_user', 'username', 'privilege', 'revoked', 'update'];
     public dataSource = new MatTableDataSource<User>([]);
 
     constructor(

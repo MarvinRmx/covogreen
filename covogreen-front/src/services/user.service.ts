@@ -12,8 +12,7 @@ export class UserService {
 
     constructor(
         private http: Http,
-    )
-    {
+    ) {
 		this.uri = "http://localhost:1313/user";
 	}
 
@@ -53,7 +52,6 @@ export class UserService {
 
         return this.http.delete(this.uri +"/"+ user.id_user, options)
             .map((response: Response) => {
-                console.log(response.text());
                 return response.text();
             });
     }

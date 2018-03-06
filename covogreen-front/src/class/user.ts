@@ -12,6 +12,7 @@ export class User {
     public is_driver: boolean;
     public id_car: number;
     public privilege: number;
+    public revoke: boolean;
 
     constructor(
         id_user: number,

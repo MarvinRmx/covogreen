@@ -28,24 +28,24 @@ var LoginController = {
 
         req.accepts('application/json');
 
-            User.findOne({
-                where: {
-                    username: req.body.username,
-                    password: req.body.password
-                }
-            })
-            .then(function (response) {
-                var user = JSON.stringify({id_user: response.id_user, username: response.username, privilege: response.privilege});
-                var token = jwt.sign(user, skey);
+        User.findOne({
+            where: {
+                username: req.body.username,
+                password: req.body.password
+            }
+        })
+        .then(function (response) {
+            var user = JSON.stringify({id_user: response.id_user, username: response.username, privilege: response.privilege, revoked: response.revoked});
+            var token = jwt.sign(user, skey);
 
-                res.header('Authorization', token);
-                res.send(token);
-                //res.send('');
-                res.status(200);
-            })
-            .catch(function (error) {
-                res.status(500).send("Connexion refusée.");
-            });
+            res.header('Authorization', token);
+            res.send(token);
+            //res.send('');
+            res.status(200);
+        })
+        .catch(function (error) {
+            res.status(500).send('Identifiant et/ou mot de passe non reconnu');
+        });
     },
 
     /**

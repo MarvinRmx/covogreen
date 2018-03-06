@@ -38,13 +38,13 @@ export class LoginComponent implements OnInit {
         this.user.password = md5(this.user.password);
 
         this.authenticationService.login(this.user)
-			.subscribe(result => {
-				if (result === true) {
-					this.router.navigate(['/']);
-				}
-            },
-            err => alert("Connexion refusée.")
-        );
+            .subscribe(result => {
+                    if (result === true) {
+                        this.router.navigate(['/']);
+                    }
+                },
+                err => alert('Identifiant et/ou mot de passe non reconnu')
+            );
     }
 
     /**

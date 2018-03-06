@@ -36,15 +36,15 @@
                 </mat-cell>
             </ng-container>
 
-            <ng-container matColumnDef="revoke">
+            <ng-container matColumnDef="revoked">
                 <mat-header-cell *matHeaderCellDef></mat-header-cell>
                 <mat-cell *matCellDef="let element">
                     <mat-slide-toggle
                         class="example-margin"
                         [color]="color"
-                        [checked]="checked"
+                        [checked]="element.revoked == true"
                         [disabled]="disabled">
-                        Revoquer
+                        Révoqué
                     </mat-slide-toggle>
                 </mat-cell>
             </ng-container>
