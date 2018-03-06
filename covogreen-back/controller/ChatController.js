@@ -9,6 +9,13 @@ var InscriptionJourney =  require("../database/models/inscriptionJourney");
 const Op = require('sequelize').Op;
 var co = require('co');
 
+var jwt = require('jsonwebtoken');
+var fs = require("fs");
+var path = require('path');
+
+var skey_path = path.join(__dirname, '../skey.txt');
+var skey = fs.readFileSync(skey_path, 'utf-8');
+
 
 /**
  * @param idTrajet
@@ -110,12 +117,17 @@ var ChatController = {
      */
     middlewareProtection: co.wrap(function * (req, res, next){
         // On vérifie que le token existe.
+        // token test  : eyJhbGciOiJIUzI1NiJ9.eyJpZF91c2VyIjogMiwgInVzZXJuYW1lIjogImVlIiwgInByaXZpbGVnZSI6IDF9.ILrjYL9NWpUKllLwcK4X68_FEYgVdqtDZQrrBHfSxyE
         var token = req.body.token || req.query.token || req.headers['x-access-token'];
-        //var token = {id_user: 1, username: "ddd", privilege: 1};
+
+        //var token = {id_user: 2, username: "ddd", privilege: 1};
 
         if (token) {
-            var idTrajet = req.body.idTrajet;
-            var idUser = token.id_user;
+            // on decode le json
+            token = jwt.decode(token, skey);
+
+            var idTrajet = parseInt(req.body.idTrajet);
+            var idUser = parseInt(token.id_user);
 
             // On vérifie que l'utilisateur peut visualiser le chat.
             // On vérifie qu'il est inscrit au trajet (idTrajet).
@@ -124,6 +136,7 @@ var ChatController = {
             try {
                 if(inscriptionJourney){
                     // Il peut accéder
+                    req.idUser = idUser;
                     next();
                 }
                 else
@@ -148,8 +161,6 @@ var ChatController = {
                 message: 'Token inexistant.'
             });
         }
-
-        next();
     }),
 
 
@@ -160,6 +171,7 @@ var ChatController = {
         return yield User.findById(id);
 
     }),
+
 
     /**
      * On récupère les X dernier messages entre les utilisateurs d'un trajet.
@@ -277,12 +289,30 @@ var ChatController = {
             res.send(out);
         }
 
-        var idTrajet = req.body.idTrajet;
+        var idTrajet = parseInt(req.body.idTrajet);
         var message = req.body.message;
+        var idUser = parseInt(req.idUser);
 
-        var req = yield Chat.create({id_auteur: 2, id_trajet: idTrajet, message: message});
+        var reqSql = yield Chat.create({id_auteur: idUser, id_trajet: idTrajet, message: message});
+
         try{
-            if(!req){
+            if(reqSql)
+            {   // Le message a été ajouté
+                // On récupère les participants du trajet
+                var allParticipants = yield InscriptionJourney.findAll({ where: { id_trajet: idTrajet } });
+
+                // On envoi un message à chaque participant.
+                for (var i = 0; i<allParticipants.length; i++){
+                    var userInfo = yield User.findById(allParticipants[i].id_user);
+                    yield ChatController.sendEmail(userInfo.email);
+                }
+
+                res.send({
+                    success: true
+                });
+            }
+            else
+            {
                 out["errors"].push("impossible d'ajouter le message");
                 res.send(out);
             }
@@ -291,8 +321,14 @@ var ChatController = {
             out["errors"].push("Une erreur est survenue lors de l'execution de la req sql");
             res.status(500).send(out);
         }
-
     }),
+
+    sendEmail: co.wrap(function * (email){
+        if(email != ""){
+            console.log(email);
+        }
+    }),
+
 
     /**
      * On renvoi les info d'un trajet
