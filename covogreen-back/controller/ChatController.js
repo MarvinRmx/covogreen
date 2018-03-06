@@ -9,6 +9,9 @@ var InscriptionJourney =  require("../database/models/inscriptionJourney");
 const Op = require('sequelize').Op;
 var co = require('co');
 
+const nodemailer = require('nodemailer');
+const emailController = require('../controller/EmailController');
+
 var jwt = require('jsonwebtoken');
 var fs = require("fs");
 var path = require('path');
@@ -125,7 +128,7 @@ var ChatController = {
         if (token) {
             // on decode le json
             token = jwt.decode(token, skey);
-
+            console.log(token);
             var idTrajet = parseInt(req.body.idTrajet);
             var idUser = parseInt(token.id_user);
 
@@ -304,7 +307,7 @@ var ChatController = {
                 // On envoi un message à chaque participant.
                 for (var i = 0; i<allParticipants.length; i++){
                     var userInfo = yield User.findById(allParticipants[i].id_user);
-                    yield ChatController.sendEmail(userInfo.email);
+                    yield ChatController.sendEmail(userInfo.username, userInfo.email);
                 }
 
                 res.send({
@@ -323,10 +326,11 @@ var ChatController = {
         }
     }),
 
-    sendEmail: co.wrap(function * (email){
-        if(email != ""){
-            console.log(email);
-        }
+    sendEmail: co.wrap(function * (username, email){
+        var subject = 'Un utilisateur a ajouté un message.';
+        var text = 'Bonjour '+ username +'\n\n Un utilisateur vient d\'ajouter un message dans le chat du trajet dans lequel vous ête inscrit.';
+
+        emailController.sendEmail(username, email, subject, text);
     }),
 
 
