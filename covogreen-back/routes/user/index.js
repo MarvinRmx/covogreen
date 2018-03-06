@@ -21,6 +21,12 @@ module.exports = function (router) {
     var create = co.wrap(controller.create);
     router.post('/', create);
 
+    var handleRevoked = co.wrap(controller.handleRevoked);
+    router.put('/revoked', handleRevoked);
+
+    var handlePrivilege = co.wrap(controller.handlePrivilege);
+    router.put('/privilege', handlePrivilege);
+
     var update = co.wrap(controller.update);
     router.put('/', update);
 

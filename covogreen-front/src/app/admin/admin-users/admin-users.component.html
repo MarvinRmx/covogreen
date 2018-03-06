@@ -3,8 +3,6 @@
 
     <div class="mat-elevation-z8">
 
-        <!--<mat-tab-group>-->
-
         <div class="example-header">
             <mat-form-field>
                 <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
@@ -27,6 +25,8 @@
                 <mat-header-cell *matHeaderCellDef> Privilege </mat-header-cell>
                 <mat-cell *matCellDef="let element">
                     <mat-slide-toggle
+                        (change)="handlePrivilege($event)"
+                        data-id="{{element.id_user}}"
                         class="example-margin"
                         [color]="color"
                         [checked]="element.privilege === 2"
@@ -40,22 +40,14 @@
                 <mat-header-cell *matHeaderCellDef></mat-header-cell>
                 <mat-cell *matCellDef="let element">
                     <mat-slide-toggle
+                        (change)="handleRevoked($event)"
+                        data-id="{{element.id_user}}"
                         class="example-margin"
                         [color]="color"
                         [checked]="element.revoked == true"
                         [disabled]="disabled">
-                        Révoqué
+                        Révoquer
                     </mat-slide-toggle>
-                </mat-cell>
-            </ng-container>
-
-            <ng-container matColumnDef="update">
-                <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                <mat-cell *matCellDef="let element">
-                    <button type="button"
-                            mat-raised-button
-                            color="primary">Modifier
-                    </button>
                 </mat-cell>
             </ng-container>
 
@@ -68,8 +60,6 @@
                        [pageSizeOptions]="[5, 10, 20]"
                        [showFirstLastButtons]="true">
         </mat-paginator>
-
-        <!--</mat-tab-group>-->
 
     </div>
 

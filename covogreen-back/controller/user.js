@@ -86,6 +86,44 @@ var LoginController = {
     },
 
     /**
+     * For updating revoked property (administrator only) .
+     * @param req
+     * @param res
+     */
+    handleRevoked: function  (req, res) {
+
+        var user = req.body;
+
+        User.update({ revoked: user.revoked }, { where: {id_user: user.id_user} } )
+            .then(function (response) {
+                res.status(200).send("Modification de la propriété revoked OK");
+            })
+            .catch(function (error) {
+                console.log('Fail find for getting user :', error);
+                res.status(200).send("Echec de la propriété revoked");
+            });
+    },
+
+    /**
+     * For updating privilege property (administrator only) .
+     * @param req
+     * @param res
+     */
+    handlePrivilege: function  (req, res) {
+
+        var user = req.body;
+
+        User.update({ privilege: user.privilege }, { where: {id_user: user.id_user} } )
+            .then(function (response) {
+                res.status(200).send("Modification de la propriété privilege OK");
+            })
+            .catch(function (error) {
+                console.log('Fail find for getting user :', error);
+                res.status(200).send("Echec de la propriété privilege");
+            });
+    },
+
+    /**
      * For creating an new user and/or his car.
      * @param req
      * @param res
