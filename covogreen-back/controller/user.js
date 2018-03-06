@@ -35,6 +35,31 @@ var LoginController = {
             }
         })
         .then(function (response) {
+            if(!response.revoked) {
+                var user = JSON.stringify({id_user: response.id_user, username: response.username, privilege: response.privilege, revoked: response.revoked});
+                var token = jwt.sign(user, skey);
+
+                res.status(200).send(token);
+            } else {
+                res.status(203).send("Compte bloqué");
+            }
+        })
+        .catch(function (error) {
+            res.status(500).send('Identifiant et/ou mot de passe non reconnu');
+        });
+    },
+
+    /*login: function (req, res) {
+
+        req.accepts('application/json');
+
+        User.findOne({
+            where: {
+                username: req.body.username,
+                password: req.body.password
+            }
+        })
+        .then(function (response) {
             var user = JSON.stringify({id_user: response.id_user, username: response.username, privilege: response.privilege, revoked: response.revoked});
             var token = jwt.sign(user, skey);
 
@@ -46,7 +71,7 @@ var LoginController = {
         .catch(function (error) {
             res.status(500).send('Identifiant et/ou mot de passe non reconnu');
         });
-    },
+    },*/
 
     /**
      * For getting all users.
@@ -71,7 +96,24 @@ var LoginController = {
      * @param req
      * @param res
      */
-    get: function  (id_user, res) {
+    get: function  (req, res) {
+
+        req.accepts('application/json');
+        var user = jwt.decode(req.body.token, skey);
+
+        User.findOne({
+            where: { id_user: user.id_user }
+        })
+        .then(function (response) {
+            res.status(200).send(response.dataValues);
+        })
+        .catch(function (error) {
+            console.log('Fail find for getting user :', error);
+            res.status(500).send("Echec de la récupération du profil.");
+        });
+    },
+
+    /*get: function  (id_user, res) {
 
         User.findOne({
             where: { id_user: id_user }
@@ -83,7 +125,7 @@ var LoginController = {
             console.log('Fail find for getting user :', error);
             res.status(500).send("Echec de la récupération du profil.");
         });
-    },
+    },*/
 
     /**
      * For updating revoked property (administrator only) .
