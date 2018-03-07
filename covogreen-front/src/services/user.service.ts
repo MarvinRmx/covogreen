@@ -3,6 +3,7 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { User } from '../class/user';
 import { Car } from '../class/car';
+import {AuthRequest} from "./authrequest.service";
 
 @Injectable()
 export class UserService {
@@ -12,6 +13,7 @@ export class UserService {
 
     constructor(
         private http: Http,
+        private authRequest: AuthRequest
     ) {
 		this.uri = "http://localhost:1313/user";
 	}
@@ -34,12 +36,12 @@ export class UserService {
     }
 
     updateUser(user: User): Observable<string> {
-        let headers = new Headers({ "Content-Type": "application/json" });
-        let options = new RequestOptions({ headers: headers });
+        /*let headers = new Headers({ "Content-Type": "application/json" });
+        let options = new RequestOptions({ headers: headers });*/
 
         user.id_user = this.user.id_user;
 
-        return this.http.put(this.uri, JSON.stringify(user), options)
+        return this.http.put(this.uri, JSON.stringify(user), this.authRequest.requestOptions)
             .map((response: Response) => {
                 console.log(response.text());
                 return response.text();
@@ -47,10 +49,10 @@ export class UserService {
     }
 
     deleteUser(user: User): Observable<string> {
-        let headers = new Headers({ "Content-Type": "application/json" });
-        let options = new RequestOptions({ headers: headers });
+        /*let headers = new Headers({ "Content-Type": "application/json" });
+        let options = new RequestOptions({ headers: headers });*/
 
-        return this.http.delete(this.uri +"/"+ user.id_user, options)
+        return this.http.delete(this.uri +"/"+ user.id_user, this.authRequest.requestOptions)
             .map((response: Response) => {
                 return response.text();
             });
@@ -61,6 +63,34 @@ export class UserService {
      * @returns {Observable<User>}
      */
     getUser(): Observable<User> {
+        /*let headers = new Headers({ "Content-Type": "application/json" });
+        let options = new RequestOptions({ headers: headers });*/
+
+        let token = localStorage.getItem('currentUser');
+        console.log('Send token :', token);
+
+        return this.http.post(this.uri +"/get", {token}, this.authRequest.requestOptions)
+            .map((response: Response) => {
+                let result = response.text();
+                return JSON.parse(result);
+            });
+    }
+
+    /*getUser(): Observable<User> {
+        let headers = new Headers({ "Content-Type": "application/json" });
+        let options = new RequestOptions({ headers: headers });
+
+        let token = localStorage.getItem('currentUser');
+        console.log('Send token :', token);
+
+        return this.http.post(this.uri +"/get", {token}, options)
+            .map((response: Response) => {
+                let result = response.text();
+                return JSON.parse(result);
+            });
+    }*/
+
+    /*getUser(): Observable<User> {
         let headers = new Headers({ "Content-Type": "application/json" });
         let options = new RequestOptions({ headers: headers });
 
@@ -72,17 +102,17 @@ export class UserService {
                 let result = response.text();
                 return JSON.parse(result);
             });
-    }
+    }*/
 
     /**
      * Method for getting all users data.
      * @returns {Observable<User>}
      */
     getUsers(): Observable<Array<User>> {
-        let headers = new Headers({ "Content-Type": "application/json" });
-        let options = new RequestOptions({ headers: headers });
+        /*let headers = new Headers({ "Content-Type": "application/json" });
+        let options = new RequestOptions({ headers: headers });*/
 
-        return this.http.get(this.uri, options)
+        return this.http.get(this.uri, this.authRequest.requestOptions)
             .map((response: Response) => {
                 let result = response.text();
                 return JSON.parse(result);

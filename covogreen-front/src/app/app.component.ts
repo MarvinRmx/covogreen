@@ -28,11 +28,12 @@ export class AppComponent {
         if (tokenUser !== null) return true;
         return false;
     }
-    checkAuthAdmin(): boolean {
+
+    /*checkAuthAdmin(): boolean {
         let tokenUser = localStorage.getItem('currentUser');
         this.user = JSON.parse(tokenUser) !== null ? JSON.parse(tokenUser) : {username: null, privilege: 0};
 
         if (this.user.privilege === 2) return true;
         return false;
-    }
+    }*/
 }

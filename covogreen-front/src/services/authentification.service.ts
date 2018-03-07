@@ -33,6 +33,22 @@ export class AuthentificationService {
      * @param {User} user
      * @returns {Observable<boolean>}
      */
+    login(user: User): Observable<number> {
+
+        let headers = new Headers({ "Content-Type": "application/json" });
+        let options = new RequestOptions({ headers: headers });
+
+        return this.http.post(this.uri + "user/login", JSON.stringify(user), options)
+            .map((response: Response) => {
+
+                if (response.status === 200) {
+                    this.token = response.text();
+                    localStorage.setItem('currentUser', this.token);
+                }
+                return response.status;
+            });
+    }
+    /*
     login(user: User): Observable<boolean> {
 
         let headers = new Headers({ "Content-Type": "application/json" });
@@ -54,6 +70,7 @@ export class AuthentificationService {
                 else return false;
             });
     }
+    */
 
     /**
      * Method disconnect user session.
