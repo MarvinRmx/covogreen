@@ -3,6 +3,7 @@ import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Car } from '../class/car';
 import {User} from "../class/user";
+import {AuthRequest} from "./authrequest.service";
 
 @Injectable()
 export class CarService {
@@ -11,16 +12,15 @@ export class CarService {
 
     constructor(
         private http: Http,
+        private authRequest: AuthRequest
     )
     {
         this.uri = "http://localhost:1313/car";
     }
 
     createCar(car: Car, user: User): Observable<string> {
-        let headers = new Headers({ "Content-Type": "application/json" });
-        let options = new RequestOptions({ headers: headers });
 
-        return this.http.post(this.uri, JSON.stringify({car, user}), options)
+        return this.http.post(this.uri, JSON.stringify({car, user}), this.authRequest.requestOptions)
             .map((response: Response) => {
                 console.log(response.text());
                 return response.text();
@@ -28,10 +28,8 @@ export class CarService {
     }
 
     updateCar(car: Car): Observable<string> {
-        let headers = new Headers({ "Content-Type": "application/json" });
-        let options = new RequestOptions({ headers: headers });
 
-        return this.http.put(this.uri, JSON.stringify(car), options)
+        return this.http.put(this.uri, JSON.stringify(car), this.authRequest.requestOptions)
             .map((response: Response) => {
                 console.log(response.text());
                 return response.text();
@@ -39,10 +37,8 @@ export class CarService {
     }
 
     deleteCar(car: Car): Observable<string> {
-        let headers = new Headers({ "Content-Type": "application/json" });
-        let options = new RequestOptions({ headers: headers });
 
-        return this.http.delete(this.uri +"/"+ car.id_car, options)
+        return this.http.delete(this.uri +"/"+ car.id_car, this.authRequest.requestOptions)
             .map((response: Response) => {
                 console.log(response.text());
                 return response.text();
@@ -54,10 +50,8 @@ export class CarService {
      * @returns {Observable<User>}
      */
     getCar(car: Car): Observable<Car> {
-        let headers = new Headers({ "Content-Type": "application/json" });
-        let options = new RequestOptions({ headers: headers });
 
-        return this.http.get(this.uri +"/"+ car.id_car, options)
+        return this.http.get(this.uri +"/"+ car.id_car, this.authRequest.requestOptions)
             .map((response: Response) => {
                 var result = response.text();
                 return JSON.parse(result);

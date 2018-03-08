@@ -10,11 +10,8 @@ import {AuthRequest} from './authrequest.service';
 @Injectable()
 export class AuthentificationService {
 
-    public isAdmin: boolean;
     public user: User;
-	public token: any;
     private uri: string;
-    private skey: string;
 
 	constructor(
         private http: Http,
@@ -23,9 +20,6 @@ export class AuthentificationService {
     )
     {
 		this.uri = 'http://localhost:1313/';
-
-		this.isAdmin = false;
-		this.setIsAdministrator();
 	}
 
     /**
@@ -42,8 +36,7 @@ export class AuthentificationService {
             .map((response: Response) => {
 
                 if (response.status === 200) {
-                    this.token = response.text();
-                    localStorage.setItem('currentUser', this.token);
+                    localStorage.setItem('currentUser', response.text());
                 }
                 return response.status;
             });
@@ -54,7 +47,6 @@ export class AuthentificationService {
      */
     logout(): void {
         // clear token remove user from local storage to log user out
-        this.token = null;
         localStorage.removeItem('currentUser');
         this.router.navigate(['/login']);
     }
@@ -67,7 +59,6 @@ export class AuthentificationService {
 
         return this.http.get(this.uri + 'user/admin',  this.authRequest.requestOptions)
             .map((response: Response) => {
-                this.isAdmin = Boolean( response.text() );
                 return Boolean(response.text());
             });
 

@@ -30,7 +30,6 @@ module.exports = function (router) {
     var update = co.wrap(controller.update);
     router.put('/', update);
 
-
     var remove = co.wrap(controller.remove);
     router.delete('/', remove);
 };

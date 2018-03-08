@@ -76,16 +76,20 @@ var LoginController = {
     get: function  (req, res) {
         var userToken = authToken.getToken(req);
 
-        User.findOne({
-            where: { id_user: userToken.id_user }
-        })
-        .then(function (response) {
-            res.status(200).send(response.dataValues);
-        })
-        .catch(function (error) {
-            console.log('Fail find for getting user :', error);
-            res.status(500).send("Echec de la récupération du profil.");
-        });
+        if (!userToken.revoked)
+        {
+            User.findOne({
+                where: {id_user: userToken.id_user}
+            })
+            .then(function (response) {
+                res.status(200).send(response.dataValues);
+            })
+            .catch(function (error) {
+                console.log('Fail find for getting user :', error);
+                res.status(500).send("Echec de la récupération du profil.");
+            });
+        }
+        else res.status(500).send("Compte bloqué !");
     },
 
     /**
@@ -119,16 +123,21 @@ var LoginController = {
      */
     handleRevoked: function  (req, res) {
 
+        var userToken = authToken.getToken(req);
         var user = req.body;
 
-        User.update({ revoked: user.revoked }, { where: {id_user: user.id_user} } )
-            .then(function (response) {
-                res.status(200).send("Modification de la propriété revoked OK");
-            })
-            .catch(function (error) {
-                console.log('Fail find for getting user :', error);
-                res.status(200).send("Echec de la propriété revoked");
-            });
+        if(userToken.privilege === 2 && !userToken.revoked)
+        {
+            User.update({ revoked: user.revoked }, { where: {id_user: user.id_user} } )
+                .then(function (response) {
+                    res.status(200).send("Modification de la propriété revoked OK");
+                })
+                .catch(function (error) {
+                    console.log('Fail find for getting user :', error);
+                    res.status(200).send("Echec de la modification de la propriété revoked");
+                });
+        }
+        else res.status(500).send("Seul l'administrateur peut effectuer cette action.");
     },
 
     /**
@@ -138,16 +147,21 @@ var LoginController = {
      */
     handlePrivilege: function  (req, res) {
 
+        var userToken = authToken.getToken(req);
         var user = req.body;
 
-        User.update({ privilege: user.privilege }, { where: {id_user: user.id_user} } )
-            .then(function (response) {
-                res.status(200).send("Modification de la propriété privilege OK");
-            })
-            .catch(function (error) {
-                console.log('Fail find for getting user :', error);
-                res.status(200).send("Echec de la propriété privilege");
-            });
+        if(userToken.privilege === 2 && !userToken.revoked)
+        {
+            User.update({ privilege: user.privilege }, { where: {id_user: user.id_user} } )
+                .then(function (response) {
+                    res.status(200).send("Modification de la propriété privilege OK");
+                })
+                .catch(function (error) {
+                    console.log('Fail find for getting user :', error);
+                    res.status(500).send("Echec de la modification de la propriété privilege");
+                });
+        }
+        else res.status(500).send("Seul l'administrateur peut effectuer cette action.");
     },
 
     /**
@@ -215,14 +229,18 @@ var LoginController = {
         var user = req.body;
         var userToken = authToken.getToken(req);
 
-        User.update(user, {where: {id_user: userToken.id_user}})
-            .then(function (response) {
-                res.status(200).send("Succès de la mise-à-jour du profil.");
-            })
-            .catch(function (error) {
-                console.log('Fail update user :', error);
-                res.status(500).send("Echec de la mise-à-jour du profil.");
-            });
+        if (!userToken.revoked)
+        {
+            User.update(user, {where: {id_user: userToken.id_user}})
+                .then(function (response) {
+                    res.status(200).send("Succès de la mise-à-jour du profil.");
+                })
+                .catch(function (error) {
+                    console.log('Fail update user :', error);
+                    res.status(500).send("Echec de la mise-à-jour du profil.");
+                });
+        }
+        else res.status(500).send("Compte bloqué !");
     },
 
     /**
@@ -234,14 +252,18 @@ var LoginController = {
 
         var userToken = authToken.getToken(req);
 
-        sequelize.query('CALL deleteUser('+ userToken.id_user +')')
-            .then(function (response) {
-                res.status(200).send("Succès de la suppression du profil.");
-            })
-            .catch(function (error) {
-                console.log('Fail update user :', error);
-                res.status(500).send("Echec de la suppression du profil.");
-            });
+        if (!userToken.revoked)
+        {
+            sequelize.query('CALL deleteUser('+ userToken.id_user +')')
+                .then(function (response) {
+                    res.status(200).send("Succès de la suppression du profil.");
+                })
+                .catch(function (error) {
+                    console.log('Fail update user :', error);
+                    res.status(500).send("Echec de la suppression du profil.");
+                });
+        }
+        else res.status(500).send("Compte bloqué !");
     },
 
 

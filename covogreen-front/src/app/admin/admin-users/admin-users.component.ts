@@ -22,14 +22,6 @@ export class AdminUsersComponent implements OnInit, AfterViewInit {
         private adminService: AdminService
     ) { }
 
-    /*ngOnInit() {
-        this.userService.getUsers()
-            .subscribe( result => {
-                this.dataSource = new MatTableDataSource<User>(result);
-                this.dataSource.paginator = this.paginator;
-            });
-    }*/
-
     ngOnInit() {
         this.userService.getUsers()
             .subscribe( result => {
