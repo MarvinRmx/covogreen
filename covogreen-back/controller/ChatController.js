@@ -119,50 +119,40 @@ var ChatController = {
      * On vérifie que dans la table InscriptionTrajet l'utilisateur est inscrit au trajet demandé.
      */
     middlewareProtection: co.wrap(function * (req, res, next){
-        // On vérifie que le token existe.
-        // token test  : eyJhbGciOiJIUzI1NiJ9.eyJpZF91c2VyIjogMiwgInVzZXJuYW1lIjogImVlIiwgInByaXZpbGVnZSI6IDF9.ILrjYL9NWpUKllLwcK4X68_FEYgVdqtDZQrrBHfSxyE
-        var token = req.body.token || req.query.token || req.headers['x-access-token'];
+        // On vérifie que l'on recoit bien un token.
+        var tokenReq = req.body.token || req.query.token || req.headers['x-access-token'];
+        if (!tokenReq)
+            return res.status(200).send({ success: false,  message: 'Token inexistant.' });
 
-        //var token = {id_user: 2, username: "ddd", privilege: 1};
+        // On décode le json
+        var token = jwt.decode(tokenReq, skey);
+        if(token == null)
+            res.status(200).send({success: false, message: "Impossible de décoder le token. Un utilisateur est connecté ? (null)."});
 
-        if (token) {
-            // on decode le json
-            token = jwt.decode(token, skey);
-            console.log(token);
-            var idTrajet = parseInt(req.body.idTrajet);
-            var idUser = parseInt(token.id_user);
+        // On vérifie que l'id_user existe dans le token
+        if(token.id_user == null)
+            res.status(200).send({success: false, message: "Le token ne contient pas l'id de l'utilisateur connecté (id_user)."});
 
-            // On vérifie que l'utilisateur peut visualiser le chat.
-            // On vérifie qu'il est inscrit au trajet (idTrajet).
-            var inscriptionJourney = yield InscriptionJourney.find({ where: { id_trajet: idTrajet,  id_user : idUser } });
+        if(req.body.idTrajet == null)
+            res.status(200).send({success: false, message: "Il faut renseigner l'id d'un trajet."});
 
-            try {
-                if(inscriptionJourney){
-                    // Il peut accéder
-                    req.idUser = idUser;
-                    next();
-                }
-                else
-                {
-                    return res.status(403).send({
-                        success: false,
-                        message: "Impossible d'accéder à la page"
-                    });
-                }
-            }catch(erreur){
-                console.log(erreur);
-                out["errors"].push("Une erreur est survenue lors de l'execution de la req sql");
-                res.status(500).send(out);
-            }
+        var idTrajet    = parseInt(req.body.idTrajet);
+        var idUser      = parseInt(token.id_user);
 
-        }
-        else
-        {
-            // Aucun token n'existe
-            return res.status(403).send({
-                success: false,
-                message: 'Token inexistant.'
-            });
+        // On vérifie que l'utilisateur peut visualiser le chat.
+        // On vérifie qu'il est inscrit au trajet (idTrajet).
+        var inscriptionJourney = yield InscriptionJourney.find({ where: { id_trajet: idTrajet,  id_user : idUser } });
+
+        try {
+            if(inscriptionJourney == null)
+                return res.status(200).send({ success: false,  message: "Impossible d'accéder à la page l'utilisateur n'est pas inscrit au trajet : " + idTrajet });
+
+            // On stocke l'id de l'user pour le récupérer dans la methode qui est demandé.
+            req.idUser = idUser;
+            next();
+
+        }catch(erreur){
+            return res.status(200).send({ success: false,  message: "Une erreur est survenue lors de l'execution de la req sql" });
         }
     }),
 
@@ -243,7 +233,7 @@ var ChatController = {
         var idMessage = req.body.idMessage;
 
         // On récupère les info du message passé en parametre
-        var messageData = yield Chat.find({ where: { id_trajet: idTrajet,  id : idMessage } });
+        var messageData = yield Chat.find({ where: { id_trajet: idTrajet,  id : idMessage }, order:[['createdAt', 'ASC']] });
 
         try {
             if (messageData) {
@@ -320,19 +310,20 @@ var ChatController = {
                 res.send(out);
             }
         }catch(erreur){
-            console.log(erreur);
             out["errors"].push("Une erreur est survenue lors de l'execution de la req sql");
             res.status(500).send(out);
         }
     }),
 
+    /**
+     * Se charge d'envoyer un email.
+     */
     sendEmail: co.wrap(function * (username, email){
         var subject = 'Un utilisateur a ajouté un message.';
         var text = 'Bonjour '+ username +'\n\n Un utilisateur vient d\'ajouter un message dans le chat du trajet dans lequel vous ête inscrit.';
 
         emailController.sendEmail(username, email, subject, text);
     }),
-
 
     /**
      * On renvoi les info d'un trajet
@@ -351,8 +342,6 @@ var ChatController = {
             if(trajet){
                 var author = yield ChatController.getAuthorNameById(trajet.id_driver);
 
-                console.log(trajet);
-
                 out["offre"] = {
                     id      : trajet.id,
                     depart : trajet.origin,
@@ -368,13 +357,10 @@ var ChatController = {
                 res.send(out);
             }
         }catch(erreur){
-            console.log(erreur);
             out["errors"].push("Une erreur est survenue lors de l'execution de la req sql");
             res.status(500).send(out);
         }
-
     })
-
 };
 
 module.exports = ChatController;
