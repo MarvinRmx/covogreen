@@ -27,9 +27,12 @@ module.exports = function (router) {
     var update = co.wrap(controller.update);
     router.put('/', update);
 
-    var remove = co.wrap(controller.remove);
+    /*var remove = co.wrap(controller.remove);
     router.delete('/:id_user', function (req, res) {
         var id_user = req.params.id_user;
         remove(id_user, res);
-    });
+    });*/
+
+    var remove = co.wrap(controller.remove);
+    router.delete('/', remove);
 };

@@ -50,30 +50,6 @@ var LoginController = {
         });
     },
 
-    /*login: function (req, res) {
-
-        req.accepts('application/json');
-
-        User.findOne({
-            where: {
-                username: req.body.username,
-                password: req.body.password
-            }
-        })
-        .then(function (response) {
-            var user = JSON.stringify({id_user: response.id_user, username: response.username, privilege: response.privilege, revoked: response.revoked});
-            var token = jwt.sign(user, skey);
-
-            res.header('Authorization', token);
-            res.send(token);
-            //res.send('');
-            res.status(200);
-        })
-        .catch(function (error) {
-            res.status(500).send('Identifiant et/ou mot de passe non reconnu');
-        });
-    },*/
-
     /**
      * For getting all users.
      * @param req
@@ -98,10 +74,10 @@ var LoginController = {
      * @param res
      */
     get: function  (req, res) {
-        var user = authToken.getToken(req);
+        var userToken = authToken.getToken(req);
 
         User.findOne({
-            where: { id_user: user.id_user }
+            where: { id_user: userToken.id_user }
         })
         .then(function (response) {
             res.status(200).send(response.dataValues);
@@ -213,8 +189,9 @@ var LoginController = {
     update: function  (req, res) {
 
         var user = req.body;
+        var userToken = authToken.getToken(req);
 
-        User.update(user, {where: {id_user: user.id_user}})
+        User.update(user, {where: {id_user: userToken.id_user}})
             .then(function (response) {
                 res.status(200).send("Succès de la mise-à-jour du profil.");
             })
@@ -229,9 +206,11 @@ var LoginController = {
      * @param id_user
      * @param res
      */
-    remove: function  (id_user, res) {
+    remove: function  (req, res) {
 
-        sequelize.query('CALL deleteUser('+ id_user +')')
+        var userToken = authToken.getToken(req);
+
+        sequelize.query('CALL deleteUser('+ userToken.id_user +')')
             .then(function (response) {
                 res.status(200).send("Succès de la suppression du profil.");
             })

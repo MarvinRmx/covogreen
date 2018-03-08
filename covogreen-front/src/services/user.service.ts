@@ -35,11 +35,8 @@ export class UserService {
             });
     }
 
-    updateUser(user: User): Observable<string> {
-        /*let headers = new Headers({ "Content-Type": "application/json" });
-        let options = new RequestOptions({ headers: headers });*/
 
-        user.id_user = this.user.id_user;
+    updateUser(user: User): Observable<string> {
 
         return this.http.put(this.uri, JSON.stringify(user), this.authRequest.requestOptions)
             .map((response: Response) => {
@@ -48,11 +45,9 @@ export class UserService {
             });
     }
 
-    deleteUser(user: User): Observable<string> {
-        /*let headers = new Headers({ "Content-Type": "application/json" });
-        let options = new RequestOptions({ headers: headers });*/
+    deleteUser(): Observable<string> {
 
-        return this.http.delete(this.uri +"/"+ user.id_user, this.authRequest.requestOptions)
+        return this.http.delete(this.uri, this.authRequest.requestOptions)
             .map((response: Response) => {
                 return response.text();
             });
@@ -70,20 +65,6 @@ export class UserService {
                 return JSON.parse(result);
             });
     }
-
-    /*getUser(): Observable<User> {
-        let headers = new Headers({ "Content-Type": "application/json" });
-        let options = new RequestOptions({ headers: headers });
-
-        let token = localStorage.getItem('currentUser');
-        this.user = JSON.parse(token);
-
-        return this.http.get(this.uri +"/"+ this.user.id_user, options)
-            .map((response: Response) => {
-                let result = response.text();
-                return JSON.parse(result);
-            });
-    }*/
 
     /**
      * Method for getting all users data.

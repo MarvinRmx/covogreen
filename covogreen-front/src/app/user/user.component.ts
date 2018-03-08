@@ -116,29 +116,19 @@ export class UserComponent implements OnInit {
                             alert(result);
                         });
                 }
-                else alert("Mot de passe actuel incorrect.");
+                else alert('Mot de passe actuel incorrect.');
             });
     }
 
     deleteUser() {
 
-        this.userService.deleteUser(this.user)
+        this.userService.deleteUser()
             .subscribe(result => {
                 alert(result);
                 this.user = null;
                 localStorage.removeItem('currentUser');
                 this.router.navigate(['/']);
             });
-
-        /*if (this.confirm_delete) {
-            this.userService.deleteUser(this.user)
-                .subscribe(result => {
-                    alert(result);
-                    this.user = null;
-                    localStorage.removeItem('currentUser');
-                    this.router.navigate(['/']);
-                });
-        }*/
 
     }
 
@@ -174,8 +164,7 @@ export class UserComponent implements OnInit {
 
     }
 
-    deleteCar(){
-        console.log('Delete Car :', this.car);
+    deleteCar() {
 
         this.carService.deleteCar(this.car)
             .subscribe(result => {
