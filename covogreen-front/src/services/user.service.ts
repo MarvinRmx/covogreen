@@ -63,32 +63,13 @@ export class UserService {
      * @returns {Observable<User>}
      */
     getUser(): Observable<User> {
-        /*let headers = new Headers({ "Content-Type": "application/json" });
-        let options = new RequestOptions({ headers: headers });*/
 
-        let token = localStorage.getItem('currentUser');
-        console.log('Send token :', token);
-
-        return this.http.post(this.uri +"/get", {token}, this.authRequest.requestOptions)
+        return this.http.get(this.uri + "/get", this.authRequest.requestOptions)
             .map((response: Response) => {
                 let result = response.text();
                 return JSON.parse(result);
             });
     }
-
-    /*getUser(): Observable<User> {
-        let headers = new Headers({ "Content-Type": "application/json" });
-        let options = new RequestOptions({ headers: headers });
-
-        let token = localStorage.getItem('currentUser');
-        console.log('Send token :', token);
-
-        return this.http.post(this.uri +"/get", {token}, options)
-            .map((response: Response) => {
-                let result = response.text();
-                return JSON.parse(result);
-            });
-    }*/
 
     /*getUser(): Observable<User> {
         let headers = new Headers({ "Content-Type": "application/json" });

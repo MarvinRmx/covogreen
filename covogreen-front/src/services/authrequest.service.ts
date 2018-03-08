@@ -14,7 +14,6 @@ export class AuthRequest {
         this.headerAuth = new Headers();
         this.headerAuth.append('Content-Type', 'application/json');
         this.headerAuth.append('Authorization', 'bearer ' + token);
-        this.headerAuth.append('Access-Control-Allow-Headers', '*');
 
         this.requestOptions = new RequestOptions({ headers: this.headerAuth });
     }

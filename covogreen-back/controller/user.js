@@ -1,5 +1,6 @@
 var User = require("../database/models/user");
 var sequelize = require("../database/db");
+var authToken = require("./tools/authToken");
 var co = require('co');
 var jwt = require('jsonwebtoken');
 var fs = require("fs");
@@ -97,9 +98,7 @@ var LoginController = {
      * @param res
      */
     get: function  (req, res) {
-
-        req.accepts('application/json');
-        var user = jwt.decode(req.body.token, skey);
+        var user = authToken.getToken(req);
 
         User.findOne({
             where: { id_user: user.id_user }
@@ -112,20 +111,6 @@ var LoginController = {
             res.status(500).send("Echec de la récupération du profil.");
         });
     },
-
-    /*get: function  (id_user, res) {
-
-        User.findOne({
-            where: { id_user: id_user }
-        })
-        .then(function (response) {
-            res.status(200).send(response.dataValues);
-        })
-        .catch(function (error) {
-            console.log('Fail find for getting user :', error);
-            res.status(500).send("Echec de la récupération du profil.");
-        });
-    },*/
 
     /**
      * For updating revoked property (administrator only) .
