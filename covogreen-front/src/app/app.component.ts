@@ -13,10 +13,14 @@ import 'hammerjs';
 
 export class AppComponent {
     public user: User;
+    public isAdmin: boolean;
 
     constructor(
 		private authenticationService: AuthentificationService
-    ) {}
+    ) {
+        this.isAdmin = false;
+        this.setIsAdministrator();
+    }
 
     logout(): void {
         this.authenticationService.logout();
@@ -29,11 +33,11 @@ export class AppComponent {
         return false;
     }
 
-    /*checkAuthAdmin(): boolean {
-        let tokenUser = localStorage.getItem('currentUser');
-        this.user = JSON.parse(tokenUser) !== null ? JSON.parse(tokenUser) : {username: null, privilege: 0};
+    setIsAdministrator(): void {
+        this.authenticationService.setIsAdministrator()
+            .subscribe(result => {
+                this.isAdmin = result;
+            });
+    }
 
-        if (this.user.privilege === 2) return true;
-        return false;
-    }*/
 }

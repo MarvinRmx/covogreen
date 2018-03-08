@@ -71,8 +71,6 @@ export class UserService {
      * @returns {Observable<User>}
      */
     getUsers(): Observable<Array<User>> {
-        /*let headers = new Headers({ "Content-Type": "application/json" });
-        let options = new RequestOptions({ headers: headers });*/
 
         return this.http.get(this.uri, this.authRequest.requestOptions)
             .map((response: Response) => {

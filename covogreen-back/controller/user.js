@@ -89,6 +89,30 @@ var LoginController = {
     },
 
     /**
+     * For checking is user is administrator.
+     * @param req
+     * @param res
+     */
+    isAdmin: function  (req, res) {
+        var userToken = authToken.getToken(req);
+
+        User.findOne({
+            where: { id_user: userToken.id_user }
+        })
+        .then(function (response) {
+            var result = response.dataValues;
+            console.log('isAdmin :', result);
+
+            if(result === 2) res.status(200).send(true);
+            else res.status(200).send(false);
+        })
+        .catch(function (error) {
+            console.log('Fail find for getting user :', error);
+            res.status(500).send("Echec de la récupération du profil.");
+        });
+    },
+
+    /**
      * For updating revoked property (administrator only) .
      * @param req
      * @param res
@@ -203,7 +227,7 @@ var LoginController = {
 
     /**
      * For deleting an user.
-     * @param id_user
+     * @param req
      * @param res
      */
     remove: function  (req, res) {

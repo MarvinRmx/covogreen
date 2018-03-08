@@ -5,27 +5,27 @@ import { Router } from '@angular/router';
 import { User } from '../class/user';
 import 'rxjs/add/operator/map';
 import 'rxjs/Rx';
-import * as jwt from 'angular2-jwt-simple';
+import {AuthRequest} from './authrequest.service';
 
 @Injectable()
 export class AuthentificationService {
 
+    public isAdmin: boolean;
     public user: User;
 	public token: any;
     private uri: string;
     private skey: string;
 
-
 	constructor(
         private http: Http,
         private router: Router,
+        private authRequest: AuthRequest
     )
     {
-		this.uri = "http://localhost:1313/";
+		this.uri = 'http://localhost:1313/';
 
-        this.http.get('../assets/skey.txt').subscribe(data => {
-            this.skey = data.text();
-        });
+		this.isAdmin = false;
+		this.setIsAdministrator();
 	}
 
     /**
@@ -35,10 +35,10 @@ export class AuthentificationService {
      */
     login(user: User): Observable<number> {
 
-        let headers = new Headers({ "Content-Type": "application/json" });
+        let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
 
-        return this.http.post(this.uri + "user/login", JSON.stringify(user), options)
+        return this.http.post(this.uri + 'user/login', JSON.stringify(user), options)
             .map((response: Response) => {
 
                 if (response.status === 200) {
@@ -48,29 +48,6 @@ export class AuthentificationService {
                 return response.status;
             });
     }
-    /*
-    login(user: User): Observable<boolean> {
-
-        let headers = new Headers({ "Content-Type": "application/json" });
-        let options = new RequestOptions({ headers: headers });
-
-        return this.http.post(this.uri + "user/login", JSON.stringify(user), options)
-            .map((response: Response) => {
-
-                if (response.status === 200) {
-                    this.token = jwt.decode(response.text(), this.skey);
-                    if(this.token.revoked === true) {
-                        alert('Compte bloqué');
-                        return false;
-                    }
-                    localStorage.setItem('currentUser', JSON.stringify(this.token));
-
-                    return true;
-                }
-                else return false;
-            });
-    }
-    */
 
     /**
      * Method disconnect user session.
@@ -80,6 +57,20 @@ export class AuthentificationService {
         this.token = null;
         localStorage.removeItem('currentUser');
         this.router.navigate(['/login']);
+    }
+
+    /**
+     * Method for checking if user is administrator
+     * @returns {Observable<boolean>}
+     */
+    setIsAdministrator(): Observable<boolean> {
+
+        return this.http.get(this.uri + 'user/admin',  this.authRequest.requestOptions)
+            .map((response: Response) => {
+                this.isAdmin = Boolean( response.text() );
+                return Boolean(response.text());
+            });
+
     }
 
 }
