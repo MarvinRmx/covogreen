@@ -31,6 +31,7 @@ export class AuthentificationService {
 
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
+        localStorage.removeItem('currentUser');
 
         return this.http.post(this.uri + 'user/login', JSON.stringify(user), options)
             .map((response: Response) => {
@@ -46,9 +47,9 @@ export class AuthentificationService {
      * Method disconnect user session.
      */
     logout(): void {
-        // clear token remove user from local storage to log user out
         localStorage.removeItem('currentUser');
-        this.router.navigate(['/login']);
+        this.router.navigate(['/']);
+        window.location.reload(true);
     }
 
     /**

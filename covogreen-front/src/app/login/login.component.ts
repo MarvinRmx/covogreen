@@ -41,6 +41,7 @@ export class LoginComponent implements OnInit {
             .subscribe(result => {
                     if (result === 200) {
                         this.router.navigate(['/']);
+                        window.location.reload(true);
                     } else if (result === 203) {
                         alert('Compte bloqué');
                     }
@@ -49,19 +50,6 @@ export class LoginComponent implements OnInit {
             );
     }
 
-    /*login() {
-        this.user = this.loginForm.value;
-        this.user.password = md5(this.user.password);
-
-        this.authenticationService.login(this.user)
-            .subscribe(result => {
-                    if (result === true) {
-                        this.router.navigate(['/']);
-                    }
-                },
-                err => alert('Identifiant et/ou mot de passe non reconnu')
-            );
-    }*/
 
     /**
      * Method for checking the protected pages, reserved for authentified users.
