@@ -116,6 +116,7 @@ var LoginController = {
         });
     },
 
+
     /**
      * For updating revoked property (administrator only) .
      * @param req
@@ -164,6 +165,10 @@ var LoginController = {
         else res.status(500).send("Seul l'administrateur peut effectuer cette action.");
     },
 
+    uniqueUsername: function (value) {
+        return User.findAndCountAll({where: { username: value }});
+    },
+
     /**
      * For creating an new user and/or his car.
      * @param req
@@ -171,52 +176,71 @@ var LoginController = {
      */
     create: function  (req, res) {
 
-        if( JSON.parse(req.body.user.have_car) ) {
+        var unique = module.exports.uniqueUsername(req.body.user.username);
 
-            var values = {
-                "firstName": req.body.user.firstName,
-                "lastName": req.body.user.lastName,
-                "username": req.body.user.username,
-                "email": req.body.user.email,
-                "password": req.body.user.password,
-                "address": req.body.user.address,
-                "city": req.body.user.city,
-                "cp": req.body.user.cp,
-                "phone": req.body.user.phone,
-                "is_driver": JSON.parse(req.body.user.is_driver),
+        unique
+            .then(function (result) {
 
-                "licencePlate": req.body.user.licencePlate,
-                "make": req.body.user.make,
-                "model": req.body.user.model,
-                "capacity":  req.body.user.capacity
-            };
+                if(result.count > 0) {
+                    res.status(200).send("Username déjà utilisé !");
+                    return null;
+                }
+                else
+                {
+                    if( JSON.parse(req.body.user.have_car) ) {
 
-            sequelize.query('CALL createUserWithCar(:firstName, :lastName, :username, :email, :password, :address, :city, :cp, :phone, :is_driver, ' +
-                ':licencePlate, :make, :model, :capacity'  +
-            ')',
-            {replacements: values} )
-            .then(function (response) {
-                console.log(response);
-                res.status(200).send("Ajout de l'utilisateur et de sa voiture OK");
+                        var values = {
+                            "firstName": req.body.user.firstName,
+                            "lastName": req.body.user.lastName,
+                            "username": req.body.user.username,
+                            "email": req.body.user.email,
+                            "password": req.body.user.password,
+                            "address": req.body.user.address,
+                            "city": req.body.user.city,
+                            "cp": req.body.user.cp,
+                            "phone": req.body.user.phone,
+                            "is_driver": JSON.parse(req.body.user.is_driver),
+
+                            "licencePlate": req.body.user.licencePlate,
+                            "make": req.body.user.make,
+                            "model": req.body.user.model,
+                            "capacity":  req.body.user.capacity
+                        };
+
+                        module.exports.uniqueUsername(values.username);
+
+                        sequelize.query('CALL createUserWithCar(:firstName, :lastName, :username, :email, :password, :address, :city, :cp, :phone, :is_driver, ' +
+                            ':licencePlate, :make, :model, :capacity'  +
+                            ')',
+                            {replacements: values} )
+                            .then(function (response) {
+                                console.log(response);
+                                res.status(200).send("Ajout de l'utilisateur et de sa voiture OK");
+                            })
+                            .catch(function (error) {
+                                console.log(error);
+                                res.status(500).send("Echec de l'ajout de l'utilisateur et de sa voiture");
+                            });
+                    }
+                    else {
+
+                        req.body.user.privilege = 1;
+
+                        User.create(req.body.user)
+                            .then(function (response) {
+                                res.status(200).send("Ajout de l'utilisateur OK");
+                            })
+                            .catch(function (error) {
+                                console.log(error);
+                                res.status(500).send("Echec de l'ajout de l'utilisateur");
+                            });
+                    }
+                }
             })
             .catch(function (error) {
                 console.log(error);
-                res.status(500).send("Echec de l'ajout de l'utilisateur et de sa voiture");
+                res.status(500).send("Echec de l'ajout de l'utilisateur");
             });
-        }
-        else {
-
-            req.body.user.privilege = 1;
-
-            User.create(req.body.user)
-                .then(function (response) {
-                    res.status(200).send("Ajout de l'utilisateur OK");
-                })
-                .catch(function (error) {
-                    console.log(error);
-                    res.status(500).send("Echec de l'ajout de l'utilisateur");
-                });
-        }
     },
 
     /**

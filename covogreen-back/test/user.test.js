@@ -373,6 +373,36 @@ describe('User', function () {
                 });
         });
 
+        it('should return a error because the username is already used', function testUniqueUsername (done) {
+            request(app)
+                .post('/user/')
+                .send({
+                    user : {
+                        address: "100, Champs Elysée",
+                        capacity: "",
+                        city: "Paris",
+                        cp: 75000,
+                        email: "tata@email.fr",
+                        firstName: "Tata",
+                        have_car: "false",
+                        is_driver: "false",
+                        lastName: "Tata",
+                        password: "2f6c2404198add983753e94fc24e752f",
+                        phone: "0600000001",
+                        username: "admin"
+                    }
+                })
+                .expect("Username déjà utilisé !")
+                .end(function(err, res) {
+                    if (err) {
+                        console.log(err);
+                        return done(err);
+                    }
+                    else console.log('Result:', res.text);
+                    done();
+                });
+        });
+
     });
 
     describe('update()', function () {
