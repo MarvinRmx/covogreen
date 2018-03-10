@@ -134,7 +134,7 @@ var LoginController = {
                 })
                 .catch(function (error) {
                     console.log('Fail find for getting user :', error);
-                    res.status(200).send("Echec de la modification de la propriété revoked");
+                    res.status(500).send("Echec de la modification de la propriété revoked");
                 });
         }
         else res.status(500).send("Seul l'administrateur peut effectuer cette action.");
