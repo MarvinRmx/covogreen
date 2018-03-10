@@ -105,9 +105,9 @@ var LoginController = {
         })
         .then(function (response) {
             var result = response.dataValues;
-            console.log('isAdmin :', result);
+            console.log('isAdmin :', result.privilege);
 
-            if(result === 2) res.status(200).send(true);
+            if(result.privilege === 2) res.status(200).send(true);
             else res.status(200).send(false);
         })
         .catch(function (error) {

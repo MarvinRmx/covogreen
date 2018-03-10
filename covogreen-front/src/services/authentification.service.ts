@@ -60,7 +60,7 @@ export class AuthentificationService {
 
         return this.http.get(this.uri + 'user/admin',  this.authRequest.requestOptions)
             .map((response: Response) => {
-                return Boolean(response.text());
+                return JSON.parse(response.text());
             });
 
     }
