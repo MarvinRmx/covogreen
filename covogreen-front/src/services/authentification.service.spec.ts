@@ -20,12 +20,14 @@ describe('AuthentificationService', () => {
     let component: AuthentificationService;
     let uri: String = "http://localhost:1313/";
 
-    let identifiants = {
-        password: "test",
-        username: "test",
-    };
+    let user;
 
     beforeEach(async(() => {
+
+        user = {
+            password: "test",
+            username: "test",
+        };
 
         TestBed.configureTestingModule({
             imports: [HttpModule],
@@ -54,6 +56,31 @@ describe('AuthentificationService', () => {
                 });
 
                 componentService.login().subscribe((response: string) => {
+                    expect(JSON.parse(response).status).toEqual(200);
+                });
+
+            });
+
+        });
+
+
+    });
+
+    describe('setIsAdministrator()', () => {
+
+        it('should return an Observable<boolean>', () => {
+
+            inject([component, XHRBackend], (componentService, mockBackend) => {
+
+                const mockResponse = {status: 200};
+
+                mockBackend.connections.subscribe((connection) => {
+                    connection.mockRespond(new Response(new ResponseOptions({
+                        body: JSON.stringify(mockResponse)
+                    })));
+                });
+
+                componentService.setIsAdministrator().subscribe((response: string) => {
                     expect(JSON.parse(response).status).toEqual(200);
                 });
 

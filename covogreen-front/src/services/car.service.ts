@@ -18,6 +18,12 @@ export class CarService {
         this.uri = "http://localhost:1313/car";
     }
 
+    /**
+     * Method for creating a car.
+     * @param {Car} car
+     * @param {User} user
+     * @returns {Observable<string>}
+     */
     createCar(car: Car, user: User): Observable<string> {
 
         return this.http.post(this.uri, JSON.stringify({car, user}), this.authRequest.requestOptions)
@@ -27,6 +33,11 @@ export class CarService {
             });
     }
 
+    /**
+     * Method for updating a car.
+     * @param {Car} car
+     * @returns {Observable<string>}
+     */
     updateCar(car: Car): Observable<string> {
 
         return this.http.put(this.uri, JSON.stringify(car), this.authRequest.requestOptions)
@@ -36,6 +47,11 @@ export class CarService {
             });
     }
 
+    /**
+     * Method for deleting a car.
+     * @param {Car} car
+     * @returns {Observable<string>}
+     */
     deleteCar(car: Car): Observable<string> {
 
         return this.http.delete(this.uri +"/"+ car.id_car, this.authRequest.requestOptions)

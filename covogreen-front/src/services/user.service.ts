@@ -35,7 +35,11 @@ export class UserService {
             });
     }
 
-
+    /**
+     * Method for updating an user.
+     * @param {User} user
+     * @returns {Observable<string>}
+     */
     updateUser(user: User): Observable<string> {
 
         return this.http.put(this.uri, JSON.stringify(user), this.authRequest.requestOptions)
@@ -45,6 +49,10 @@ export class UserService {
             });
     }
 
+    /**
+     * Methor for deleting an user.
+     * @returns {Observable<string>}
+     */
     deleteUser(): Observable<string> {
 
         return this.http.delete(this.uri, this.authRequest.requestOptions)
