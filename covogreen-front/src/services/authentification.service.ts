@@ -29,10 +29,12 @@ export class AuthentificationService {
      */
     login(user: User): Observable<number> {
 
+        //let headers = new Headers({ 'Content-Type': 'application/json' });
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
         localStorage.removeItem('currentUser');
 
+        //return this.http.post(this.uri + 'user/login', JSON.stringify(user), options)
         return this.http.post(this.uri + 'user/login', JSON.stringify(user), options)
             .map((response: Response) => {
 
