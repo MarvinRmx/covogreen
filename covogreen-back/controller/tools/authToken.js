@@ -8,9 +8,8 @@ var skey = fs.readFileSync(skey_path, 'utf-8');
 var authToken = {
 
     getToken: function(req) {
-
         var authorization = req.get("Authorization");
-        var split = authorization.split('bearer ');
+        var split = authorization.split('bearer');
         var tokenHash = split[1];
 
         var tokenDecode = jwt.decode(tokenHash, skey);

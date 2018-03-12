@@ -119,6 +119,7 @@ var ChatController = {
     middlewareProtection: co.wrap(function * (req, res){
         // On décode le json
         var token = authToken.getToken(req);
+        console.log(token);
         if(token.revoked)
             res.status(200).send({success: false, message: "token revoqué"});
 
@@ -140,10 +141,7 @@ var ChatController = {
             if(inscriptionJourney == null)
                 return res.status(200).send({ success: false,  message: "Impossible d'accéder à la page l'utilisateur n'est pas inscrit au trajet : " + idTrajet });
 
-            // On stocke l'id de l'user pour le récupérer dans la methode qui est demandé.
-            req.idUser = idUser;
-            next();
-
+            //next();
         }catch(erreur){
             return res.status(200).send({ success: false,  message: "Une erreur est survenue lors de l'execution de la req sql" });
         }
@@ -283,7 +281,13 @@ var ChatController = {
 
         var idTrajet = parseInt(req.body.idTrajet);
         var message = req.body.message;
-        var idUser = parseInt(1);
+
+        var token = authToken.getToken(req);
+        console.log("---------" + token);
+        var idUser = parseInt(token.id_user);
+        console.log("---------" + idUser);
+
+
 
         var reqSql = yield Chat.create({id_auteur: idUser, id_trajet: idTrajet, message: message});
 
