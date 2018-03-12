@@ -11,6 +11,8 @@ export class User {
     public phone: string;
     public is_driver: boolean;
     public id_car: number;
+    public privilege: number;
+    public revoked: boolean;
 
     constructor(
         id_user: number,

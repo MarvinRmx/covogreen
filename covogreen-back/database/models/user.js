@@ -16,7 +16,8 @@ const User = db.define('user',
             type: Sequelize.STRING
         },
         username: {
-            type: Sequelize.STRING
+            type: Sequelize.STRING,
+            unique: true
         },
         email:{
             type: Sequelize.STRING
@@ -40,6 +41,9 @@ const User = db.define('user',
             type: Sequelize.INTEGER
         },
         is_driver: {
+            type: Sequelize.BOOLEAN
+        },
+        revoked: {
             type: Sequelize.BOOLEAN
         }
     }

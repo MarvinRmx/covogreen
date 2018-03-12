@@ -5,96 +5,64 @@ import { Router } from '@angular/router';
 import { User } from '../class/user';
 import 'rxjs/add/operator/map';
 import 'rxjs/Rx';
-import * as jwt from 'angular2-jwt-simple';
+import {AuthRequest} from './authrequest.service';
 
 @Injectable()
 export class AuthentificationService {
 
-	public token: string;
-    public results = [];
-    public authentified = false;
+    public user: User;
     private uri: string;
-    private skey: string;
-
 
 	constructor(
         private http: Http,
         private router: Router,
+        private authRequest: AuthRequest
     )
     {
-		this.uri = "http://localhost:1313/";
-
-        this.http.get('../assets/skey.txt').subscribe(data => {
-            this.skey = data.text();
-        });
+		this.uri = 'http://localhost:1313/';
 	}
 
-	public getUsers() {
-		return this.http.get(this.uri + "user/all");
-    }
+    /**
+     * Method for accept or refuse connexion for users.
+     * @param {User} user
+     * @returns {Observable<boolean>}
+     */
+    login(user: User): Observable<number> {
 
-    login(username: string, password: string): Observable<boolean> {
-
-        let user = {
-            username: username,
-            password: password
-        };
-
-        let headers = new Headers({ "Content-Type": "application/json" });
+        let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
-
-        return this.http.post(this.uri + "user/login", JSON.stringify(user), options)
-            .map((response: Response) => {
-
-                if (response.status === 200) {
-                    this.token = jwt.decode(response.text(), this.skey);
-
-                    // store username and jwt token in local storage to keep user logged in between page refreshes
-                    localStorage.setItem('currentUser', JSON.stringify(this.token));
-
-                    return true;
-                }
-                else return false;
-
-            });
-    }
-
-    loginAdmin(user: User): Observable<boolean> {
-
-        let headers = new Headers({ "Content-Type": "application/json" });
-        let options = new RequestOptions({ headers: headers });
-
-        return this.http.post(this.uri + "admin/login", JSON.stringify(user), options)
-            .map((response: Response) => {
-
-                if (response.status === 200) {
-                    this.token = jwt.decode(response.text(), 'secret');
-
-                    // store username and jwt token in local storage to keep user logged in between page refreshes
-                    localStorage.setItem('currentAdmin', JSON.stringify(this.token));
-                    let tokenUser = localStorage.getItem('currentAdmin');
-                    console.log(tokenUser);
-
-                    return true;
-                } else {
-                    return false;
-                }
-            });
-    }
-
-
-    logout(): void {
-        // clear token remove user from local storage to log user out
-        this.token = null;
         localStorage.removeItem('currentUser');
-        this.router.navigate(['/login']);
+
+        return this.http.post(this.uri + 'user/login', JSON.stringify(user), options)
+            .map((response: Response) => {
+
+                if (response.status === 200) {
+                    localStorage.setItem('currentUser', response.text());
+                }
+                return response.status;
+            });
     }
 
-    logoutAdmin(): void {
-        // clear token remove user from local storage to log user out
-        this.token = null;
-        localStorage.removeItem('currentAdmin');
+    /**
+     * Method disconnect user session.
+     */
+    logout(): void {
+        localStorage.removeItem('currentUser');
         this.router.navigate(['/']);
+        window.location.reload(true);
+    }
+
+    /**
+     * Method for checking if user is administrator
+     * @returns {Observable<boolean>}
+     */
+    setIsAdministrator(): Observable<boolean> {
+
+        return this.http.get(this.uri + 'user/admin',  this.authRequest.requestOptions)
+            .map((response: Response) => {
+                return JSON.parse(response.text());
+            });
+
     }
 
 }

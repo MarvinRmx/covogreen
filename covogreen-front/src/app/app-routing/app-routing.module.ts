@@ -8,7 +8,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {GuardService} from '../../services/guard.service';
 import {GuardAdminService} from '../../services/guard-admin.service';
 
-import {DashboardComponent} from '../dashboard/dashboard.component';
+import {HomeComponent} from '../home/home.component';
 import {UserComponent} from '../user/user.component';
 import {NewuserComponent} from '../user/newuser.component';
 
@@ -16,10 +16,11 @@ import {AdminComponent} from '../admin/admin.component';
 import {CreateJourneyComponent} from '../journey/create-journey/create-journey.component';
 
 import {RecherchePageComponent} from '../recherche-page/recherche-page.component';
+import {ChatComponent} from '../chat/chat.component';
 
 
 const routes: Routes = [
-    { path: '', component: DashboardComponent},
+    { path: '', component: HomeComponent},
 
     { path: 'newuser', component: NewuserComponent },
 
@@ -29,6 +30,7 @@ const routes: Routes = [
 
     { path: 'journey/create', component: CreateJourneyComponent, canActivate: [GuardService] },
     { path: 'recherche', component: RecherchePageComponent },
+    { path: 'chat/:id', component: ChatComponent },
 
     // otherwise redirect to home
     { path: '**', redirectTo: '' }

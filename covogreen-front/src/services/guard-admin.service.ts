@@ -1,19 +1,28 @@
 import {Injectable} from '@angular/core';
 import {Router, CanActivate} from '@angular/router';
+import {AuthentificationService} from "./authentification.service";
 
 @Injectable()
 export class GuardAdminService implements CanActivate {
 
-    constructor(private router: Router) { }
+    public isAdmin: boolean;
+
+    constructor(
+        private router: Router,
+        private authenticationService: AuthentificationService
+    ) {
+        this.isAdmin = false;
+        this.setIsAdministrator();
+    }
+
+    setIsAdministrator(): void {
+        this.authenticationService.setIsAdministrator()
+            .subscribe(result => {
+                this.isAdmin = result;
+            });
+    }
 
     canActivate() {
-        if (localStorage.getItem('currentAdmin')) {
-            // logged in so return true
-            return true;
-        }
-
-        // not logged in so redirect to login page
-        this.router.navigate(['/']);
-        return false;
+        return this.isAdmin;
     }
 }

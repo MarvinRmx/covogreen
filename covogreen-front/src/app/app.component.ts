@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthentificationService } from '../services/authentification.service';
+import { User } from '../class/user';
 
 import 'hammerjs';
 
@@ -11,18 +12,18 @@ import 'hammerjs';
 })
 
 export class AppComponent {
-    public title = 'app';
+    public user: User;
+    public isAdmin: boolean;
 
     constructor(
 		private authenticationService: AuthentificationService
-    ) {}
+    ) {
+        this.isAdmin = false;
+        this.setIsAdministrator();
+    }
 
     logout(): void {
         this.authenticationService.logout();
-    }
-
-    logoutAdmin(): void {
-        this.authenticationService.logoutAdmin();
     }
 
     checkAuth(): boolean {
@@ -32,10 +33,11 @@ export class AppComponent {
         return false;
     }
 
-    checkAuthAdmin(): boolean {
-        let tokenUser = localStorage.getItem('currentAdmin');
-
-        if (tokenUser !== null) return true;
-        return false;
+    setIsAdministrator(): void {
+        this.authenticationService.setIsAdministrator()
+            .subscribe(result => {
+                this.isAdmin = result;
+            });
     }
+
 }

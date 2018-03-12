@@ -1,0 +1,28 @@
+<div>
+  <h4><a href="#">Trajet {{offre.depart}} --->
+  {{offre.destination}}</a></h4>
+  <p><strong>Date du trajet :</strong> {{offre.date_trajet}}</p>
+  <p><strong>Posté par :</strong> {{offre.auteur}}</p>
+  <p><strong>Nombre de place restante :</strong> {{offre.nombre_place_disponible}}</p>
+</div>
+
+<div class="chatPanel" id="chatPanel">
+  <div class="container" *ngFor="let msg of messages">
+    <img src="" alt="{{msg.auteur}}">
+    <p>{{msg.message}}</p>
+    <span class="time-right">{{msg.date}}</span>
+  </div>
+</div>
+
+<div class="chatSubmitPanel" id="chatSubmitPanel" class="row">
+  <div class="col-lg-10">
+    <div class="form-group">
+      <input (keyup.enter)="sendMessage()" [(ngModel)]="messageToSend" type="text" name="messageToSend" class="form-control" placeholder="Tapez ici votre message !">
+    </div>
+  </div>
+  <div class="col-lg-2">
+    <div class="form-group">
+      <button class="btn btn-success btn-block" (click)="sendMessage()" >Envoyer</button>
+    </div>
+  </div>
+</div>
