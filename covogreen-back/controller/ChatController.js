@@ -16,9 +16,7 @@ var jwt = require('jsonwebtoken');
 var fs = require("fs");
 var path = require('path');
 
-var skey_path = path.join(__dirname, '../skey.txt');
-var skey = fs.readFileSync(skey_path, 'utf-8');
-
+var authToken = require("./tools/authToken");
 
 /**
  * @param idTrajet
@@ -118,16 +116,11 @@ var ChatController = {
     /**
      * On vérifie que dans la table InscriptionTrajet l'utilisateur est inscrit au trajet demandé.
      */
-    middlewareProtection: co.wrap(function * (req, res, next){
-        // On vérifie que l'on recoit bien un token.
-        var tokenReq = req.body.token || req.query.token || req.headers['x-access-token'];
-        if (!tokenReq)
-            return res.status(200).send({ success: false,  message: 'Token inexistant.' });
-
+    middlewareProtection: co.wrap(function * (req, res){
         // On décode le json
-        var token = jwt.decode(tokenReq, skey);
-        if(token == null)
-            res.status(200).send({success: false, message: "Impossible de décoder le token. Un utilisateur est connecté ? (null)."});
+        var token = authToken.getToken(req);
+        if(token.revoked)
+            res.status(200).send({success: false, message: "token revoqué"});
 
         // On vérifie que l'id_user existe dans le token
         if(token.id_user == null)
@@ -175,6 +168,7 @@ var ChatController = {
      *      nbElement : entier
      */
     getMessages: co.wrap(function * (req, res){
+      ChatController.middlewareProtection(req,res);
         // On vérifie les paramètres
         var out = verifierParametresGetMessages(req.body.idTrajet ,req.body.nbElement);
         if(out["errors"].length > 0){
@@ -223,6 +217,8 @@ var ChatController = {
      *      idMessage : entier
      */
     getLastMessageById: co.wrap(function * (req, res) {
+      ChatController.middlewareProtection(req,res);
+
         // On vérifie les paramètres
         var out = verifierParametresGetLastMessage(req.body.idTrajet, req.body.idMessage);
         if(out["errors"].length > 0){
@@ -276,6 +272,9 @@ var ChatController = {
      *      message : string
      */
     addMessage: co.wrap(function *  (req, res){
+      ChatController.middlewareProtection(req,res);
+
+      	req.accepts('application/json');
         // On vérifie les paramètres
         var out = verifierParametresAddMessage(req.body.idTrajet, req.body.message);
         if(out["errors"].length > 0){
@@ -284,7 +283,7 @@ var ChatController = {
 
         var idTrajet = parseInt(req.body.idTrajet);
         var message = req.body.message;
-        var idUser = parseInt(req.idUser);
+        var idUser = parseInt(1);
 
         var reqSql = yield Chat.create({id_auteur: idUser, id_trajet: idTrajet, message: message});
 
@@ -297,6 +296,7 @@ var ChatController = {
                 // On envoi un message à chaque participant.
                 for (var i = 0; i<allParticipants.length; i++){
                     var userInfo = yield User.findById(allParticipants[i].id_user);
+                    // var userInfo = yield User.findById(allParticipants[i].id_user);
                     yield ChatController.sendEmail(userInfo.username, userInfo.email);
                 }
 
@@ -329,6 +329,8 @@ var ChatController = {
      * On renvoi les info d'un trajet
      */
     getTrajet: co.wrap(function * (req, res){
+      ChatController.middlewareProtection(req,res);
+
         // On vérifie les paramètres
         var out = verifierParametresGetTrajet(req.body.idTrajet);
         if(out["errors"].length > 0){

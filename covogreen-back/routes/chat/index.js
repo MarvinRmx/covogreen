@@ -10,7 +10,7 @@ module.exports = function (router) {
      * Middleware qui va determiner si l'utilisateur connecté peut accéder aux info demandé.
      * Auteur : Mohamed El karmoudi
      */
-    router.use(co.wrap(controller.middlewareProtection));
+    //router.use(co.wrap(controller.middlewareProtection));
 
 
     // Récupérer les x dernier messages d'un trajet.
@@ -25,4 +25,3 @@ module.exports = function (router) {
     // information sur un trajet.
     router.post('/getTrajet', co.wrap(controller.getTrajet));
 };
-
