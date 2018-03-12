@@ -40,6 +40,7 @@ import {UserService} from '../services/user.service';
 import {CarService} from '../services/car.service';
 import {AdminService} from '../services/admin.service';
 import { RechercheTrajetService } from '../services/recherche-trajet.service';
+import { AuthRequest } from '../services/authrequest.service';
 
 import { UserComponent } from './user/user.component';
 import { NewuserComponent } from './user/newuser.component';
@@ -105,6 +106,7 @@ import { AdminUsersComponent } from './admin/admin-users/admin-users.component';
         UserService,
         CarService,
         AdminService,
+        AuthRequest,
         {
             provide: MATERIAL_SANITY_CHECKS,
             useValue: false

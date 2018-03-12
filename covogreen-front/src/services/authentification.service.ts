@@ -5,27 +5,21 @@ import { Router } from '@angular/router';
 import { User } from '../class/user';
 import 'rxjs/add/operator/map';
 import 'rxjs/Rx';
-import * as jwt from 'angular2-jwt-simple';
+import {AuthRequest} from './authrequest.service';
 
 @Injectable()
 export class AuthentificationService {
 
     public user: User;
-	public token: any;
     private uri: string;
-    private skey: string;
-
 
 	constructor(
         private http: Http,
         private router: Router,
+        private authRequest: AuthRequest
     )
     {
-		this.uri = "http://localhost:1313/";
-
-        this.http.get('../assets/skey.txt').subscribe(data => {
-            this.skey = data.text();
-        });
+		this.uri = 'http://localhost:1313/';
 	}
 
     /**
@@ -33,25 +27,19 @@ export class AuthentificationService {
      * @param {User} user
      * @returns {Observable<boolean>}
      */
-    login(user: User): Observable<boolean> {
+    login(user: User): Observable<number> {
 
-        let headers = new Headers({ "Content-Type": "application/json" });
+        let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
+        localStorage.removeItem('currentUser');
 
-        return this.http.post(this.uri + "user/login", JSON.stringify(user), options)
+        return this.http.post(this.uri + 'user/login', JSON.stringify(user), options)
             .map((response: Response) => {
 
                 if (response.status === 200) {
-                    this.token = jwt.decode(response.text(), this.skey);
-                    if(this.token.revoked === true) {
-                        alert('Compte bloqué');
-                        return false;
-                    }
-                    localStorage.setItem('currentUser', JSON.stringify(this.token));
-
-                    return true;
+                    localStorage.setItem('currentUser', response.text());
                 }
-                else return false;
+                return response.status;
             });
     }
 
@@ -59,10 +47,22 @@ export class AuthentificationService {
      * Method disconnect user session.
      */
     logout(): void {
-        // clear token remove user from local storage to log user out
-        this.token = null;
         localStorage.removeItem('currentUser');
-        this.router.navigate(['/login']);
+        this.router.navigate(['/']);
+        window.location.reload(true);
+    }
+
+    /**
+     * Method for checking if user is administrator
+     * @returns {Observable<boolean>}
+     */
+    setIsAdministrator(): Observable<boolean> {
+
+        return this.http.get(this.uri + 'user/admin',  this.authRequest.requestOptions)
+            .map((response: Response) => {
+                return JSON.parse(response.text());
+            });
+
     }
 
 }

@@ -39,13 +39,17 @@ export class LoginComponent implements OnInit {
 
         this.authenticationService.login(this.user)
             .subscribe(result => {
-                    if (result === true) {
+                    if (result === 200) {
                         this.router.navigate(['/']);
+                        window.location.reload(true);
+                    } else if (result === 203) {
+                        alert('Compte bloqué');
                     }
                 },
                 err => alert('Identifiant et/ou mot de passe non reconnu')
             );
     }
+
 
     /**
      * Method for checking the protected pages, reserved for authentified users.
