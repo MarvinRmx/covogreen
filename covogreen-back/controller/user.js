@@ -28,24 +28,42 @@ var LoginController = {
 
         req.accepts('application/json');
 
-            User.findOne({
-                where: {
-                    username: req.body.username,
-                    password: req.body.password
-                }
-            })
-            .then(function (response) {
-                var user = JSON.stringify({id_user: response.id_user, username: response.username, privilege: response.privilege});
-                var token = jwt.sign(user, skey);
+        User.findOne({
+            where: {
+                username: req.body.username,
+                password: req.body.password
+            }
+        })
+        .then(function (response) {
+            var user = JSON.stringify({id_user: response.id_user, username: response.username, privilege: response.privilege, revoked: response.revoked});
+            var token = jwt.sign(user, skey);
 
-                res.header('Authorization', token);
-                res.send(token);
-                //res.send('');
-                res.status(200);
-            })
-            .catch(function (error) {
-                res.status(500).send("Connexion refusée.");
-            });
+            res.header('Authorization', token);
+            res.send(token);
+            //res.send('');
+            res.status(200);
+        })
+        .catch(function (error) {
+            res.status(500).send('Identifiant et/ou mot de passe non reconnu');
+        });
+    },
+
+    /**
+     * For getting all users.
+     * @param req
+     * @param res
+     */
+    all: function (req, res) {
+
+        req.accepts('application/json');
+
+        User.all()
+        .then(function (response) {
+            res.status(200).send(response);
+        })
+        .catch(function (error) {
+            res.status(500).send("Echec de la récupération de tous les utilisateurs.");
+        });
     },
 
     /**
@@ -65,6 +83,44 @@ var LoginController = {
             console.log('Fail find for getting user :', error);
             res.status(500).send("Echec de la récupération du profil.");
         });
+    },
+
+    /**
+     * For updating revoked property (administrator only) .
+     * @param req
+     * @param res
+     */
+    handleRevoked: function  (req, res) {
+
+        var user = req.body;
+
+        User.update({ revoked: user.revoked }, { where: {id_user: user.id_user} } )
+            .then(function (response) {
+                res.status(200).send("Modification de la propriété revoked OK");
+            })
+            .catch(function (error) {
+                console.log('Fail find for getting user :', error);
+                res.status(200).send("Echec de la propriété revoked");
+            });
+    },
+
+    /**
+     * For updating privilege property (administrator only) .
+     * @param req
+     * @param res
+     */
+    handlePrivilege: function  (req, res) {
+
+        var user = req.body;
+
+        User.update({ privilege: user.privilege }, { where: {id_user: user.id_user} } )
+            .then(function (response) {
+                res.status(200).send("Modification de la propriété privilege OK");
+            })
+            .catch(function (error) {
+                console.log('Fail find for getting user :', error);
+                res.status(200).send("Echec de la propriété privilege");
+            });
     },
 
     /**
@@ -158,18 +214,6 @@ var LoginController = {
             });
     },
 
-    /*remove: function  (id_user, res) {
-
-
-        User.destroy({where: {id_user: id_user}})
-            .then(function (response) {
-                res.status(200).send("Succès de la suppression du profil.");
-            })
-            .catch(function (error) {
-                console.log('Fail update user :', error);
-                res.status(500).send("Echec de la suppression du profil.");
-            });
-    },*/
 
 };
 

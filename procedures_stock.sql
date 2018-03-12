@@ -34,13 +34,13 @@ BEGIN
 	IF ( lastCar != NULL OR lastCar != '' ) THEN
 
     	    INSERT INTO users
-    	            (firstName, lastName, username, email, password, address, city, cp, phone, privilege, is_driver, id_car, createdAt, updatedAt)
-    	    VALUES  (_firstName, _lastName, _username, _email, _password, _address, _city, _cp, _phone, 1,_is_driver, lastCar, SYSDATE(), SYSDATE());
+    	            (firstName, lastName, username, email, password, address, city, cp, phone, privilege, is_driver, id_car, revoked, createdAt, updatedAt)
+    	    VALUES  (_firstName, _lastName, _username, _email, _password, _address, _city, _cp, _phone, 1,_is_driver, lastCar, false, SYSDATE(), SYSDATE());
             
     	ELSE
 		INSERT INTO users
-    	           	(firstName, lastName, username, email, password, address, city, cp, phone, privilege, is_driver, createdAt, updatedAt)
-    	    	VALUES  (_firstName, _lastName, _username, _email, _password, _address, _city, _cp, _phone, 1,_is_driver, SYSDATE(), SYSDATE());
+    	           	(firstName, lastName, username, email, password, address, city, cp, phone, privilege, is_driver, revoked, createdAt, updatedAt)
+    	    	VALUES  (_firstName, _lastName, _username, _email, _password, _address, _city, _cp, _phone, 1,_is_driver, false, SYSDATE(), SYSDATE());
 
     	END IF;
 
@@ -83,15 +83,3 @@ BEGIN
 	DELETE FROM cars WHERE id_car = _id_car;
 	DELETE FROM users WHERE id_user = _id_user;
 END|
-
-
-
-
-
-
-
-
-
-
-
-

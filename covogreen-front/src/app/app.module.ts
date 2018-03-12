@@ -2,7 +2,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/Rx';
 
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, AfterViewInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule, JsonpModule, Http, RequestOptions } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
@@ -13,8 +13,14 @@ import {
     MatRadioModule,
     MATERIAL_SANITY_CHECKS,
     MatSliderModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatTableModule,
+    MatInputModule,
+    MatPaginatorModule,
+    MatSlideToggleModule
 } from '@angular/material';
+import {MatTabsModule} from '@angular/material/tabs';
+
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
@@ -47,7 +53,7 @@ import {CreateJourneyComponent} from './journey/create-journey/create-journey.co
 
 import { ChatComponent } from './chat/chat.component';
 import { TestComponent } from './test/test.component';
-
+import { AdminUsersComponent } from './admin/admin-users/admin-users.component';
 
 
 @NgModule({
@@ -67,6 +73,11 @@ import { TestComponent } from './test/test.component';
         MatRadioModule,
         MatSliderModule,
         MatFormFieldModule,
+        MatTableModule,
+        MatInputModule,
+        MatPaginatorModule,
+        MatSlideToggleModule,
+        MatTabsModule,
         ConfirmationPopoverModule.forRoot({
             confirmButtonType: 'danger' // set defaults here
         })
@@ -84,7 +95,8 @@ import { TestComponent } from './test/test.component';
         RecherchePageComponent,
         NewCarComponent,
         ChatComponent,
-        TestComponent
+        TestComponent,
+        AdminUsersComponent
     ],
     providers: [
         AuthentificationService,

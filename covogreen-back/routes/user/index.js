@@ -6,6 +6,9 @@ module.exports = function (router) {
     var test = co.wrap(controller.test);
     router.get('/test', test);
 
+    var all = co.wrap(controller.all);
+    router.get('/', all);
+
     var login = co.wrap(controller.login);
     router.post('/login', login);
 
@@ -17,6 +20,12 @@ module.exports = function (router) {
 
     var create = co.wrap(controller.create);
     router.post('/', create);
+
+    var handleRevoked = co.wrap(controller.handleRevoked);
+    router.put('/revoked', handleRevoked);
+
+    var handlePrivilege = co.wrap(controller.handlePrivilege);
+    router.put('/privilege', handlePrivilege);
 
     var update = co.wrap(controller.update);
     router.put('/', update);

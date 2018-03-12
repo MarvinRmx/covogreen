@@ -41,6 +41,9 @@ const User = db.define('user',
         },
         is_driver: {
             type: Sequelize.BOOLEAN
+        },
+        revoked: {
+            type: Sequelize.BOOLEAN
         }
     }
 );

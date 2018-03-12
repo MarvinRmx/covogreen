@@ -12,8 +12,7 @@ export class UserService {
 
     constructor(
         private http: Http,
-    )
-    {
+    ) {
 		this.uri = "http://localhost:1313/user";
 	}
 
@@ -53,7 +52,6 @@ export class UserService {
 
         return this.http.delete(this.uri +"/"+ user.id_user, options)
             .map((response: Response) => {
-                console.log(response.text());
                 return response.text();
             });
     }
@@ -71,7 +69,22 @@ export class UserService {
 
         return this.http.get(this.uri +"/"+ this.user.id_user, options)
             .map((response: Response) => {
-                var result = response.text();
+                let result = response.text();
+                return JSON.parse(result);
+            });
+    }
+
+    /**
+     * Method for getting all users data.
+     * @returns {Observable<User>}
+     */
+    getUsers(): Observable<Array<User>> {
+        let headers = new Headers({ "Content-Type": "application/json" });
+        let options = new RequestOptions({ headers: headers });
+
+        return this.http.get(this.uri, options)
+            .map((response: Response) => {
+                let result = response.text();
                 return JSON.parse(result);
             });
     }
