@@ -3,7 +3,6 @@ import {Headers, Http, RequestOptions, Response} from '@angular/http';
 import {Journey} from '../class/journey';
 import {Observable} from 'rxjs/Observable';
 import {AuthRequest} from './authrequest.service';
-import {User} from "../class/user";
 
 @Injectable()
 export class JourneyService {
