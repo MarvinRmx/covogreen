@@ -14,6 +14,7 @@ import {NewuserComponent} from '../user/newuser.component';
 
 import {AdminComponent} from '../admin/admin.component';
 import {CreateJourneyComponent} from '../journey/create-journey/create-journey.component';
+import {MyJourneysComponent} from '../journey/my-journeys/my-journeys.component';
 
 import {RecherchePageComponent} from '../recherche-page/recherche-page.component';
 import {ChatComponent} from '../chat/chat.component';
@@ -29,6 +30,7 @@ const routes: Routes = [
     { path: 'user', component: UserComponent, canActivate: [GuardService] },
 
     { path: 'journey/create', component: CreateJourneyComponent, canActivate: [GuardService] },
+    { path: 'journey/my', component: MyJourneysComponent, canActivate: [GuardService] },
     { path: 'recherche', component: RecherchePageComponent },
     { path: 'chat/:id', component: ChatComponent },
 
