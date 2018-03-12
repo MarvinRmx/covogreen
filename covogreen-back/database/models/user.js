@@ -44,7 +44,8 @@ const User = db.define('user',
             type: Sequelize.BOOLEAN
         },
         revoked: {
-            type: Sequelize.BOOLEAN
+            type: Sequelize.BOOLEAN,
+            defaultValue: false
         }
     }
 );

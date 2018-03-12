@@ -56,6 +56,7 @@ import { ChatComponent } from './chat/chat.component';
 import { TestComponent } from './test/test.component';
 import { AdminUsersComponent } from './admin/admin-users/admin-users.component';
 import { MyJourneysComponent } from './journey/my-journeys/my-journeys.component';
+import {JourneyService} from '../services/journey.service';
 
 
 @NgModule({
@@ -109,6 +110,7 @@ import { MyJourneysComponent } from './journey/my-journeys/my-journeys.component
         CarService,
         AdminService,
         AuthRequest,
+        JourneyService,
         {
             provide: MATERIAL_SANITY_CHECKS,
             useValue: false

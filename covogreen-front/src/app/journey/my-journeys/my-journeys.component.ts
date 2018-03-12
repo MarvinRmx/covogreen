@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {JourneyService} from '../../../services/journey.service';
 
 @Component({
   selector: 'app-my-journeys',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MyJourneysComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+      private journeyService: JourneyService
+  ) { }
 
   ngOnInit() {
+      this.journeyService.getJourneysByUser()
+          .subscribe(result => {
+              console.log('getJourneysByUser : ', result);
+          });
   }
 
 }

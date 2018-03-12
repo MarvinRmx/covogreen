@@ -4,6 +4,7 @@ export class Journey {
     public destination: string;
     public seats_available: number;
     public date_journey: Date;
+    public id_driver: number;
 
     constructor(
         id_journey: number,

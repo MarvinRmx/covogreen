@@ -6,6 +6,7 @@ import { User } from '../class/user';
 import 'rxjs/add/operator/map';
 import 'rxjs/Rx';
 import {AuthRequest} from './authrequest.service';
+import * as md5 from 'md5';
 
 @Injectable()
 export class AuthentificationService {
@@ -29,12 +30,12 @@ export class AuthentificationService {
      */
     login(user: User): Observable<number> {
 
-        //let headers = new Headers({ 'Content-Type': 'application/json' });
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
         localStorage.removeItem('currentUser');
 
-        //return this.http.post(this.uri + 'user/login', JSON.stringify(user), options)
+        user.password = md5(user.password);
+
         return this.http.post(this.uri + 'user/login', JSON.stringify(user), options)
             .map((response: Response) => {
 

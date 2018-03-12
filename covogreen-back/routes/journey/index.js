@@ -5,4 +5,7 @@ module.exports = function (router) {
 
     var create = co.wrap(controller.create);
     router.post('/', create);
+
+    var getJourneysByUser = co.wrap(controller.getJourneysByUser);
+    router.get('/byuser', getJourneysByUser);
 };

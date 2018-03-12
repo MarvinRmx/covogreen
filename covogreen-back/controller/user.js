@@ -3,11 +3,6 @@ var sequelize = require("../database/db");
 var authToken = require("./tools/authToken");
 var co = require('co');
 var jwt = require('jsonwebtoken');
-var fs = require("fs");
-var path = require('path');
-
-var skey_path = path.join(__dirname, '../skey.txt');
-var skey = fs.readFileSync(skey_path, 'utf-8');
 
 var LoginController = {
 
@@ -27,7 +22,7 @@ var LoginController = {
      */
     login: function (req, res) {
 
-        req.accepts('application/json');
+        var user = req.body;
 
         User.findOne({
             where: {
@@ -36,16 +31,15 @@ var LoginController = {
             }
         })
         .then(function (response) {
-            if(!response.revoked) {
-                var user = JSON.stringify({id_user: response.id_user, username: response.username, privilege: response.privilege, revoked: response.revoked});
-                var token = jwt.sign(user, skey);
 
-                res.status(200).send(token);
-            } else {
-                res.status(203).send("Compte bloqué");
+            if(!response.revoked) {
+                var userToken = authToken.createToken(response);
+                res.status(200).send(userToken);
             }
+            else res.status(203).send("Compte bloqué");
         })
         .catch(function (error) {
+            console.log(error);
             res.status(500).send('Identifiant et/ou mot de passe non reconnu');
         });
     },
@@ -252,6 +246,8 @@ var LoginController = {
 
         var user = req.body;
         var userToken = authToken.getToken(req);
+
+        console.log('update data : ', user);
 
         if (!userToken.revoked)
         {

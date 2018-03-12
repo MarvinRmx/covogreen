@@ -35,7 +35,6 @@ export class LoginComponent implements OnInit {
      */
     login() {
         this.user = this.loginForm.value;
-        this.user.password = md5(this.user.password);
 
         this.authenticationService.login(this.user)
             .subscribe(result => {
