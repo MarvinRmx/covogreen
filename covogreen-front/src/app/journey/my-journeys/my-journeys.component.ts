@@ -12,7 +12,7 @@ export class MyJourneysComponent implements OnInit, AfterViewInit {
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
-    public displayedColumns = ['id_journey', 'origin', 'destination', 'date_journey', 'status', 'access'];
+    public displayedColumns = ['id_journey', 'origin', 'destination', 'date_journey', 'status', 'access', 'cancel'];
     public dataSource = new MatTableDataSource<Journey>([]);
 
     constructor(
