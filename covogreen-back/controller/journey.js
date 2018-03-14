@@ -1,4 +1,5 @@
 var Journey = require("../database/models/journey");
+var sequelize = require("../database/db");
 var co = require('co');
 var jwt = require('jsonwebtoken');
 var authToken = require("./tools/authToken");
@@ -40,11 +41,14 @@ var JourneyController = {
 
         if (!userToken.revoked)
         {
-            Journey.findAll({
-                //where: {id_user: userToken.id_user}
-                where: {id_driver: userToken.id_user}
-            })
+            sequelize.query(' SELECT j.* ' +
+                'FROM inscriptionjourneys ij, journeys j ' +
+                'WHERE ij.id_trajet = j.id_journey ' +
+                'AND ij.id_user = ' + userToken.id_user,
+                { model: Journey }
+            )
             .then(function (response) {
+                console.log('getJourneysByUser : ', response);
                 res.status(200).send(response);
             })
             .catch(function (error) {

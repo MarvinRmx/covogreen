@@ -56,7 +56,6 @@ export class JourneyService {
 
         return this.http.get(this.uri  + '/byuser', this.authRequest.requestOptions)
             .map((response: Response) => {
-                console.log('getJourneysByUser service : ', response.text());
                 let result = response.text();
                 return JSON.parse(result);
             });

@@ -24,7 +24,6 @@ export class MyJourneysComponent implements OnInit, AfterViewInit {
               .subscribe(result => {
                   this.dataSource = new MatTableDataSource<Journey>(result);
                   this.dataSource.paginator = this.paginator;
-                  console.log('getJourneysByUser : ', result);
               });
       }
 
@@ -39,7 +38,7 @@ export class MyJourneysComponent implements OnInit, AfterViewInit {
     getSchedule(value): string {
 
         let date = new Date(value);
-        console.log('getSchedule : ', date.getUTCDate());
+        console.log('getSchedule : ', date);
 
         let day = this.journeyService.getDay(date);
         let dayUTC = date.getUTCDate();
