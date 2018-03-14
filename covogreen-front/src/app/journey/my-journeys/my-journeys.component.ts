@@ -35,4 +35,19 @@ export class MyJourneysComponent implements OnInit, AfterViewInit {
         filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
         this.dataSource.filter = filterValue;
     }
+
+    getSchedule(value): string {
+
+        let date = new Date(value);
+        console.log('getSchedule : ', date.getUTCDate());
+
+        let day = this.journeyService.getDay(date);
+        let dayUTC = date.getUTCDate();
+        let month = this.journeyService.getMonth(date);
+        let hours = date.getHours();
+        let minutes = date.getMinutes();
+
+        return  day + ' ' + dayUTC + ' ' + month + ', à ' +
+                hours + 'h' + minutes;
+    }
 }

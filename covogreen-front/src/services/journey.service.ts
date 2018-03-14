@@ -16,6 +16,42 @@ export class JourneyService {
         this.uri = 'http://localhost:1313/journey';
     }
 
+    getDay(value): string {
+
+        let weekday = new Array(7);
+
+        weekday[0] = 'Dimanche';
+        weekday[1] = 'Lundi';
+        weekday[2] = 'Mardi';
+        weekday[3] = 'Mercredi';
+        weekday[4] = 'Jeudi';
+        weekday[5] = 'Vendredi';
+        weekday[6] = 'Samedi';
+
+        return weekday[value.getDay()];
+
+    }
+
+    getMonth(value): string {
+
+        let month = new Array(12);
+
+        month[0] = 'Janvier';
+        month[1] = 'Février';
+        month[2] = 'Mars';
+        month[3] = 'Avril';
+        month[4] = 'Mai';
+        month[5] = 'Juin';
+        month[6] = 'Juillet';
+        month[7] = 'Août';
+        month[8] = 'Septembre';
+        month[9] = 'Octobre';
+        month[10] = 'Novembre';
+        month[11] = 'Décembre';
+
+        return month[value.getMonth()];
+    }
+
     getJourneysByUser(): Observable<Array<Journey>> {
 
         return this.http.get(this.uri  + '/byuser', this.authRequest.requestOptions)

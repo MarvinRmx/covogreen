@@ -26,11 +26,15 @@
                 <mat-cell *matCellDef="let element"> {{element.destination}} </mat-cell>
             </ng-container>
 
-            <ng-container matColumnDef="date_journey">
+            <!--<ng-container matColumnDef="date_journey">
                 <mat-header-cell *matHeaderCellDef> Date, Heure </mat-header-cell>
                 <mat-cell *matCellDef="let element"> {{element.date_journey}} </mat-cell>
-            </ng-container>
+            </ng-container>-->
 
+            <ng-container matColumnDef="date_journey">
+                <mat-header-cell *matHeaderCellDef> Date, Heure </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{getSchedule(element.date_journey)}} </mat-cell>
+            </ng-container>
 
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
