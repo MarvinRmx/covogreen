@@ -61,13 +61,22 @@ export class JourneyService {
             });
     }
 
+    isDriverThisJourney(journey: Journey): Observable<boolean> {
+
+        return this.http.post(this.uri  + '/isdriver', JSON.stringify(journey), this.authRequest.requestOptions)
+            .map((response: Response) => {
+                let result = response.text();
+                console.log('isDriverThisJourney : ' + result);
+                return JSON.parse(result);
+            });
+    }
+
     createJourney(journey: Journey): Observable<string> {
         let headers = new Headers({ "Content-Type": "application/json" });
         let options = new RequestOptions({ headers: headers });
 
         return this.http.post(this.uri, JSON.stringify(journey), options)
             .map((response: Response) => {
-                console.log(response.text());
                 return response.text();
             });
     }

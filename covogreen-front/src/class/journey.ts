@@ -5,13 +5,14 @@ export class Journey {
     public seats_available: number;
     public date_journey: Date;
     public id_driver: number;
+    public is_driver: boolean;
 
     constructor(
         id_journey: number,
         origin: string,
         destination: string,
         seats_available: number,
-        date_journey: Date,
+        date_journey: Date
     ) {
         this.id_journey = id_journey;
         this.origin = origin;

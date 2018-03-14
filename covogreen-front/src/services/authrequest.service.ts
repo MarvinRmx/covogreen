@@ -12,7 +12,7 @@ export class AuthRequest {
     setHeader () {
         const token = localStorage.getItem('currentUser');
         this.headerAuth = new Headers();
-        this.headerAuth.append('Content-Type', '*');
+        this.headerAuth.append('Content-Type', 'application/json');
         this.headerAuth.append('Authorization', 'bearer ' + token);
 
         this.requestOptions = new RequestOptions({ headers: this.headerAuth });

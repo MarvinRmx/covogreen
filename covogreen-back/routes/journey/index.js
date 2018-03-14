@@ -8,4 +8,7 @@ module.exports = function (router) {
 
     var getJourneysByUser = co.wrap(controller.getJourneysByUser);
     router.get('/byuser', getJourneysByUser);
+
+    var isDriverThisJourney = co.wrap(controller.isDriverThisJourney);
+    router.post('/isdriver', isDriverThisJourney);
 };

@@ -31,6 +31,18 @@
                 <mat-cell *matCellDef="let element"> {{getSchedule(element.date_journey)}} </mat-cell>
             </ng-container>
 
+            <ng-container matColumnDef="status">
+                <mat-header-cell *matHeaderCellDef> Statut </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{getStatus(element.is_driver)}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="access">
+                <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <button mat-raised-button color="accent">Détails</button>
+                </mat-cell>
+            </ng-container>
+
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 

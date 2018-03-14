@@ -12,7 +12,7 @@ export class MyJourneysComponent implements OnInit, AfterViewInit {
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
-    public displayedColumns = ['id_journey', 'origin', 'destination', 'date_journey'];
+    public displayedColumns = ['id_journey', 'origin', 'destination', 'date_journey', 'status', 'access'];
     public dataSource = new MatTableDataSource<Journey>([]);
 
     constructor(
@@ -20,8 +20,17 @@ export class MyJourneysComponent implements OnInit, AfterViewInit {
     ) { }
 
       ngOnInit() {
+
           this.journeyService.getJourneysByUser()
               .subscribe(result => {
+
+                    for (let journey of result) {
+                        this.journeyService.isDriverThisJourney(journey)
+                            .subscribe( is_driver => {
+                                journey.is_driver = is_driver;
+                            });
+                    }
+
                   this.dataSource = new MatTableDataSource<Journey>(result);
                   this.dataSource.paginator = this.paginator;
               });
@@ -38,7 +47,6 @@ export class MyJourneysComponent implements OnInit, AfterViewInit {
     getSchedule(value): string {
 
         let date = new Date(value);
-        console.log('getSchedule : ', date);
 
         let day = this.journeyService.getDay(date);
         let dayUTC = date.getUTCDate();
@@ -48,5 +56,10 @@ export class MyJourneysComponent implements OnInit, AfterViewInit {
 
         return  day + ' ' + dayUTC + ' ' + month + ', à ' +
                 hours + 'h' + minutes;
+    }
+
+    getStatus(value): string {
+        if (value) return 'Conducteur';
+        return 'Passager';
     }
 }

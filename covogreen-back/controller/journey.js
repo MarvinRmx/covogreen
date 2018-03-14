@@ -1,8 +1,8 @@
 var Journey = require("../database/models/journey");
 var sequelize = require("../database/db");
+var authToken = require("./tools/authToken");
 var co = require('co');
 var jwt = require('jsonwebtoken');
-var authToken = require("./tools/authToken");
 
 var JourneyController = {
 
@@ -48,7 +48,6 @@ var JourneyController = {
                 { model: Journey }
             )
             .then(function (response) {
-                console.log('getJourneysByUser : ', response);
                 res.status(200).send(response);
             })
             .catch(function (error) {
@@ -58,6 +57,37 @@ var JourneyController = {
         }
         else res.status(500).send("Compte bloqué !");
     },
+
+    /**
+     * Checking if user with this token it's driver for this journey
+     * @param req
+     * @param res
+     */
+    isDriverThisJourney: function  (req, res) {
+
+        var userToken = authToken.getToken(req);
+        var journeyReq = req.body;
+
+        console.log('journeyReq : ', journeyReq);
+        console.log('journeyReq id_journey : ', journeyReq.id_journey);
+
+        if(!userToken.revoked)
+        {
+            Journey.findById(journeyReq.id_journey)
+                .then(function (response) {
+                    var journeyRes = response;
+                    var result = userToken.id_user === journeyRes.id_driver;
+
+                    res.status(200).send(result);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                    res.status(500).send("Echec de la vérification de conducteur.");
+                });
+        }
+        else res.status(500).send("Compte bloqué !");
+    },
+
 };
 
 
