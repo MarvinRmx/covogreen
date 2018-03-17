@@ -32,7 +32,9 @@ var LoginController = {
         })
         .then(function (response) {
 
-            if(!response.revoked) {
+            console.log('login :', response);
+
+            if(!response.revoked && response.revoked != null) {
                 var userToken = authToken.createToken(response);
                 res.status(200).send(userToken);
             }

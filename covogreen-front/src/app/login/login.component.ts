@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {FormBuilder, FormGroup, NgForm, Validators} from '@angular/forms';
 import { AuthentificationService } from '../../services/authentification.service';
-import * as md5 from 'md5';
 import { User } from '../../class/user';
+import * as md5 from 'md5';
 
 @Component({
 	selector: 'app-login',
@@ -35,6 +35,7 @@ export class LoginComponent implements OnInit {
      */
     login() {
         this.user = this.loginForm.value;
+        this.user.password = md5(this.user.password);
 
         this.authenticationService.login(this.user)
             .subscribe(result => {
@@ -45,7 +46,10 @@ export class LoginComponent implements OnInit {
                         alert('Compte bloqué');
                     }
                 },
-                err => alert('Identifiant et/ou mot de passe non reconnu')
+                err => {
+                    alert('Identifiant et/ou mot de passe non reconnu');
+                    window.location.reload(true);
+                }
             );
     }
 
