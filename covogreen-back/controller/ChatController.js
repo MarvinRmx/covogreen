@@ -18,13 +18,15 @@ var path = require('path');
 
 var authToken = require("./tools/authToken");
 
-/**
- * @param idTrajet
- * @param nbElement
- *
- * On vérifie les parametres envoyé par le front de la requete getMessages
- */
-function verifierParametresGetMessages(idTrajet, nbElement) {
+
+var ChatController = {
+    /**
+     * @param idTrajet
+     * @param nbElement
+     *
+     * On vérifie les parametres envoyé par le front de la requete getMessages
+     */
+    verifierParametresGetMessages: function(idTrajet, nbElement) {
     var out = { "messages" : [], "errors" : [] };
 
     // On vérifie que idTrajet est un entier et qu'il n'est pas négatif
@@ -42,7 +44,7 @@ function verifierParametresGetMessages(idTrajet, nbElement) {
         out.errors.push("Le nombre d'élement demandé doit être strictement positif");
 
     return out;
-};
+},
 
 /**
  * @param idTrajet
@@ -51,7 +53,7 @@ function verifierParametresGetMessages(idTrajet, nbElement) {
  * On vérifie les parametres envoyé par le front pour la requete qui renvoi le message ajouté juste
  * apres un autre message (idMessage)
  */
-function verifierParametresGetLastMessage(idTrajet, idMessage) {
+ verifierParametresGetLastMessage: function(idTrajet, idMessage) {
     var out = { "messages" : [], "errors" : [] };
 
     // On vérifie que idTrajet est un entier et qu'il n'est pas négatif
@@ -69,7 +71,7 @@ function verifierParametresGetLastMessage(idTrajet, idMessage) {
         out.errors.push("L'identifiant du message demandé doit être strictement positif");
 
     return out;
-};
+},
 
 /**
  * @param idTrajet
@@ -77,7 +79,7 @@ function verifierParametresGetLastMessage(idTrajet, idMessage) {
  *
  * On vérifie les parametres envoyé par le front pour la requete qui ajoute un message dans la db.
  */
-function verifierParametresAddMessage(idTrajet, message) {
+verifierParametresAddMessage: function(idTrajet, message) {
     var out = { "errors" : [] };
 
     // On vérifie que idTrajet est un entier et qu'il n'est pas négatif
@@ -91,7 +93,7 @@ function verifierParametresAddMessage(idTrajet, message) {
         out.errors.push("Le message ne peut pas être vide");
 
     return out;
-};
+},
 
 /**
  * @param idTrajet
@@ -99,7 +101,7 @@ function verifierParametresAddMessage(idTrajet, message) {
  *
  * Vérifie les champs recus dans la requete getTrajet.
  */
-function verifierParametresGetTrajet(idTrajet){
+verifierParametresGetTrajet: function(idTrajet){
     var out = { "offre" : [], "errors" : [] };
 
     // On vérifie que idTrajet est un entier et qu'il n'est pas négatif
@@ -110,10 +112,10 @@ function verifierParametresGetTrajet(idTrajet){
         out.errors.push("Le trajet ne peut pas être négatif");
 
     return out;
-}
+},
 
-var ChatController = {
-    /**
+
+/**
      * On vérifie que dans la table InscriptionTrajet l'utilisateur est inscrit au trajet demandé.
      */
     middlewareProtection: co.wrap(function * (req, res){
