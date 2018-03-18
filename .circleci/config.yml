@@ -47,7 +47,7 @@ jobs:
           command: ps ax | grep mysql
       - run:
           name: Ajout procedure
-          command: sudo /etc/init.d/mysql start
+          command: /etc/init.d/mysql start
       - run:
           name: Ajout procedure
           command: mysql -u root covogreen < ~/covogreen/procedures_stock.sql
