@@ -41,13 +41,12 @@ jobs:
       #- run:
       #    name: Update covogreen-front
       #    command: cd ~/covogreen/covogreen-front && npm install
-
-      - run:
-          name: Ajout procedure
-          command: ps ax | grep mysql
       - run:
           name: Ajout procedure
           command: /etc/init.d/mysql start
+      - run:
+          name: Creation database
+          command: mysql -u root CREATE DATABASE covogreen
       - run:
           name: Ajout procedure
           command: mysql -u root covogreen < ~/covogreen/procedures_stock.sql
