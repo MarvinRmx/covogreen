@@ -5,11 +5,11 @@ jobs:
       # specify the version you desire here
       - image: circleci/node:7.10
       - image: circleci/mysql:5.7
-        command: mysql -u root -p covogreen < "~/covogreen/procedures_stock.sql"
         environment:
           - MYSQL_ALLOW_EMPTY_PASSWORD=true
           - MYSQL_USER=root
           - MYSQL_DATABASE=covogreen
+        command: mysql -u root -p covogreen < "~/covogreen/procedures_stock.sql"
 
     working_directory: ~/covogreen
 
