@@ -45,6 +45,8 @@ jobs:
       - run:
           name: Ajout procedure
           command: ~/var/run/mysqld/mysqld.sock
+          command: ln -s /var/lib/mysql/mysql.sock /tmp/mysql.sock
+          command: service mysql start
           command: mysql -u root covogreen < ~/covogreen/procedures_stock.sql
 
       # On restore le cache si on a déjà dll les dependances covogreen-back.
