@@ -5,11 +5,11 @@ jobs:
       # specify the version you desire here
       #- image: circleci/node:7.10
       #- image: circleci/mysql:5.7
-      #  environment:
-      #    - MYSQL_ALLOW_EMPTY_PASSWORD=true
-      #    - MYSQL_USER=root
-      #    - MYSQL_DATABASE=covogreen
       - image: spittet/node-mysql
+      environment:
+        - MYSQL_ALLOW_EMPTY_PASSWORD=true
+        - MYSQL_USER=root
+        - MYSQL_DATABASE=covogreen
 
     working_directory: ~/covogreen
 
@@ -44,6 +44,7 @@ jobs:
 
       - run:
           name: Ajout procedure
+          command: /etc/init.d/mysql start
           command: mysql -u root circle_test < ~/covogreen/procedures_stock.sql
 
       # On restore le cache si on a déjà dll les dependances covogreen-back.
