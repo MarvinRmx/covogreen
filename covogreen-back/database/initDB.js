@@ -9,12 +9,13 @@ var InscriptionJourney = require('./models/inscriptionJourney');
 
 var initDB = co(
     function * (){
-        yield Car.sync({force: false});
+        // PB detecté : execution de la synchronisation des tables 2 fois lors du lanceent du svr.
+        /*yield Car.sync({force: false});
         yield User.sync({force: false});
         yield Journey.sync({force: false});
         yield Participation.sync({force: false});
         yield Chat.sync({force: false});
-        yield InscriptionJourney.sync({force: false});
+        yield InscriptionJourney.sync({force: false});*/
     }
 );
 
