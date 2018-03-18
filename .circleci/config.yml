@@ -31,8 +31,6 @@ jobs:
           name: Update covogreen-back
           command: cd ~/covogreen/covogreen-back && npm install
 
-
-
       # Download and cache dependencies
       - restore_cache:
           keys:
@@ -58,7 +56,7 @@ jobs:
           key: v2-dependencies-{{ checksum "~/covogreen/covogreen-front/package.json" }}
 
       - run:
-        name: Ajout procedure stocké
+        name: Ajout procedure stocke
         command: mysql -u root -p covogreen < ~/covogreen/procedures_stock.sql
 
       # On lance le test du covogreen-back.
