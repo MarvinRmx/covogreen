@@ -9,12 +9,15 @@ jobs:
           - MYSQL_ALLOW_EMPTY_PASSWORD=true
           - MYSQL_USER=root
           - MYSQL_DATABASE=covogreen
-        command: mysql -u root -p covogreen < "~/covogreen/procedures_stock.sql"
 
     working_directory: ~/covogreen
 
     steps:
       - checkout
+
+      database:
+        override:
+          - mysql -u ubuntu circle_test < "~/covogreen/procedures_stock.sql"
 
       # Download and cache dependencies
       - restore_cache:
