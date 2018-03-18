@@ -29,7 +29,7 @@ jobs:
 
       - run:
           name: Ajout procedure
-          command: mysql -u root circle_test < "~/covogreen/procedures_stock.sql"
+          command: mysql -u root circle_test < ~/covogreen/procedures_stock.sql
 
       # Download and cache dependencies
       - restore_cache:
