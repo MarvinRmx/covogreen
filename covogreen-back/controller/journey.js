@@ -68,9 +68,6 @@ var JourneyController = {
         var userToken = authToken.getToken(req);
         var journeyReq = req.body;
 
-        console.log('journeyReq : ', journeyReq);
-        console.log('journeyReq id_journey : ', journeyReq.id_journey);
-
         if(!userToken.revoked)
         {
             Journey.findById(journeyReq.id_journey)
