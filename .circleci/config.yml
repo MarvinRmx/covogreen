@@ -27,9 +27,7 @@ jobs:
           name: Update covogreen-back
           command: cd ~/covogreen/covogreen-back && npm install
 
-      - run:
-          name: Ajout procedure
-          command: mysql -u root circle_test < ~/covogreen/procedures_stock.sql
+
 
       # Download and cache dependencies
       - restore_cache:
@@ -42,6 +40,10 @@ jobs:
       - run:
           name: Update covogreen-front
           command: cd ~/covogreen/covogreen-front && npm install
+
+      - run:
+          name: Ajout procedure
+          command: mysql -u root circle_test < ~/covogreen/procedures_stock.sql
 
       # On restore le cache si on a déjà dll les dependances covogreen-back.
       - save_cache:
