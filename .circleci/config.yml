@@ -3,13 +3,14 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: circleci/node:7.10
-      - image: circleci/mysql:5.7
-        environment:
-          - MYSQL_ALLOW_EMPTY_PASSWORD=true
-          - MYSQL_USER=root
-          - MYSQL_DATABASE=covogreen
-
+      #- image: circleci/node:7.10
+      #- image: circleci/mysql:5.7
+      #  environment:
+      #    - MYSQL_ALLOW_EMPTY_PASSWORD=true
+      #    - MYSQL_USER=root
+      #    - MYSQL_DATABASE=covogreen
+      - image: spittet/node-mysql
+      
     working_directory: ~/covogreen
 
     steps:
