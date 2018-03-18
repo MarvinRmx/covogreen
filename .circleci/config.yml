@@ -19,7 +19,7 @@ jobs:
           name: Ajout procedure
           command: mysql -u root circle_test < "~/covogreen/procedures_stock.sql"
 
-      # Download and cache dependencies
+      # Download and cache dependencieszzzzz
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "~/covogreen/covogreen-back/package.json" }}
