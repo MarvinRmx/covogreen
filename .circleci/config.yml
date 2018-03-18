@@ -12,13 +12,14 @@ jobs:
 
     working_directory: ~/covogreen
 
-    database:
-        override:
-          - mysql -u root -e "create database procedures_stock"
-          - mysql -u root circle_test < "~/covogreen/procedures_stock.sql"
-
     steps:
       - checkout
+
+      - run:
+        name: Ajout procedure
+        command: |
+         mysql -u root -e "create database procedures_stock"
+         mysql -u root circle_test < "~/covogreen/procedures_stock.sql"
 
       # Download and cache dependencies
       - restore_cache:
