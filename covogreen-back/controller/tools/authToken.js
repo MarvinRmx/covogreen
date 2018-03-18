@@ -16,6 +16,13 @@ var authToken = {
         var tokenDecode = jwt.decode(tokenHash, skey);
 
         return tokenDecode;
+    },
+
+    createToken: function(data) {
+        var user = JSON.stringify({id_user: data.id_user, username: data.username, privilege: data.privilege, revoked: data.revoked});
+        var token = jwt.sign(user, skey);
+
+        return token;
     }
 };
 

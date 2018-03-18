@@ -17,11 +17,12 @@ var skey = fs.readFileSync(skey_path, 'utf-8');
  */
 var InscriptionTrajetController = {
 
+
   /**
    * Exécute la tentative de l'inscription au trajet
    */
   doIt: co.wrap(function * (req, res) {
-  	req.accepts('application/json');
+    req.accepts('application/json');
 
     var token = req.headers['authorization'];
     if (!token) return res.status(401).send({ auth: false, message: 'No token provided.' });
@@ -39,7 +40,7 @@ var InscriptionTrajetController = {
     //   result = yield RechercheTrajetController.getListTrajet(req.body, result, condition);
     //   result.nb_total_page = yield RechercheTrajetController.getNbPage(condition);
     // }
-  	res.send("ok");
+    res.send("ok");
   })
 
 };

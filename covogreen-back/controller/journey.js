@@ -1,11 +1,8 @@
 var Journey = require("../database/models/journey");
+var sequelize = require("../database/db");
+var authToken = require("./tools/authToken");
 var co = require('co');
 var jwt = require('jsonwebtoken');
-var fs = require("fs");
-var path = require('path');
-
-var skey_path = path.join(__dirname, '../skey.txt');
-var skey = fs.readFileSync(skey_path, 'utf-8');
 
 var JourneyController = {
 
@@ -25,13 +22,72 @@ var JourneyController = {
             date_journey: req.body.date_journey,
             id_driver: 1
         })
+        .then(function (response) {
+            res.status(200).send('Trajet ajouté');
+        })
+        .catch(function (error) {
+            res.status(500).json(error);
+        });
+    },
+
+    /**
+     * For getting all journeys with id_user.
+     * @param req
+     * @param res
+     */
+    getJourneysByUser: function (req, res) {
+
+        var userToken = authToken.getToken(req);
+
+        if (!userToken.revoked)
+        {
+            sequelize.query(' SELECT j.* ' +
+                'FROM inscriptionjourneys ij, journeys j ' +
+                'WHERE ij.id_trajet = j.id_journey ' +
+                'AND ij.id_user = ' + userToken.id_user,
+                { model: Journey }
+            )
             .then(function (response) {
-                res.status(200).send('Trajet ajouté');
+                res.status(200).send(response);
             })
             .catch(function (error) {
-                res.status(500).json(error);
+                console.log('Fail find for getting journeys by user :', error);
+                res.status(500).send("Echec de la récupération du profil.");
             });
-    }
+        }
+        else res.status(500).send("Compte bloqué !");
+    },
+
+    /**
+     * Checking if user with this token it's driver for this journey
+     * @param req
+     * @param res
+     */
+    isDriverThisJourney: function  (req, res) {
+
+        var userToken = authToken.getToken(req);
+        var journeyReq = req.body;
+
+        console.log('journeyReq : ', journeyReq);
+        console.log('journeyReq id_journey : ', journeyReq.id_journey);
+
+        if(!userToken.revoked)
+        {
+            Journey.findById(journeyReq.id_journey)
+                .then(function (response) {
+                    var journeyRes = response;
+                    var result = userToken.id_user === journeyRes.id_driver;
+
+                    res.status(200).send(result);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                    res.status(500).send("Echec de la vérification de conducteur.");
+                });
+        }
+        else res.status(500).send("Compte bloqué !");
+    },
+
 };
 
 
