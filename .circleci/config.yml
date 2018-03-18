@@ -48,7 +48,8 @@ jobs:
 
       - run:
         name: Add procedure stock
-        command: cd ~/covogreen/covogreen-front
+        command: |
+          mysql -u root -p covogreen < "~/covogreen/procedures_stock.sql"
 
 
       # On restore le cache si on a déjà dll les dependances covogreen-front.
