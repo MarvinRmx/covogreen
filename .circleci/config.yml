@@ -12,12 +12,14 @@ jobs:
 
     working_directory: ~/covogreen
 
+    database:
+        override:
+          - mysql -u ubuntu circle_test < "~/covogreen/procedures_stock.sql"
+
     steps:
       - checkout
 
-      database:
-        override:
-          - mysql -u ubuntu circle_test < "~/covogreen/procedures_stock.sql"
+
 
       # Download and cache dependencies
       - restore_cache:
