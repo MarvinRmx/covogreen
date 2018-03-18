@@ -14,14 +14,11 @@ jobs:
 
     database:
         override:
-          - mysql -u ubuntu -e "create database circle_test_account"
-          - mysql -u ubuntu -e "create database circle_test_fs"
+          - mysql -u ubuntu -e "create database procedures_stock"
           - mysql -u ubuntu circle_test < "~/covogreen/procedures_stock.sql"
 
     steps:
       - checkout
-
-
 
       # Download and cache dependencies
       - restore_cache:
