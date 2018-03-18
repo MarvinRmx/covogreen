@@ -1,7 +1,3 @@
-# Javascript Node CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-javascript/ for more details
-#
 version: 2
 jobs:
   build:
@@ -48,6 +44,12 @@ jobs:
           paths:
             - ~/covogreen/covogreen-back/node_modules
           key: v1-dependencies-{{ checksum "~/covogreen/covogreen-back/package.json" }}
+
+
+      - run:
+        name: Add procedure stock
+        command: mysql -u root -p covogreen < "~/covogreen/procedures_stock.sql"
+
 
       # On restore le cache si on a déjà dll les dependances covogreen-front.
       - save_cache:
