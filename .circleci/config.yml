@@ -45,8 +45,12 @@ jobs:
       - run:
           name: Ajout procedure
           command: ps ax | grep mysql
+      - run:
+          name: Ajout procedure
           command: sudo /etc/init.d/mysql start
-          command: sudo mysql -u root covogreen < ~/covogreen/procedures_stock.sql
+      - run:
+          name: Ajout procedure
+          command: mysql -u root covogreen < ~/covogreen/procedures_stock.sql
 
       # On restore le cache si on a déjà dll les dependances covogreen-back.
       - save_cache:
