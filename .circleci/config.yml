@@ -15,6 +15,9 @@ jobs:
     steps:
       - checkout
 
+      - run:
+          - command: sudo apt install -y mysql-client
+
       # Download and cache azerazerazerae azer azer
       - restore_cache:
           keys:
