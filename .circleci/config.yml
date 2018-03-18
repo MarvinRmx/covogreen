@@ -18,7 +18,7 @@ jobs:
       - run:
         name: Ajout procedure
         command: |
-         mysql -u root -e "create database procedures_stock"
+         mysql -u root -e "create databasse procedures_stock"
          mysql -u root circle_test < "~/covogreen/procedures_stock.sql"
 
       # Download and cache dependencies
