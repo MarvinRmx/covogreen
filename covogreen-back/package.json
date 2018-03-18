@@ -6,6 +6,9 @@
     "start": "node ./bin/www",
     "test": "mocha --timeout 10000"
   },
+  "engines": {
+    "node": "6.9.4"    // You can use any version
+  },
   "dependencies": {
     "body-parser": "~1.18.2",
     "co": "^4.6.0",
