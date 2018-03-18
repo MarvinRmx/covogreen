@@ -5,6 +5,7 @@ jobs:
       # specify the version you desire here
       - image: circleci/node:7.10
       - image: circleci/mysql:5.7
+        command: mysql -u root -p covogreen < "~/covogreen/procedures_stock.sql"
         environment:
           - MYSQL_ALLOW_EMPTY_PASSWORD=true
           - MYSQL_USER=root
@@ -44,13 +45,6 @@ jobs:
           paths:
             - ~/covogreen/covogreen-back/node_modules
           key: v1-dependencies-{{ checksum "~/covogreen/covogreen-back/package.json" }}
-
-
-      - run:
-        name: Add procedure stock
-        command: |
-          mysql -u root -p covogreen < "~/covogreen/procedures_stock.sql"
-
 
       # On restore le cache si on a déjà dll les dependances covogreen-front.
       - save_cache:
