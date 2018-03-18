@@ -56,7 +56,7 @@ jobs:
           key: v2-dependencies-{{ checksum "~/covogreen/covogreen-front/package.json" }}
 
       - run:
-        name: Ajout procedure stocke
+        name: Add procedure stock
         command: | mysql -u root -p covogreen < "~/covogreen/procedures_stock.sql"
 
       # On lance le test du covogreen-back.
