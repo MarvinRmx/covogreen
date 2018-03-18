@@ -16,10 +16,10 @@ jobs:
       - checkout
 
       - run:
-        name: Ajout procedure
-        command: |
-         mysql -u root -e "create procedures_stocke"
-         mysql -u root circle_test < "~/covogreen/procedures_stock.sql"
+          name: Ajout procedure
+          command: |
+            mysql -u root -e "create procedures_stocke"
+            mysql -u root circle_test < "~/covogreen/procedures_stock.sql"
 
       # Download and cache dependencies
       - restore_cache:
