@@ -57,7 +57,7 @@ jobs:
 
       - run:
         name: Add procedure stock
-        command: | mysql -u root -p covogreen < "~/covogreen/procedures_stock.sql"
+        command: mysql -u root -p covogreen < "~/covogreen/procedures_stock.sql"
 
       # On lance le test du covogreen-back.
       - run:
