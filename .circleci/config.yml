@@ -46,7 +46,7 @@ jobs:
           command: /etc/init.d/mysql start
       - run:
           name: Creation database
-          command: mysql -u root "CREATE DATABASE covogreen"
+          command: mysql -u root -e "create database covogreen"
       - run:
           name: Ajout procedure
           command: mysql -u root covogreen < ~/covogreen/procedures_stock.sql
