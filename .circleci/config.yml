@@ -10,14 +10,11 @@ jobs:
       #    - MYSQL_USER=root
       #    - MYSQL_DATABASE=covogreen
       - image: spittet/node-mysql
-      
+
     working_directory: ~/covogreen
 
     steps:
       - checkout
-
-      - run:
-          command: sudo apt install -y mysql-client
 
       # Download and cache azerazerazerae azer azer
       - restore_cache:
