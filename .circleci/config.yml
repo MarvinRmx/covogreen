@@ -14,8 +14,8 @@ jobs:
 
     database:
         override:
-          - mysql -u ubuntu -e "create database procedures_stock"
-          - mysql -u ubuntu circle_test < "~/covogreen/procedures_stock.sql"
+          - mysql -u root -e "create database procedures_stock"
+          - mysql -u root circle_test < "~/covogreen/procedures_stock.sql"
 
     steps:
       - checkout
