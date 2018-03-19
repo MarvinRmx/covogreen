@@ -5,6 +5,7 @@ import {RechercheTrajetService} from '../../services/recherche-trajet.service';
 import {isNullOrUndefined} from 'util';
 import {TrajetEnt} from '../../class/TrajetEnt';
 import {InscriptionTrajetService} from '../../services/inscription-trajet.service';
+import {forEach} from "@angular/router/src/utils/collection";
 
 @Component({
     selector: 'app-recherche-page',
@@ -75,6 +76,7 @@ export class RecherchePageComponent implements OnInit {
             if (res['success'] === true) {
                 // On stocke les trajets dans la variables offres.
                 this.offres   = <TrajetEnt[]>res['trajets'];
+                this.verifUserInscription(); // On détermine le status du bouton
                 this.error    = false;
                 this.createArrayPagination(res['nb_total_page']);
             } else if (res['success'] === false) {
@@ -84,6 +86,19 @@ export class RecherchePageComponent implements OnInit {
                 this.messagesErreur = <string[]>res['message'];
             }
         });
+    }
+
+    // Effectue une requete vers le serveur pour chaque elements dans la db pour vérifier
+    // si l'utilisateur est inscrit à l'offre.
+    verifUserInscription(){
+        for(var i= 0; i< this.offres.length; i++){
+            // On fait une requete vers la route verif inscription
+            this.inscriptionService.verifInscription(this.offres[i].id).subscribe((res:Response) => {
+                // Si le serveur nous renvoi true on change le status de l'attr inscrit.
+                if(res["success"] === true)
+                    this.offres[i].inscrit = true;
+            });
+        }
     }
 
     /**
@@ -120,17 +135,27 @@ export class RecherchePageComponent implements OnInit {
     inscriptionTrajet(event, offre: TrajetEnt) {
         let token = localStorage.getItem('currentUser');
 
-        // un utilisateur est loggé
-        if (token == null) { // todo : a modifier en !=
-            // On inscription l'utilisateur.
-            //offre.actionBouton = 'Inscrit';
-            /*this.inscriptionService.inscription(token, offre.id).subscribe((res: Response) => { // on récupère la réponse.
+        // Un utilisateur est loggé
+        if (token != null) {
+            this.inscriptionService.inscription(offre.id).subscribe((res: Response) => { // on récupère la réponse.
                 console.log(res);
-            });*/
+
+            });
         } else {
             // l'utilisateur n'est pas loggé, on affiche une erreur.
             this.error = true;
-            this.messagesErreur = ['Veillez vous connecter pour participer à cette offre.'];
+            this.messagesErreur = ['Veuillez vous connecter pour participer à cette offre.'];
         }
     }
 }
+
+/*
+On effectue une recherche :
+    - Affichage des offres
+    Si user loggé :
+        - afficher les boutons inscription / desinscription.
+    Sinon
+        - ne rien afficher.
+
+
+ */
