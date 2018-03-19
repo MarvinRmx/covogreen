@@ -46,6 +46,9 @@ jobs:
           name: Creation database
           command: mysql -u root -e "create database covogreen"
       - run:
+          name: Ajout des requetes
+          command: mysql -u root covogreen < ~/covogreen/database.sql
+      - run:
           name: Ajout procedure
           command: mysql -u root covogreen < ~/covogreen/procedures_stock.sql
 
