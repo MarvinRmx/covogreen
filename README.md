@@ -1,5 +1,7 @@
 # Projet Tutoré
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/bc9cee93384b4d6e8a9b2f4d7dc0b2db)](https://app.codacy.com/app/romainlembo06/covogreen?utm_source=github.com&utm_medium=referral&utm_content=MarvinRmx/covogreen&utm_campaign=badger)
+
 ## Sources
 * **https://forge-iutinfo.unice.fr/login**
 * **http://www.bouml.fr/download.html**
