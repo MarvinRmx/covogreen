@@ -21,7 +21,6 @@ import {
 } from '@angular/material';
 import {MatTabsModule} from '@angular/material/tabs';
 
-import { BarRatingModule } from "ngx-bar-rating";
 import { NgxSmartModalModule, NgxSmartModalService } from 'ngx-smart-modal';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
@@ -84,7 +83,6 @@ import { RateComponent } from './detailed-card/rate/rate.component';
         MatPaginatorModule,
         MatSlideToggleModule,
         MatTabsModule,
-        BarRatingModule,
         NgxSmartModalModule.forRoot(),
         ConfirmationPopoverModule.forRoot({
             confirmButtonType: 'danger' // set defaults here

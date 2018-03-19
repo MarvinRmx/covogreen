@@ -1,18 +1,18 @@
 <h2>TEST Rating</h2>
+id_journey : {{id_journey}}
 
-<div class="view">
-    <h2>Angular Bar Rating</h2>
+<div class="col-md-12">
 
-    <bar-rating [(rate)]="starRating"></bar-rating>
-
-    <bar-rating name="rating" [(rate)]="movieRating" [max]="4" [theme]="'movie'" [showText]="true"
-                [titles]="['Bad', 'Mediocre' , 'Good', 'Awesome']"  disabled></bar-rating>
-
-    <bar-rating [(rate)]="vRating" [max]="10" [theme]="'vertical'" [showText]="true"></bar-rating>
-
-    <bar-rating [rate]="faoRating" (rateChange)="onFaoRate($event)" [max]="10" [theme]="'fontawesome-o'"></bar-rating>
-
-    <p *ngIf="!faoRated">Current rating: {{faoRating}}</p>
-    <p *ngIf="faoRated">Your rating: {{faoRating}} <i class="link fa fa-times-circle" (click)="faoReset(5.6)"></i></p>
+    <form (ngSubmit)="sendRate()" [formGroup]="rateForm" class="form" role="form" #f="ngForm" novalidate>
+        <div class="form-group">
+            <label>Notation du trajet</label>
+            <mat-slider min="1" max="5" step="1" thumbLabel
+                        id="rate" name="rate" formControlName="rate">
+            </mat-slider>
+        </div>
+        <div class="form-group">
+            <button type="submit" [disabled]="rateForm.invalid" class="btn btn-primary btn-block">Modifier</button>
+        </div>
+    </form>
 
 </div>
