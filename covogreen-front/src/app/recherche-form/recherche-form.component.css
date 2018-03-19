@@ -1,5 +1,0 @@
-@media (min-width: 1200px) { /* On ajoute un padding top à la checbox seulement lorsque la taille de l'ecran est 'lg' */
-    .checkboxPlaceLibreBox{
-        padding-top:40px;
-    }
-}

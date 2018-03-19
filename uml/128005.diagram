@@ -1,6 +1,0 @@
-format 216
-
-usecasecanvas 128005 usecase_ref 128005 // ucTest
-  xyzwh 429 356 3005 64 32 label_xy 442 388
-end
-end
