@@ -1,7 +1,8 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import {JourneyService} from '../../../services/journey.service';
 import {MatPaginator, MatTableDataSource} from "@angular/material";
 import {Journey} from '../../../class/journey';
+import { NgxSmartModalService } from 'ngx-smart-modal';
 
 @Component({
   selector: 'app-my-journeys',
@@ -16,25 +17,26 @@ export class MyJourneysComponent implements OnInit, AfterViewInit {
     public dataSource = new MatTableDataSource<Journey>([]);
 
     constructor(
-        private journeyService: JourneyService
+        private journeyService: JourneyService,
+        private ngxSmartModalService: NgxSmartModalService
     ) { }
 
-      ngOnInit() {
+    ngOnInit() {
 
-          this.journeyService.getJourneysByUser()
-              .subscribe(result => {
+      this.journeyService.getJourneysByUser()
+          .subscribe(result => {
 
-                    for (let journey of result) {
-                        this.journeyService.isDriverThisJourney(journey)
-                            .subscribe( is_driver => {
-                                journey.is_driver = is_driver;
-                            });
-                    }
+                for (let journey of result) {
+                    this.journeyService.isDriverThisJourney(journey)
+                        .subscribe( is_driver => {
+                            journey.is_driver = is_driver;
+                        });
+                }
 
-                  this.dataSource = new MatTableDataSource<Journey>(result);
-                  this.dataSource.paginator = this.paginator;
-              });
-      }
+              this.dataSource = new MatTableDataSource<Journey>(result);
+              this.dataSource.paginator = this.paginator;
+          });
+    }
 
     ngAfterViewInit() {}
 

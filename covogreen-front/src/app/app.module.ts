@@ -21,7 +21,7 @@ import {
 } from '@angular/material';
 import {MatTabsModule} from '@angular/material/tabs';
 
-
+import { NgxSmartModalModule, NgxSmartModalService } from 'ngx-smart-modal';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing/app-routing.module';
@@ -83,6 +83,7 @@ import { RateComponent } from './detailed-card/rate/rate.component';
         MatPaginatorModule,
         MatSlideToggleModule,
         MatTabsModule,
+        NgxSmartModalModule.forRoot(),
         ConfirmationPopoverModule.forRoot({
             confirmButtonType: 'danger' // set defaults here
         })
@@ -115,6 +116,7 @@ import { RateComponent } from './detailed-card/rate/rate.component';
         AdminService,
         AuthRequest,
         JourneyService,
+        NgxSmartModalService,
         {
             provide: MATERIAL_SANITY_CHECKS,
             useValue: false

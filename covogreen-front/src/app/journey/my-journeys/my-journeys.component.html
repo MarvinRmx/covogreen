@@ -39,7 +39,8 @@
             <ng-container matColumnDef="access">
                 <mat-header-cell *matHeaderCellDef></mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                    <button mat-raised-button color="accent">Détails</button>
+                    <button mat-raised-button color="accent"
+                            (click)="ngxSmartModalService.getModal('detailedCard').open()">Détails</button>
                 </mat-cell>
             </ng-container>
 
@@ -63,3 +64,8 @@
     </div>
 
 </div>
+
+<ngx-smart-modal #detailedCard identifier="detailedCard">
+    <app-detailed-card></app-detailed-card>
+    <button (click)="detailedCard.close()">Close</button>
+</ngx-smart-modal>
