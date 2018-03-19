@@ -47,6 +47,8 @@ export class RecherchePageComponent implements OnInit {
                 // Première visite sur la page recherche.
                 this.loadTrajets(new RechercheFormEnt( "",  "",  false,  ""), 1);
             }
+
+            this.verifUserInscription();
         });
     }
 
@@ -70,7 +72,7 @@ export class RecherchePageComponent implements OnInit {
             // Offres existantent.
             if (res['success'] === true) {
                 // On stocke les trajets dans la variables offres.
-                this.offres   = this.verifUserInscription(<TrajetEnt[]>res['trajets']);
+                this.offres   = <TrajetEnt[]>res['trajets'];
                 this.error    = false;
                 this.createArrayPagination(res['nb_total_page']);
             } else if (res['success'] === false) {
@@ -84,21 +86,15 @@ export class RecherchePageComponent implements OnInit {
 
     // Effectue une requete vers le serveur pour chaque elements dans la db pour vérifier
     // si l'utilisateur est inscrit à l'offre.
-    verifUserInscription(offres : TrajetEnt[]){
-        var retour: TrajetEnt[] =  [];
-
-        for(var i= 0; i< offres.length; i++){
+    verifUserInscription(){
+        for(var i= 0; i < this.offres.length; i++){
             // On fait une requete vers la route verif inscription
-            this.inscriptionService.verifInscription(offres[i].id).subscribe((res:Response) => {
-                // Si le serveur nous renvoi true on change le status de l'attr inscrit.
-                if(res["success"] === true)
-                    offres[i].inscrit = true;
+            this.inscriptionService.verifInscription(this.offres[i].id).subscribe(res=>{
+               console.log("VERIF : " + res["success"]);
+               if(res["success"] === false)
+                   this.offres[i].inscrit = true;
             });
-
-            retour.push(offres[i]);
         }
-        console.log(retour);
-        return retour;
     }
 
     /**
@@ -134,7 +130,9 @@ export class RecherchePageComponent implements OnInit {
      */
     inscriptionTrajet(offre: TrajetEnt) {
         this.inscriptionService.inscription(offre.id).subscribe((res: Response) => { // on récupère la réponse.
-            console.log(res);
+            if(res["success"] === false)
+                this.error = true;
+                this.messagesErreur = <string[]>res['message'];
         });
     }
 
