@@ -28,7 +28,7 @@ jobs:
 
 
 
-       Download and cache dependencies
+      # Download and cache dependencies
       - restore_cache:
           keys:
             - v2-dependencies-{{ checksum "~/covogreen/covogreen-front/package.json" }}
