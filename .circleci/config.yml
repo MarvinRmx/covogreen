@@ -28,17 +28,17 @@ jobs:
 
 
 
-      # Download and cache dependencies
-      #- restore_cache:
-      #    keys:
-      #      - v2-dependencies-{{ checksum "~/covogreen/covogreen-front/package.json" }}
-      #      # fallback to using the latest cache if no exact match is found
-      #      - v2-dependencies-
-      #
-      ## On installe les dépendances covogreen-front.
-      #- run:
-      #    name: Update covogreen-front
-      #    command: cd ~/covogreen/covogreen-front && npm install
+       Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v2-dependencies-{{ checksum "~/covogreen/covogreen-front/package.json" }}
+            # fallback to using the latest cache if no exact match is found
+            - v2-dependencies-
+
+      # On installe les dépendances covogreen-front.
+      - run:
+          name: Update covogreen-front
+          command: cd ~/covogreen/covogreen-front && npm install
       - run:
           name: Ajout procedure
           command: /etc/init.d/mysql start
