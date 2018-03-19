@@ -17,7 +17,7 @@ import {CreateJourneyComponent} from '../journey/create-journey/create-journey.c
 import {MyJourneysComponent} from '../journey/my-journeys/my-journeys.component';
 
 import {RecherchePageComponent} from '../recherche-page/recherche-page.component';
-import {ChatComponent} from '../chat/chat.component';
+import {ChatComponent} from '../detailed-card/chat/chat.component';
 
 
 const routes: Routes = [
