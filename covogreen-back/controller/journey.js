@@ -13,21 +13,26 @@ var JourneyController = {
      */
     create: function (req, res) {
 
-        req.accepts('application/json');
+        var userToken = authToken.getToken(req);
 
-        Journey.create({
-            origin: req.body.origin,
-            destination: req.body.destination,
-            seats_available: req.body.seats_available,
-            date_journey: req.body.date_journey,
-            id_driver: 1
-        })
-        .then(function (response) {
-            res.status(200).send('Trajet ajouté');
-        })
-        .catch(function (error) {
-            res.status(500).json(error);
-        });
+        if (!userToken.revoked)
+        {
+            Journey.create({
+                origin: req.body.origin,
+                destination: req.body.destination,
+                seats_available: req.body.seats_available,
+                date_journey: req.body.date_journey,
+                id_driver: userToken.id_user
+            })
+            .then(function (response) {
+                res.status(200).send('Trajet ajouté');
+            })
+            .catch(function (error) {
+                console.log('create error : ', error);
+                res.status(500).json(error);
+            });
+        }
+        else res.status(500).send("Compte bloqué !");
     },
 
     /**
