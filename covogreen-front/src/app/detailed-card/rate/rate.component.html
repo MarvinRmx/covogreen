@@ -1,0 +1,18 @@
+<h2>TEST Rating</h2>
+
+<div class="view">
+    <h2>Angular Bar Rating</h2>
+
+    <bar-rating [(rate)]="starRating"></bar-rating>
+
+    <bar-rating name="rating" [(rate)]="movieRating" [max]="4" [theme]="'movie'" [showText]="true"
+                [titles]="['Bad', 'Mediocre' , 'Good', 'Awesome']"  disabled></bar-rating>
+
+    <bar-rating [(rate)]="vRating" [max]="10" [theme]="'vertical'" [showText]="true"></bar-rating>
+
+    <bar-rating [rate]="faoRating" (rateChange)="onFaoRate($event)" [max]="10" [theme]="'fontawesome-o'"></bar-rating>
+
+    <p *ngIf="!faoRated">Current rating: {{faoRating}}</p>
+    <p *ngIf="faoRated">Your rating: {{faoRating}} <i class="link fa fa-times-circle" (click)="faoReset(5.6)"></i></p>
+
+</div>

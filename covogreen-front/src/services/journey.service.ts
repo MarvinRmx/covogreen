@@ -72,10 +72,8 @@ export class JourneyService {
     }
 
     createJourney(journey: Journey): Observable<string> {
-        let headers = new Headers({ "Content-Type": "application/json" });
-        let options = new RequestOptions({ headers: headers });
 
-        return this.http.post(this.uri, JSON.stringify(journey), options)
+        return this.http.post(this.uri, JSON.stringify(journey), this.authRequest.requestOptions)
             .map((response: Response) => {
                 return response.text();
             });

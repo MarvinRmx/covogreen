@@ -21,7 +21,8 @@ import {
 } from '@angular/material';
 import {MatTabsModule} from '@angular/material/tabs';
 
-
+import { BarRatingModule } from "ngx-bar-rating";
+import { NgxSmartModalModule, NgxSmartModalService } from 'ngx-smart-modal';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing/app-routing.module';
@@ -52,11 +53,13 @@ import { RecherchePageComponent } from './recherche-page/recherche-page.componen
 import { NewCarComponent } from './car/newcar.component';
 import {CreateJourneyComponent} from './journey/create-journey/create-journey.component';
 
-import { ChatComponent } from './chat/chat.component';
+import { ChatComponent } from './detailed-card/chat/chat.component';
 import { TestComponent } from './test/test.component';
 import { AdminUsersComponent } from './admin/admin-users/admin-users.component';
 import { MyJourneysComponent } from './journey/my-journeys/my-journeys.component';
 import {JourneyService} from '../services/journey.service';
+import { DetailedCardComponent } from './detailed-card/detailed-card.component';
+import { RateComponent } from './detailed-card/rate/rate.component';
 
 
 @NgModule({
@@ -81,6 +84,8 @@ import {JourneyService} from '../services/journey.service';
         MatPaginatorModule,
         MatSlideToggleModule,
         MatTabsModule,
+        BarRatingModule,
+        NgxSmartModalModule.forRoot(),
         ConfirmationPopoverModule.forRoot({
             confirmButtonType: 'danger' // set defaults here
         })
@@ -100,7 +105,9 @@ import {JourneyService} from '../services/journey.service';
         ChatComponent,
         TestComponent,
         AdminUsersComponent,
-        MyJourneysComponent
+        MyJourneysComponent,
+        DetailedCardComponent,
+        RateComponent
     ],
     providers: [
         AuthentificationService,
@@ -111,6 +118,7 @@ import {JourneyService} from '../services/journey.service';
         AdminService,
         AuthRequest,
         JourneyService,
+        NgxSmartModalService,
         {
             provide: MATERIAL_SANITY_CHECKS,
             useValue: false

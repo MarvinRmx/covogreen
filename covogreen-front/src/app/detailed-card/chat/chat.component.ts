@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-import {ChatService} from '../../services/chat.service';
-import {TrajetEnt} from '../../class/TrajetEnt';
+import {ChatService} from '../../../services/chat.service';
+import {TrajetEnt} from '../../../class/TrajetEnt';
 
 @Component({
   selector: 'app-chat',
