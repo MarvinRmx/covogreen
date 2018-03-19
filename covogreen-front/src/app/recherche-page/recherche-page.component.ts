@@ -36,21 +36,16 @@ export class RecherchePageComponent implements OnInit {
         // On récupère les informations passé en paramètre
         this.route.queryParams.subscribe(params => {
             // L'utilisateur a complété les champs du formulaire.
-            if(params.depart && params.destination && params.date_trajet && params.place_libre && params.page){
+            if(params.depart || params.destination || params.date_trajet || params.place_libre || params.page){
                 this.loadTrajets(new RechercheFormEnt(
-                    params.depart,
-                    params.destination,
-                    params.date_trajet,
-                    params.place_libre
+                    (params.depart)      ? params.depart : "",
+                    (params.destination) ? params.destination : "",
+                    (params.place_libre) ? params.place_libre : false,
+                    (params.date_trajet) ? params.date_trajet : "",
                 ), params.page);
             }else{
                 // Première visite sur la page recherche.
-                this.loadTrajets(new RechercheFormEnt(
-                    "",
-                    "",
-                    false,
-                    ""
-                ), 1);
+                this.loadTrajets(new RechercheFormEnt( "",  "",  false,  ""), 1);
             }
         });
     }
@@ -75,8 +70,7 @@ export class RecherchePageComponent implements OnInit {
             // Offres existantent.
             if (res['success'] === true) {
                 // On stocke les trajets dans la variables offres.
-                this.offres   = <TrajetEnt[]>res['trajets'];
-                this.verifUserInscription(); // On détermine le status du bouton
+                this.offres   = this.verifUserInscription(<TrajetEnt[]>res['trajets']);
                 this.error    = false;
                 this.createArrayPagination(res['nb_total_page']);
             } else if (res['success'] === false) {
@@ -90,15 +84,21 @@ export class RecherchePageComponent implements OnInit {
 
     // Effectue une requete vers le serveur pour chaque elements dans la db pour vérifier
     // si l'utilisateur est inscrit à l'offre.
-    verifUserInscription(){
-        for(var i= 0; i< this.offres.length; i++){
+    verifUserInscription(offres : TrajetEnt[]){
+        var retour: TrajetEnt[] =  [];
+
+        for(var i= 0; i< offres.length; i++){
             // On fait une requete vers la route verif inscription
-            this.inscriptionService.verifInscription(this.offres[i].id).subscribe((res:Response) => {
+            this.inscriptionService.verifInscription(offres[i].id).subscribe((res:Response) => {
                 // Si le serveur nous renvoi true on change le status de l'attr inscrit.
                 if(res["success"] === true)
-                    this.offres[i].inscrit = true;
+                    offres[i].inscrit = true;
             });
+
+            retour.push(offres[i]);
         }
+        console.log(retour);
+        return retour;
     }
 
     /**
@@ -132,30 +132,15 @@ export class RecherchePageComponent implements OnInit {
     /**
      * Methode executé lorsqu'un utilisateur clique sur le bouton pour s'inscrire à une offre
      */
-    inscriptionTrajet(event, offre: TrajetEnt) {
-        let token = localStorage.getItem('currentUser');
+    inscriptionTrajet(offre: TrajetEnt) {
+        this.inscriptionService.inscription(offre.id).subscribe((res: Response) => { // on récupère la réponse.
+            console.log(res);
+        });
+    }
 
-        // Un utilisateur est loggé
-        if (token != null) {
-            this.inscriptionService.inscription(offre.id).subscribe((res: Response) => { // on récupère la réponse.
-                console.log(res);
-
-            });
-        } else {
-            // l'utilisateur n'est pas loggé, on affiche une erreur.
-            this.error = true;
-            this.messagesErreur = ['Veuillez vous connecter pour participer à cette offre.'];
-        }
+    desinscriptionTrajet(offre: TrajetEnt) {
+        this.inscriptionService.desinscriptionTrajet(offre.id).subscribe((res: Response) => { // on récupère la réponse.
+            console.log(res);
+        });
     }
 }
-
-/*
-On effectue une recherche :
-    - Affichage des offres
-    Si user loggé :
-        - afficher les boutons inscription / desinscription.
-    Sinon
-        - ne rien afficher.
-
-
- */
