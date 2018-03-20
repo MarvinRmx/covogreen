@@ -39,17 +39,23 @@ var RechercheTrajetController = {
     if(journeyList != null)
       for(var i = 0; i < journeyList.length; i++){
         var driver = yield User.findById(journeyList[i].id_driver);
-        if( (journeyList[i].seats_available > 0 && request.place_libre) || !request.place_libre)
-          result.trajets.push(
-            {
-              id : journeyList[i].id_journey,
-      				depart : journeyList[i].origin,
-      				destination : journeyList[i].destination,
-      				auteur : driver.firstName + " " + driver.lastName,
-      				date_trajet : journeyList[i].date_journey,
-      				nombre_place_disponible : journeyList[i].seats_available
-      			}
-          );
+        var truc = {
+          id : journeyList[i].id_journey,
+          depart : journeyList[i].origin,
+          destination : journeyList[i].destination,
+          auteur : driver.firstName + " " + driver.lastName,
+          date_trajet : journeyList[i].date_journey,
+          nombre_place_disponible : journeyList[i].seats_available
+        };
+
+        if(request.place_libre == "true"){
+          if(journeyList[i].seats_available > 0 ){
+            result.trajets.push(truc);
+          }
+        }
+        else{
+          result.trajets.push(truc);
+        }
       }
 
     return result;
