@@ -32,8 +32,18 @@ var InscriptionTrajetController = {
 
     if(journey != null)
       if(user != null)
-        if(journey.seats_available >= 1)
-          yield InscriptionTrajetController.subscribe(journey, user, res);
+        if(journey.seats_available >= 1){
+          journey.seats_available = journey.seats_available-1;
+          journey.save();
+
+          var test = yield InscriptionTrajetController.checkSubscribe(journey, user);
+          if(test == false){
+            var inscriptionJourney = yield InscriptionJourney.create({ "id_user" : user.id_user, "id_trajet" : journey.id_journey});
+            res.status(200).send({success: true});
+          }
+          else
+            res.status(200).send({success: false, message: ["Error the user is already subscribed to journey"]});
+        }
         else
           res.status(200).send({success: false, message: ["Error the journey is full"]});
       else
@@ -53,11 +63,13 @@ var InscriptionTrajetController = {
     var user = yield User.findById(parseInt(token.id_user));
 
     if(journey != null)
-      if(user != null)
-        if(yield InscriptionTrajetController.checkSubscribe(journey, user) == true)
+      if(user != null){
+        var test = yield InscriptionTrajetController.checkSubscribe(journey, user);
+        if(test == false)
           res.status(200).send({success: true});
         else
           res.status(200).send({success: false, message: ["User is already subscribed to journey"]});
+      }
       else
         res.status(200).send({success: false, message: ["Impossible to find user"]});
     else
@@ -65,25 +77,14 @@ var InscriptionTrajetController = {
   }),
 
   checkSubscribe: co.wrap(function * (journey, user) {
-    var condition = { 'where' : { [Op.and] : [{"id_user" : user.id}, {"id_trajet" : journey.id}] } };
+    var condition = { 'where' : { [Op.and] : [{"id_user" : user.id_user}, {"id_trajet" : journey.id_journey}] } };
     var inscriptionJourneyList = yield InscriptionJourney.findAll(condition);
-    if(inscriptionJourneyList != null)
+    if(inscriptionJourneyList == null || inscriptionJourneyList.length <= 0 )
       return false;
     else
       return true;
-  }),
-
-  subscribe: co.wrap(function * (journey, user, res) {
-    journey.seats_available = journey.seats_available-1;
-    journey.save();
-
-    if(yield InscriptionTrajetController.checkSubscribe(journey, user) == false){
-      var inscriptionJourney = yield InscriptionJourney.create({ "id_user" : user.id, "id_trajet" : journey.id});
-      res.status(200).send({success: true});
-    }
-    else
-      res.status(200).send({success: false, message: ["Error the user is already subscribed to journey"]});
   })
+
 
 };
 

@@ -33,10 +33,11 @@ var DesinscriptionTrajetController = {
 
     if(journey != null)
       if(user != null)
-        if(yield InscriptionTrajetController.checkSubscribe(journey, user) == true){
+        var test = yield InscriptionTrajetController.checkSubscribe(journey, user);
+        if(test == true){
           journey.seats_available = journey.seats_available+1;
           journey.save();
-          var condition = { 'where' : { [Op.and] : [{"id_user" : user.id}, {"id_trajet" : journey.id}] } };
+          var condition = { 'where' : { [Op.and] : [{"id_user" : user.id_user}, {"id_trajet" : journey.id_trajet}] } };
           var inscriptionJourney = yield InscriptionJourney.findAll(condition);
           inscriptionJourney[0].destroy();
           res.status(200).send({success: true});
