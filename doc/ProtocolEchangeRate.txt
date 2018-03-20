@@ -1,0 +1,16 @@
+1) Récupération de la moyenne de la notation du conducteur (Ajout d'une colonne "rate" dans la table journey ? 
+La moyenne du conducteur se calculerait ainsi : SELECT SUM(rate)/COUNT(*) FROM journey WHERE id_driver = XX) :
+
+/rate/{id_driver} -> GET
+Frontend { id_driver : xx} --> Backend { status: 200/500, rate: xx, errors : [] }
+
+_______________________________
+
+
+2) Insertion de la nouvelle note du passager selon le trajet, ajout d'une colonne "rate" également dans la table inscriptionJourney ?
+(Se ferait comme ceci ? UPDATE inscriptionJourney SET rate = xx WHERE id_user = XX AND id_trajet = xx) :
+
+/rate/-> PUT
+Frontend { rate: XX, id_trajet: xx } --> Backend { status: 200/500, errors : [] }
+
+_______________________________
