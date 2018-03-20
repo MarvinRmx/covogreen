@@ -32,7 +32,7 @@ var DesinscriptionTrajetController = {
     var user = yield User.findById(parseInt(token.id_user));
 
     if(journey != null)
-      if(user != null)
+      if(user != null){
         var test = yield InscriptionTrajetController.checkSubscribe(journey, user);
         if(test == true){
           journey.seats_available = journey.seats_available+1;
@@ -44,6 +44,7 @@ var DesinscriptionTrajetController = {
         }
         else
           res.status(200).send({success: false, message: ["User is not in journey"]});
+      }
       else
         res.status(200).send({success: false, message: ["Impossible to find user"]});
     else
