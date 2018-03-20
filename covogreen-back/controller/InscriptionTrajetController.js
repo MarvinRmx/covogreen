@@ -16,9 +16,10 @@ var authToken = require("./tools/authToken");
  */
 var InscriptionTrajetController = {
 
-
   /**
-   * Exécute la tentative de l'inscription au trajet
+   * Cette methode effectue une tentative de l'inscription au trajet d'utilisateur courant
+   * @param req Trame envoyée par le client
+   * @param res Trame de retour vers le client
    */
   doIt: co.wrap(function * (req, res) {
     req.accepts('application/json');
@@ -52,6 +53,11 @@ var InscriptionTrajetController = {
       res.status(200).send({success: false, message: ["Impossible to find journey"]});
   }),
 
+  /**
+   * Cette methode indique au client si l'utilisateur est déjà inscrit au trajet ou pas
+   * @param req Trame envoyée par le client
+   * @param res Trame de retour vers le client
+   */
   verif: co.wrap(function * (req, res) {
     req.accepts('application/json');
     // On décode le json
@@ -76,6 +82,11 @@ var InscriptionTrajetController = {
       res.status(200).send({success: false, message: ["Impossible to find journey"]});
   }),
 
+  /**
+   * Cette methode vérifie si l'utilisateur est déjà inscrit au trajet
+   * @param journey Le trajet sélectionné
+   * @param user L'utilisateur sélectionné
+   */
   checkSubscribe: co.wrap(function * (journey, user) {
     var condition = { 'where' : { [Op.and] : [{"id_user" : user.id_user}, {"id_trajet" : journey.id_journey}] } };
     var inscriptionJourneyList = yield InscriptionJourney.findAll(condition);
@@ -84,7 +95,6 @@ var InscriptionTrajetController = {
     else
       return true;
   })
-
 
 };
 

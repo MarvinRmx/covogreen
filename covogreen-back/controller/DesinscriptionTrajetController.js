@@ -17,9 +17,10 @@ var InscriptionTrajetController = require("./InscriptionTrajetController");
  */
 var DesinscriptionTrajetController = {
 
-
   /**
-   * Exécute la tentative de desinscription du trajet
+   * Cette methode effectue une tentative de desinscription du trajet d'utilisateur courant
+   * @param req Trame envoyée par le client
+   * @param res Trame de retour vers le client
    */
   doIt: co.wrap(function * (req, res) {
     req.accepts('application/json');

@@ -9,12 +9,14 @@ var co = require('co');
 
 
 /**
- * Controleur RechercheTrajet qui retourne une liste de trajet en fonctiont de la demmande des filtres
+ * Contrôleur RechercheTrajet qui retourne une liste de trajet en fonction des filtres sélectionnés
  */
 var RechercheTrajetController = {
 
   /**
-   * Execute le deroulement de recuperation des trajet
+   * Exécute le déroulement de récupération des trajets
+   * @param req Trame envoyée par le client
+   * @param res Trame de retour vers le client
    */
   doIt: co.wrap(function * (req, res) {
   	req.accepts('application/json');
@@ -28,9 +30,9 @@ var RechercheTrajetController = {
   }),
 
   /**
-   *
-   * @param request Trame envoier par les filtres
-   * @param result Trame qui retourne les erreurs, les trajets, le nobre de page
+   * Cette methode retourne une liste de Trajet selon la condition
+   * @param request Trame envoyée par les filtres
+   * @param result Trame qui retourne les erreurs, les trajets, le nombre de pages
    * @param condition
    */
   getListTrajet: co.wrap(function * (request, result, condition) {
@@ -62,9 +64,9 @@ var RechercheTrajetController = {
   }),
 
   /**
-   * Cette methode calcule le nobre de page pour tout la recherceh
+   * Cette methode calcule le nombre de pages pour toute la recherche
    * @param journey Le trajet
-   * @return le nobre de page
+   * @return le nombre de page
    */
   getNbPage: co.wrap(function * (condition)
   {
@@ -81,8 +83,8 @@ var RechercheTrajetController = {
   }),
 
   /**
-   * genere l'objet condition en fonctiont de la requete recu pour rechercher les trajets avec sequelize
-   * @param request Trame envoier par les filtres
+   * Génère l'objet condition en fonction de la requête reçue pour rechercher les trajets avec sequelize
+   * @param request Trame envoyée par les filtres
    * @return l'objet condition pour rechercher les trajets
    */
   getResearchCondition: function(request)
@@ -107,9 +109,9 @@ var RechercheTrajetController = {
 	},
 
   /**
-   * Cette methode test si la requete recu est correct.
-   * @param request Trame qui retourne les erreurs, les trajets, le nobre de page
-   * @return l'objet result initialiser ou ramplies avec les messages d'erreurs
+   * Cette methode test si la requete reçue est correcte.
+   * @param request Trame qui retourne les erreurs, les trajets, le nombre de pages
+   * @return l'objet result initialisé ou rempli avec les messages d'erreurs
    */
 	checkRequest: function(request)
 	{
