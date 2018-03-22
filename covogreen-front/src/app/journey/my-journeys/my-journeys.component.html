@@ -40,7 +40,7 @@
                 <mat-header-cell *matHeaderCellDef></mat-header-cell>
                 <mat-cell *matCellDef="let element">
                     <button mat-raised-button color="accent"
-                            (click)="ngxSmartModalService.getModal('detailedCard').open()">Détails</button>
+                            (click)="redirect(element.id_journey)">Détails</button>
                 </mat-cell>
             </ng-container>
 

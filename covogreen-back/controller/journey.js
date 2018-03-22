@@ -49,7 +49,9 @@ var JourneyController = {
             sequelize.query(' SELECT j.* ' +
                 'FROM inscriptionjourneys ij, journeys j ' +
                 'WHERE ij.id_trajet = j.id_journey ' +
-                'AND ij.id_user = ' + userToken.id_user,
+                'AND ij.id_user = ' + userToken.id_user +
+                ' UNION SELECT * FROM journeys WHERE id_driver = ' + userToken.id_user
+                ,
                 { model: Journey }
             )
             .then(function (response) {

@@ -18,6 +18,7 @@ import {MyJourneysComponent} from '../journey/my-journeys/my-journeys.component'
 
 import {RecherchePageComponent} from '../recherche-page/recherche-page.component';
 import {ChatComponent} from '../detailed-card/chat/chat.component';
+import {JourneyDetailsComponent} from '../journey/journey-details/journey-details.component';
 
 
 const routes: Routes = [
@@ -33,9 +34,10 @@ const routes: Routes = [
     { path: 'journey/my', component: MyJourneysComponent, canActivate: [GuardService] },
     { path: 'recherche', component: RecherchePageComponent },
     { path: 'chat/:id', component: ChatComponent },
+    { path: 'journey/:id', component: JourneyDetailsComponent }
 
     // otherwise redirect to home
-    { path: '**', redirectTo: '' }
+    //{ path: '**', redirectTo: '' }
 ];
 
 @NgModule({

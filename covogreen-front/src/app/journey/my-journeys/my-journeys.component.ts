@@ -1,13 +1,14 @@
-import {AfterViewInit, Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {JourneyService} from '../../../services/journey.service';
-import {MatPaginator, MatTableDataSource} from "@angular/material";
+import {MatPaginator, MatTableDataSource} from '@angular/material';
 import {Journey} from '../../../class/journey';
-import { NgxSmartModalService } from 'ngx-smart-modal';
+import {NgxSmartModalService} from 'ngx-smart-modal';
+import {Router} from '@angular/router';
 
 @Component({
-  selector: 'app-my-journeys',
-  templateUrl: './my-journeys.component.html',
-  styleUrls: ['./my-journeys.component.css']
+    selector: 'app-my-journeys',
+    templateUrl: './my-journeys.component.html',
+    styleUrls: ['./my-journeys.component.css']
 })
 export class MyJourneysComponent implements OnInit, AfterViewInit {
 
@@ -16,29 +17,30 @@ export class MyJourneysComponent implements OnInit, AfterViewInit {
     public displayedColumns = ['id_journey', 'origin', 'destination', 'date_journey', 'status', 'access', 'cancel'];
     public dataSource = new MatTableDataSource<Journey>([]);
 
-    constructor(
-        private journeyService: JourneyService,
-        private ngxSmartModalService: NgxSmartModalService
-    ) { }
+    constructor(private journeyService: JourneyService,
+                private ngxSmartModalService: NgxSmartModalService,
+                private router: Router) {
+    }
 
     ngOnInit() {
 
-      this.journeyService.getJourneysByUser()
-          .subscribe(result => {
+        this.journeyService.getJourneysByUser()
+            .subscribe(result => {
 
                 for (let journey of result) {
                     this.journeyService.isDriverThisJourney(journey)
-                        .subscribe( is_driver => {
+                        .subscribe(is_driver => {
                             journey.is_driver = is_driver;
                         });
                 }
 
-              this.dataSource = new MatTableDataSource<Journey>(result);
-              this.dataSource.paginator = this.paginator;
-          });
+                this.dataSource = new MatTableDataSource<Journey>(result);
+                this.dataSource.paginator = this.paginator;
+            });
     }
 
-    ngAfterViewInit() {}
+    ngAfterViewInit() {
+    }
 
     applyFilter(filterValue: string) {
         filterValue = filterValue.trim(); // Remove whitespace
@@ -56,12 +58,16 @@ export class MyJourneysComponent implements OnInit, AfterViewInit {
         let hours = date.getHours();
         let minutes = date.getMinutes();
 
-        return  day + ' ' + dayUTC + ' ' + month + ', à ' +
-                hours + 'h' + minutes;
+        return day + ' ' + dayUTC + ' ' + month + ', à ' +
+            hours + 'h' + minutes;
     }
 
     getStatus(value): string {
         if (value) return 'Conducteur';
         return 'Passager';
+    }
+
+    redirect(id_journey: number) {
+        this.router.navigateByUrl('/journey/' + id_journey);
     }
 }
