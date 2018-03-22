@@ -15,8 +15,7 @@ var JourneyController = {
 
         var userToken = authToken.getToken(req);
 
-        if (!userToken.revoked)
-        {
+        if (!userToken.revoked) {
             Journey.create({
                 origin: req.body.origin,
                 destination: req.body.destination,
@@ -24,13 +23,13 @@ var JourneyController = {
                 date_journey: req.body.date_journey,
                 id_driver: userToken.id_user
             })
-            .then(function (response) {
-                res.status(200).send('Trajet ajouté');
-            })
-            .catch(function (error) {
-                console.log('create error : ', error);
-                res.status(500).json(error);
-            });
+                .then(function (response) {
+                    res.status(200).send('Trajet ajouté');
+                })
+                .catch(function (error) {
+                    console.log('create error : ', error);
+                    res.status(500).json(error);
+                });
         }
         else res.status(500).send("Compte bloqué !");
     },
@@ -44,25 +43,39 @@ var JourneyController = {
 
         var userToken = authToken.getToken(req);
 
-        if (!userToken.revoked)
-        {
+        if (!userToken.revoked) {
             sequelize.query(' SELECT j.* ' +
                 'FROM inscriptionjourneys ij, journeys j ' +
                 'WHERE ij.id_trajet = j.id_journey ' +
                 'AND ij.id_user = ' + userToken.id_user +
                 ' UNION SELECT * FROM journeys WHERE id_driver = ' + userToken.id_user
                 ,
-                { model: Journey }
+                {model: Journey}
             )
-            .then(function (response) {
-                res.status(200).send(response);
-            })
-            .catch(function (error) {
-                console.log('Fail find for getting journeys by user :', error);
-                res.status(500).send("Echec de la récupération du profil.");
-            });
+                .then(function (response) {
+                    res.status(200).send(response);
+                })
+                .catch(function (error) {
+                    console.log('Fail find for getting journeys by user :', error);
+                    res.status(500).send("Echec de la récupération du profil.");
+                });
         }
         else res.status(500).send("Compte bloqué !");
+    },
+
+    /**
+     * Getting info of the Journey from the id used in the url
+     * @param req
+     * @param res
+     */
+    getJourney: function (req, res) {
+        Journey.findById(req.params.id_journey)
+            .then(function (response) {
+                res.status(200).send(response);
+            }).catch(function (error){
+            console.log(error);
+            res.status(500).send("Aucun trajet correspondant.");
+        });
     },
 
     /**
@@ -70,13 +83,12 @@ var JourneyController = {
      * @param req
      * @param res
      */
-    isDriverThisJourney: function  (req, res) {
+    isDriverThisJourney: function (req, res) {
 
         var userToken = authToken.getToken(req);
         var journeyReq = req.body;
 
-        if(!userToken.revoked)
-        {
+        if (!userToken.revoked) {
             Journey.findById(journeyReq.id_journey)
                 .then(function (response) {
                     var journeyRes = response;

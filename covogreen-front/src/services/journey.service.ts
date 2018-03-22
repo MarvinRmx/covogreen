@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Headers, Http, RequestOptions, Response} from '@angular/http';
 import {Journey} from '../class/journey';
 import {Observable} from 'rxjs/Observable';
@@ -9,11 +9,13 @@ export class JourneyService {
 
     private uri: string;
 
-    constructor(
-        private http: Http,
-        private authRequest: AuthRequest
-    ) {
+    constructor(private http: Http,
+                private authRequest: AuthRequest) {
         this.uri = 'http://localhost:1313/journey';
+    }
+
+    getUri(): string {
+        return this.uri;
     }
 
     getDay(value): string {
@@ -54,7 +56,7 @@ export class JourneyService {
 
     getJourneysByUser(): Observable<Array<Journey>> {
 
-        return this.http.get(this.uri  + '/byuser', this.authRequest.requestOptions)
+        return this.http.get(this.uri + '/byuser', this.authRequest.requestOptions)
             .map((response: Response) => {
                 let result = response.text();
                 return JSON.parse(result);
@@ -63,10 +65,9 @@ export class JourneyService {
 
     isDriverThisJourney(journey: Journey): Observable<boolean> {
 
-        return this.http.post(this.uri  + '/isdriver', JSON.stringify(journey), this.authRequest.requestOptions)
+        return this.http.post(this.uri + '/isdriver', JSON.stringify(journey), this.authRequest.requestOptions)
             .map((response: Response) => {
                 let result = response.text();
-                console.log('isDriverThisJourney : ' + result);
                 return JSON.parse(result);
             });
     }
@@ -78,4 +79,13 @@ export class JourneyService {
                 return response.text();
             });
     }
+
+    getJourney(id_journey): Observable<Journey> {
+        return this.http.get(this.uri + '/' + id_journey, this.authRequest.requestOptions)
+            .map((response: Response) => {
+                let result = response.text();
+                return JSON.parse(result);
+            });
+    }
+
 }
