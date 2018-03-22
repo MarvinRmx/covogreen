@@ -57,6 +57,7 @@ import { TestComponent } from './test/test.component';
 import { AdminUsersComponent } from './admin/admin-users/admin-users.component';
 import { MyJourneysComponent } from './journey/my-journeys/my-journeys.component';
 import {JourneyService} from '../services/journey.service';
+import { BoutonInscriptionComponent } from './bouton-inscription/bouton-inscription.component';
 
 
 @NgModule({
@@ -100,7 +101,8 @@ import {JourneyService} from '../services/journey.service';
         ChatComponent,
         TestComponent,
         AdminUsersComponent,
-        MyJourneysComponent
+        MyJourneysComponent,
+        BoutonInscriptionComponent
     ],
     providers: [
         AuthentificationService,

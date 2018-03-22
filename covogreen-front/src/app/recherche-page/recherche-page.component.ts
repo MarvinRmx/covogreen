@@ -4,14 +4,13 @@ import {RechercheFormEnt} from '../../class/RechercheFormEnt';
 import {RechercheTrajetService} from '../../services/recherche-trajet.service';
 import {isNullOrUndefined} from 'util';
 import {TrajetEnt} from '../../class/TrajetEnt';
-import {InscriptionTrajetService} from '../../services/inscription-trajet.service';
 import {forEach} from "@angular/router/src/utils/collection";
 
 @Component({
     selector: 'app-recherche-page',
     templateUrl: './recherche-page.component.html',
     styleUrls: ['./recherche-page.component.css'],
-    providers: [RechercheTrajetService, InscriptionTrajetService]
+    providers: [RechercheTrajetService]
 })
 export class RecherchePageComponent implements OnInit {
     rechercheFormEnt: RechercheFormEnt;
@@ -24,7 +23,7 @@ export class RecherchePageComponent implements OnInit {
     nb_total_page: number[];
     currentPage: number;
 
-    constructor(private route: ActivatedRoute, private rechercheService: RechercheTrajetService, private inscriptionService: InscriptionTrajetService, private router: Router) {
+    constructor(private route: ActivatedRoute, private rechercheService: RechercheTrajetService, private router: Router) {
         this.rechercheFormEnt = new RechercheFormEnt(null, null, false, null);
         this.offres = [];
         this.error = false;
@@ -47,8 +46,6 @@ export class RecherchePageComponent implements OnInit {
                 // Première visite sur la page recherche.
                 this.loadTrajets(new RechercheFormEnt( "",  "",  false,  ""), 1);
             }
-
-            this.verifUserInscription();
         });
     }
 
@@ -84,18 +81,7 @@ export class RecherchePageComponent implements OnInit {
         });
     }
 
-    // Effectue une requete vers le serveur pour chaque elements dans la db pour vérifier
-    // si l'utilisateur est inscrit à l'offre.
-    verifUserInscription(){
-        for(var i= 0; i < this.offres.length; i++){
-            // On fait une requete vers la route verif inscription
-            this.inscriptionService.verifInscription(this.offres[i].id).subscribe(res=>{
-               console.log("VERIF : " + res["success"]);
-               if(res["success"] === false)
-                   this.offres[i].inscrit = true;
-            });
-        }
-    }
+
 
     /**
      * Permet de créer les boutons dans la partie pagination.
@@ -125,20 +111,5 @@ export class RecherchePageComponent implements OnInit {
         });
     }
 
-    /**
-     * Methode executé lorsqu'un utilisateur clique sur le bouton pour s'inscrire à une offre
-     */
-    inscriptionTrajet(offre: TrajetEnt) {
-        this.inscriptionService.inscription(offre.id).subscribe((res: Response) => { // on récupère la réponse.
-            if(res["success"] === false)
-                this.error = true;
-                this.messagesErreur = <string[]>res['message'];
-        });
-    }
-
-    desinscriptionTrajet(offre: TrajetEnt) {
-        this.inscriptionService.desinscriptionTrajet(offre.id).subscribe((res: Response) => { // on récupère la réponse.
-            console.log(res);
-        });
-    }
+   
 }

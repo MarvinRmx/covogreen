@@ -1,3 +1,6 @@
+/*
+    Auteur : Mohamed El Karmoudi
+*/
 import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
@@ -21,7 +24,9 @@ export class InscriptionTrajetService {
             'idTrajet' : idTrajet
         }
 
-        return this.http.post(this.uri + 'inscriptionTrajet', jsonData, this.authRequest.requestOptions);
+        return this.http.post(this.uri + 'inscriptionTrajet', jsonData, this.authRequest.requestOptions).map((response: Response) => {
+            return response.json();
+        });
     }
 
     // Effectue une requete vers le serveur pour vérifier qu'un user est inscrit ou pas.
@@ -33,7 +38,9 @@ export class InscriptionTrajetService {
             'idTrajet' : idTrajet
         }
 
-        return this.http.post(this.uri + 'inscriptionTrajet/verif', jsonData, this.authRequest.requestOptions);
+        return this.http.post(this.uri + 'inscriptionTrajet/verif', jsonData, this.authRequest.requestOptions).map((response: Response) => {
+            return response.json();
+        });
     }
 
     // Effectue une requete vers le serveur pour désinscrire un user à l'offre.
@@ -45,5 +52,8 @@ export class InscriptionTrajetService {
             'idTrajet' : idTrajet
         }
 
-        return this.http.post(this.uri + 'desinscriptionTrajet', jsonData, this.authRequest.requestOptions);
-    }}
+        return this.http.post(this.uri + 'desinscriptionTrajet', jsonData, this.authRequest.requestOptions).map((response: Response) => {
+            return response.json();
+        });
+    }
+}
