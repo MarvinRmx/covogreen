@@ -6,6 +6,7 @@ import { NgModule, AfterViewInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule, JsonpModule, Http, RequestOptions } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
+import { NguiMapModule} from '@ngui/map';
 
 import {
     MatButtonModule,
@@ -89,7 +90,9 @@ import { JourneyDetailsComponent } from './journey/journey-details/journey-detai
         NgxSmartModalModule.forRoot(),
         ConfirmationPopoverModule.forRoot({
             confirmButtonType: 'danger' // set defaults here
-        })
+        }),
+
+        NguiMapModule.forRoot({apiUrl: 'https://maps.google.com/maps/api/js?key=AIzaSyAhXA5sVoz5TxW9qrrj-NoH121q6TW7Kys'})
     ],
     declarations: [
         AppComponent,

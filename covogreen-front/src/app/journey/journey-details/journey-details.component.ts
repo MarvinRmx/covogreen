@@ -1,6 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, NgModule, ViewChild, OnInit} from '@angular/core';
 import {Journey} from '../../../class/journey';
 import {JourneyService} from '../../../services/journey.service';
+import { DirectionsRenderer } from '@ngui/map';
+
 import {Router} from '@angular/router';
 
 @Component({
@@ -10,6 +12,9 @@ import {Router} from '@angular/router';
 })
 export class JourneyDetailsComponent implements OnInit {
 
+
+    public journey: Journey;
+    direction: any;
     constructor(private journeyService: JourneyService) {
     }
 
@@ -18,7 +23,14 @@ export class JourneyDetailsComponent implements OnInit {
 
         this.journeyService.getJourney(id_journey)
             .subscribe(result => {
-                console.log(result);
+                this.journey = result;
+                this.direction  = {
+                    origin: result.origin,
+                    destination: result.destination,
+                    travelMode: 'DRIVING'
+                };
             });
+
+
     }
 }

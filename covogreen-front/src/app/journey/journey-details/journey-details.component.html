@@ -1,3 +1,9 @@
-<p>
-  journey-details works!
-</p>
+<h1>Directions Renderer</h1>
+<ngui-map zoom="13" center="40.771, -73.974">
+    <directions-renderer
+        [suppressMarkers]="false"
+        [draggable]="true"
+        [directions-request]="direction">
+    </directions-renderer>
+</ngui-map>
+<div id="my-panel"></div>
