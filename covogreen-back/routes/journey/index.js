@@ -7,7 +7,7 @@ module.exports = function (router) {
     router.post('/', create);
 
     var getJourneysByUser = co.wrap(controller.getJourneysByUser);
-    router.get('/byuser', getJourneysByUser);
+    router.get('/byuser/:signe', getJourneysByUser);
 
     var isDriverThisJourney = co.wrap(controller.isDriverThisJourney);
     router.post('/isdriver', isDriverThisJourney);

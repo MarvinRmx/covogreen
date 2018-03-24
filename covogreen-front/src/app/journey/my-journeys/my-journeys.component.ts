@@ -15,7 +15,8 @@ export class MyJourneysComponent implements OnInit, AfterViewInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
     public displayedColumns = ['id_journey', 'origin', 'destination', 'date_journey', 'status', 'access', 'cancel'];
-    public dataSource = new MatTableDataSource<Journey>([]);
+    public dataSourceToDo = new MatTableDataSource<Journey>([]);
+    public dataSourceDone = new MatTableDataSource<Journey>([]);
 
     constructor(private journeyService: JourneyService,
                 private ngxSmartModalService: NgxSmartModalService,
@@ -24,7 +25,7 @@ export class MyJourneysComponent implements OnInit, AfterViewInit {
 
     ngOnInit() {
 
-        this.journeyService.getJourneysByUser()
+        this.journeyService.getJourneysByUserToDo()
             .subscribe(result => {
 
                 for (let journey of result) {
@@ -34,8 +35,21 @@ export class MyJourneysComponent implements OnInit, AfterViewInit {
                         });
                 }
 
-                this.dataSource = new MatTableDataSource<Journey>(result);
-                this.dataSource.paginator = this.paginator;
+                this.dataSourceToDo = new MatTableDataSource<Journey>(result);
+                this.dataSourceToDo.paginator = this.paginator;
+            });
+
+        this.journeyService.getJourneysByUserDone()
+            .subscribe(result => {
+                for (let journey of result) {
+                    this.journeyService.isDriverThisJourney(journey)
+                        .subscribe(is_driver => {
+                            journey.is_driver = is_driver;
+                        });
+                }
+
+                this.dataSourceDone = new MatTableDataSource<Journey>(result);
+                this.dataSourceDone.paginator = this.paginator;
             });
     }
 
@@ -45,7 +59,7 @@ export class MyJourneysComponent implements OnInit, AfterViewInit {
     applyFilter(filterValue: string) {
         filterValue = filterValue.trim(); // Remove whitespace
         filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-        this.dataSource.filter = filterValue;
+        this.dataSourceToDo.filter = filterValue;
     }
 
     getSchedule(value): string {

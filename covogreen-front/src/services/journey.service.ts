@@ -54,9 +54,18 @@ export class JourneyService {
         return month[value.getMonth()];
     }
 
-    getJourneysByUser(): Observable<Array<Journey>> {
+    getJourneysByUserDone(): Observable<Array<Journey>> {
 
-        return this.http.get(this.uri + '/byuser', this.authRequest.requestOptions)
+        return this.http.get(this.uri + '/byuser/inf', this.authRequest.requestOptions)
+            .map((response: Response) => {
+                let result = response.text();
+                return JSON.parse(result);
+            });
+    }
+
+    getJourneysByUserToDo(): Observable<Array<Journey>> {
+
+        return this.http.get(this.uri + '/byuser/sup', this.authRequest.requestOptions)
             .map((response: Response) => {
                 let result = response.text();
                 return JSON.parse(result);

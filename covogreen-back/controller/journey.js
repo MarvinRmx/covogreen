@@ -42,13 +42,19 @@ var JourneyController = {
     getJourneysByUser: function (req, res) {
 
         var userToken = authToken.getToken(req);
-
+        var signe = "";
+        if(req.params.signe == 'sup')
+            signe =">=";
+        else if(req.params.signe == 'inf')
+            signe = "<";
         if (!userToken.revoked) {
             sequelize.query(' SELECT j.* ' +
                 'FROM inscriptionjourneys ij, journeys j ' +
                 'WHERE ij.id_trajet = j.id_journey ' +
                 'AND ij.id_user = ' + userToken.id_user +
-                ' UNION SELECT * FROM journeys WHERE id_driver = ' + userToken.id_user
+                ' AND j.date_journey > SYSDATE()' +
+                ' UNION SELECT * FROM journeys j WHERE id_driver = ' + userToken.id_user +
+                ' AND j.date_journey' + signe + 'SYSDATE()'
                 ,
                 {model: Journey}
             )
