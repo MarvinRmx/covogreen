@@ -5,6 +5,9 @@ import { AuthentificationService } from '../../services/authentification.service
 import { User } from '../../class/user';
 import * as md5 from 'md5';
 
+/**
+ * @author Romain Lembo
+ */
 @Component({
 	selector: 'app-login',
 	templateUrl: './login.component.html',
@@ -25,8 +28,8 @@ export class LoginComponent implements OnInit {
 
 	ngOnInit() {
         this.loginForm = this.formBulder.group({
-            username: "",
-            password: ""
+            username: '',
+            password: ''
         });
     }
 

@@ -1,6 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 
+/**
+ * @author Romain Lembo
+ */
 @Component({
   selector: 'app-rate',
   templateUrl: './rate.component.html',

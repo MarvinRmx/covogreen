@@ -1,3 +1,4 @@
+
 export class Product {
     public id: number;
     public libelle: string;
@@ -16,7 +17,7 @@ export class Product {
         description: string,
         price: number,
         id_category: number
-    ) { 
+    ) {
         this.id = id;
         this.libelle = libelle;
         this.photo = photo;

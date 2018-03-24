@@ -7,6 +7,9 @@ import 'rxjs/add/operator/map';
 import 'rxjs/Rx';
 import {AuthRequest} from './authrequest.service';
 
+/**
+ * @author Romain Lembo
+ */
 @Injectable()
 export class AuthentificationService {
 

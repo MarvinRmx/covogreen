@@ -1,6 +1,10 @@
 var controller = require("../../controller/journey");
 var co = require('co');
 
+/**
+ * @author Romain Lembo
+ * @param router
+ */
 module.exports = function (router) {
 
     var create = co.wrap(controller.create);

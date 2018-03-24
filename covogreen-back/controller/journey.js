@@ -4,6 +4,10 @@ var authToken = require("./tools/authToken");
 var co = require('co');
 var jwt = require('jsonwebtoken');
 
+/**
+ * @author Romain Lembo
+ * @type {{create: JourneyController.create, getJourneysByUser: JourneyController.getJourneysByUser, getJourneysByID: JourneyController.getJourneysByID, isDriverThisJourney: JourneyController.isDriverThisJourney}}
+ */
 var JourneyController = {
 
     /**

@@ -2,6 +2,9 @@ import { Component, OnInit, Input } from '@angular/core';
 import {JourneyService} from '../../services/journey.service';
 import {Journey} from '../../class/journey';
 
+/**
+ * @author Romain Lembo
+ */
 @Component({
   selector: 'app-detailed-card',
   templateUrl: './detailed-card.component.html',

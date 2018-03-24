@@ -5,6 +5,10 @@ var co = require('co');
 var jwt = require('jsonwebtoken');
 var authToken = require("./tools/authToken");
 
+/**
+ * @author Romain Lembo
+ * @type {{get: CarController.get, update: CarController.update, remove: CarController.remove, create: CarController.create}}
+ */
 var CarController = {
 
     /**

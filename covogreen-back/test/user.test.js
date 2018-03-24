@@ -12,6 +12,9 @@ var path = require('path');
 var skey_path = path.join(__dirname, '../skey.txt');
 var skey = fs.readFileSync(skey_path, 'utf-8');
 
+/**
+ * @author Romain Lembo
+ */
 describe('User', function () {
 
     var headersUser;

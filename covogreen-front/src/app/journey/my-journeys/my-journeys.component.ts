@@ -4,6 +4,9 @@ import {MatPaginator, MatTableDataSource} from '@angular/material';
 import {Journey} from '../../../class/journey';
 import { NgxSmartModalService } from 'ngx-smart-modal';
 
+/**
+ * @author Romain Lembo
+ */
 @Component({
   selector: 'app-my-journeys',
   templateUrl: './my-journeys.component.html',

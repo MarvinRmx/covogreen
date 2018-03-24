@@ -4,6 +4,9 @@ import {Journey} from '../class/journey';
 import {Observable} from 'rxjs/Observable';
 import {AuthRequest} from './authrequest.service';
 
+/**
+ * @author Romain Lembo
+ */
 @Injectable()
 export class JourneyService {
 

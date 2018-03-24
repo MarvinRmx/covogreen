@@ -54,7 +54,6 @@ import { NewCarComponent } from './car/newcar.component';
 import {CreateJourneyComponent} from './journey/create-journey/create-journey.component';
 
 import { ChatComponent } from './detailed-card/chat/chat.component';
-import { TestComponent } from './test/test.component';
 import { AdminUsersComponent } from './admin/admin-users/admin-users.component';
 import { MyJourneysComponent } from './journey/my-journeys/my-journeys.component';
 import {JourneyService} from '../services/journey.service';
@@ -104,7 +103,6 @@ import {SafePipe} from '../directives/safepipe.directive';
         RecherchePageComponent,
         NewCarComponent,
         ChatComponent,
-        TestComponent,
         AdminUsersComponent,
         MyJourneysComponent,
         DetailedCardComponent,

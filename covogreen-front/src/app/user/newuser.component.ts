@@ -6,6 +6,10 @@ import { User } from '../../class/user';
 import { Car } from '../../class/car';
 import * as md5 from 'md5';
 
+
+/**
+ * @author Romain Lembo
+ */
 @Component({
     selector: 'app-newuser',
     templateUrl: './newuser.component.html',

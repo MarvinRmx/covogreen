@@ -4,6 +4,10 @@ var authToken = require("./tools/authToken");
 var co = require('co');
 var jwt = require('jsonwebtoken');
 
+/**
+ * @author Romain Lembo
+ * @type {{test: LoginController.test, login: LoginController.login, all: LoginController.all, get: LoginController.get, isAdmin: LoginController.isAdmin, handleRevoked: LoginController.handleRevoked, handlePrivilege: LoginController.handlePrivilege, uniqueUsername: LoginController.uniqueUsername, create: LoginController.create, update: LoginController.update, remove: LoginController.remove}}
+ */
 var LoginController = {
 
     /**

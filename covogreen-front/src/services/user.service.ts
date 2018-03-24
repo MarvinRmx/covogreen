@@ -5,6 +5,9 @@ import { User } from '../class/user';
 import { Car } from '../class/car';
 import {AuthRequest} from "./authrequest.service";
 
+/**
+ * @author Romain Lembo
+ */
 @Injectable()
 export class UserService {
 

@@ -1,4 +1,8 @@
-﻿<form *ngIf="!checkAuth()" (ngSubmit)="login()" [formGroup]="loginForm" class="form" role="form" #f="ngForm">
+﻿<!--
+author Romain Lembo
+-->
+
+<form *ngIf="!checkAuth()" (ngSubmit)="login()" [formGroup]="loginForm" class="form" role="form" #f="ngForm">
     <div class="form-group">
         <input id="username" name="username" formControlName="username"
         placeholder="Username"
