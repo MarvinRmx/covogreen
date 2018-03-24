@@ -15,6 +15,9 @@ module.exports = function (router) {
     var get = co.wrap(controller.get);
     router.get('/get', get);
 
+    var getFromId = co.wrap(controller.getFromId);
+    router.get('/:id_user', getFromId);
+
     var isAdmin = co.wrap(controller.isAdmin);
     router.get('/admin', isAdmin);
 

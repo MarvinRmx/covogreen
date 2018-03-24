@@ -288,7 +288,19 @@ var LoginController = {
         else res.status(500).send("Compte bloqué !");
     },
 
-
+    /**
+     * Getting an user from his id_user
+     * @param req
+     * @param res
+     */
+    getFromId: function (req, res) {
+        User.findById(req.params.id_user)
+                .then(function (response) {
+                        res.status(200).send(response.dataValues);
+                    }).catch(function (error){
+                        console.log(error);res.status(500).send("Echec de la récupération du profil.");
+                });
+        }
 };
 
 

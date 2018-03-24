@@ -87,4 +87,11 @@ export class UserService {
             });
     }
 
+    getUserFromId(id_user: number): Observable<User> {
+        return this.http.get(this.uri + '/' + id_user, this.authRequest.requestOptions)
+            .map((response: Response) => {
+                let result = response.text();
+                return JSON.parse(result);
+            });
+    }
 }

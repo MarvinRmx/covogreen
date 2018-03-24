@@ -1,5 +1,10 @@
-<h1>Directions Renderer</h1>
-<ngui-map zoom="13" center="40.771, -73.974">
+<div *ngIf="journey">
+    <h1>Trajet vers {{journey.destination}}</h1>
+    <div *ngIf="driver"> Conducteur : {{driver.firstName}} {{driver.lastName}}</div>
+    <div>Départ : {{journey.date_journey}}</div>
+    <div>Nombre de sièges restants : {{journey.seats_available}}</div>
+</div>
+<ngui-map zoom="13" center="40.771, -73.974" *ngIf="direction">
     <directions-renderer
         [suppressMarkers]="false"
         [draggable]="true"
