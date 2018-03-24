@@ -61,6 +61,15 @@ export class JourneyService {
             });
     }
 
+    getJourneysByID(id_journey: number): Observable<Journey> {
+
+        return this.http.get(this.uri + '/' + id_journey, this.authRequest.requestOptions)
+            .map((response: Response) => {
+                let result = response.text();
+                return JSON.parse(result);
+            });
+    }
+
     isDriverThisJourney(journey: Journey): Observable<boolean> {
 
         return this.http.post(this.uri  + '/isdriver', JSON.stringify(journey), this.authRequest.requestOptions)

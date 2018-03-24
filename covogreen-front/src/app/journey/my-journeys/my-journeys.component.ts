@@ -14,7 +14,7 @@ export class MyJourneysComponent implements OnInit, AfterViewInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
     public id_journey: number;
-    public displayedColumns = ['id_journey', 'origin', 'destination', 'date_journey', 'status', 'access', 'cancel'];
+    public displayedColumns = ['id_journey', 'origin', 'destination', 'date_journey', 'status', 'event', 'access', 'chat', 'cancel'];
     public dataSource = new MatTableDataSource<Journey>([]);
 
     constructor(
@@ -66,8 +66,18 @@ export class MyJourneysComponent implements OnInit, AfterViewInit {
         return 'Passager';
     }
 
+    getEvent(value): string {
+
+        let date = new Date(value);
+        let now = Date.now();
+
+        if (now < date.getTime()) return 'A venir';
+        else return 'Terminé';
+    }
+
     getModal_shareJourney(id_journey) {
         this.ngxSmartModalService.getModal('detailedCard').open();
         this.id_journey = id_journey;
     }
+
 }

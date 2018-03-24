@@ -1,7 +1,7 @@
-<h2>TEST Rating</h2>
-id_journey : {{id_journey}}
 
 <div class="col-md-12">
+
+    <h5>Noter le conducteur : </h5>
 
     <form (ngSubmit)="sendRate()" [formGroup]="rateForm" class="form" role="form" #f="ngForm" novalidate>
         <div class="form-group">
@@ -9,9 +9,6 @@ id_journey : {{id_journey}}
             <mat-slider min="1" max="5" step="1" thumbLabel
                         id="rate" name="rate" formControlName="rate">
             </mat-slider>
-        </div>
-        <div class="form-group">
-            <button type="submit" [disabled]="rateForm.invalid" class="btn btn-primary btn-block">Modifier</button>
         </div>
     </form>
 

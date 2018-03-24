@@ -64,6 +64,30 @@ var JourneyController = {
     },
 
     /**
+     * For getting all journeys with id_journey.
+     * @param req
+     * @param res
+     */
+    getJourneysByID: function (req, res) {
+
+        var id_journey = req.params.id_journey;
+        var userToken = authToken.getToken(req);
+
+        if (!userToken.revoked)
+        {
+            Journey.findOne({ where: {id_journey: id_journey} })
+                .then(function (response) {
+                    res.status(200).send(response);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                    res.status(500).send("Echec de la récupération des informations sur le trajet.");
+                });
+        }
+        else res.status(500).send("Compte bloqué !");
+    },
+
+    /**
      * Checking if user with this token it's driver for this journey
      * @param req
      * @param res

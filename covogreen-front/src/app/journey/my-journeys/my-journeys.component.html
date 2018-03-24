@@ -31,6 +31,11 @@
                 <mat-cell *matCellDef="let element"> {{getSchedule(element.date_journey)}} </mat-cell>
             </ng-container>
 
+            <ng-container matColumnDef="event">
+                <mat-header-cell *matHeaderCellDef> Evenement </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{getEvent(element.date_journey)}} </mat-cell>
+            </ng-container>
+
             <ng-container matColumnDef="status">
                 <mat-header-cell *matHeaderCellDef> Statut </mat-header-cell>
                 <mat-cell *matCellDef="let element"> {{getStatus(element.is_driver)}} </mat-cell>
@@ -41,6 +46,14 @@
                 <mat-cell *matCellDef="let element">
                     <button mat-raised-button color="accent"
                             (click)="getModal_shareJourney(element.id_journey)">Détails</button>
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="chat">
+                <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <button mat-raised-button color="accent"
+                            routerLink="/chat/{{element.id_journey}}">Chat</button>
                 </mat-cell>
             </ng-container>
 

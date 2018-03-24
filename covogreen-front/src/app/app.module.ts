@@ -20,6 +20,7 @@ import {
     MatSlideToggleModule
 } from '@angular/material';
 import {MatTabsModule} from '@angular/material/tabs';
+import {MatCardModule} from '@angular/material/card';
 
 import { NgxSmartModalModule, NgxSmartModalService } from 'ngx-smart-modal';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -60,6 +61,7 @@ import {JourneyService} from '../services/journey.service';
 import { DetailedCardComponent } from './detailed-card/detailed-card.component';
 import { RateComponent } from './detailed-card/rate/rate.component';
 
+import {SafePipe} from '../directives/safepipe.directive';
 
 @NgModule({
     imports: [
@@ -83,6 +85,7 @@ import { RateComponent } from './detailed-card/rate/rate.component';
         MatPaginatorModule,
         MatSlideToggleModule,
         MatTabsModule,
+        MatCardModule,
         NgxSmartModalModule.forRoot(),
         ConfirmationPopoverModule.forRoot({
             confirmButtonType: 'danger' // set defaults here
@@ -105,7 +108,8 @@ import { RateComponent } from './detailed-card/rate/rate.component';
         AdminUsersComponent,
         MyJourneysComponent,
         DetailedCardComponent,
-        RateComponent
+        RateComponent,
+        SafePipe
     ],
     providers: [
         AuthentificationService,

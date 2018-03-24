@@ -25,8 +25,3 @@
     flex-direction: column;
     min-width: 300px;
 }
-
-.detailedCard {
-    max-width: 1020px !important;
-    width: 90% !important;
-}
