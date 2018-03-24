@@ -1,0 +1,29 @@
+[
+  {
+    "cityname": "Nice",
+    "location":{
+      "type": "Point",
+      "coordinates": [43.7032932,7.1827774]
+    },
+    "details": "Nice",
+    "website": "Undefined"
+  },
+  {
+    "cityname": "Antibes",
+    "location":{
+      "type": "Point",
+      "coordinates": [43.5823845,7.0348078]
+    },
+    "details": "Antibes",
+    "website": "Undefined"
+  },
+  {
+    "cityname": "Cannes",
+    "location":{
+      "type": "Point",
+      "coordinates": [43.5371106,6.9396598]
+    },
+    "details": "Cannes",
+    "website": "Undefined"
+  }
+]
