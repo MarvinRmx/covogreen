@@ -109,7 +109,6 @@ var CarController = {
         {
             sequelize.query('CALL createCar(:id_user, :licencePlate, :make, :model, :capacity)', {replacements: values} )
                 .then(function (response) {
-                    console.log(response);
                     res.status(200).send("Succès de l'ajout de la voiture.");
                 })
                 .catch(function (error) {

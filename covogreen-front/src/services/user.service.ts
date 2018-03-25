@@ -18,7 +18,7 @@ export class UserService {
         private http: Http,
         private authRequest: AuthRequest
     ) {
-		this.uri = "http://localhost:1313/user";
+		this.uri = 'http://localhost:1313/user';
 	}
 
     /**
@@ -28,12 +28,12 @@ export class UserService {
      * @returns {Observable<string>}
      */
     createUser(user: User, car: Car): Observable<string> {
-        let headers = new Headers({ "Content-Type": "application/json" });
+        let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
 
         return this.http.post(this.uri, JSON.stringify({user, car}), options)
             .map((response: Response) => {
-                console.log(response.text());
+                user.password = '';
                 return response.text();
             });
     }
@@ -47,7 +47,6 @@ export class UserService {
 
         return this.http.put(this.uri, JSON.stringify(user), this.authRequest.requestOptions)
             .map((response: Response) => {
-                console.log(response.text());
                 return response.text();
             });
     }
@@ -70,7 +69,7 @@ export class UserService {
      */
     getUser(): Observable<User> {
 
-        return this.http.get(this.uri + "/get", this.authRequest.requestOptions)
+        return this.http.get(this.uri + '/get', this.authRequest.requestOptions)
             .map((response: Response) => {
                 let result = response.text();
                 return JSON.parse(result);
