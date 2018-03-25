@@ -20,6 +20,10 @@ SET time_zone = "+00:00";
 -- Base de données :  `covogreen`
 --
 
+DROP PROCEDURE IF EXISTS `createCar`;
+DROP PROCEDURE IF EXISTS `createUserWithCar`;
+DROP PROCEDURE IF EXISTS `deleteUser`;
+
 DELIMITER $$
 --
 -- Procédures
