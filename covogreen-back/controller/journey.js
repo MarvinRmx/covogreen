@@ -7,6 +7,7 @@ var jwt = require('jsonwebtoken');
 var JourneyController = {
 
     /**
+     * @author Marvin RAMEIX
      * Cration of a journey
      * @param req
      * @param res
@@ -70,6 +71,7 @@ var JourneyController = {
     },
 
     /**
+     * @author Marvin RAMEIX
      * Getting info of the Journey from the id used in the url
      * @param req
      * @param res
@@ -110,6 +112,34 @@ var JourneyController = {
         else res.status(500).send("Compte bloqué !");
     },
 
+    /**
+     * @author Marvin RAMEIX
+     * Deleting journey by id with author check
+     * @param req
+     * @param res
+     */
+    delete: function (req, res){
+        var userToken = authToken.getToken(req);
+        console.log(userToken);
+        Journey.findById(req.params.id_journey)
+            .then(function (response) {
+                if (userToken.id_user == response.dataValues.id_driver){
+                    Journey.destroy({
+                        where: {
+                            id_journey: response.dataValues.id_journey
+                        }
+                    }).then(function (resp){
+                        res.status(200).send("Trajet supprimé");
+                    }).catch(function (err){
+                        console.log(err);
+                        res.status(500).send("Auteur non conducteur.");
+                    });
+                }
+            }).catch(function (error){
+            console.log(error);
+            res.status(500).send("Trajet non trouvé.");
+        });
+    }
 };
 
 

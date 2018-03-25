@@ -87,8 +87,13 @@ export class UserService {
             });
     }
 
+    /**
+     * @author Marvin RAMEIX
+     * @param {number} id_user
+     * @returns {Observable<User>}
+     */
     getUserFromId(id_user: number): Observable<User> {
-        return this.http.get(this.uri + '/' + id_user, this.authRequest.requestOptions)
+        return this.http.get(this.uri + '/get/' + id_user, this.authRequest.requestOptions)
             .map((response: Response) => {
                 let result = response.text();
                 return JSON.parse(result);

@@ -54,6 +54,11 @@ export class JourneyService {
         return month[value.getMonth()];
     }
 
+    /**
+     * @author Romain LEMBO & Marvin RAMEIX
+     *  Get Journeys from an user which are already done
+     * @returns {Observable<Array<Journey>>}
+     */
     getJourneysByUserDone(): Observable<Array<Journey>> {
 
         return this.http.get(this.uri + '/byuser/inf', this.authRequest.requestOptions)
@@ -62,7 +67,11 @@ export class JourneyService {
                 return JSON.parse(result);
             });
     }
-
+    /**
+     * @author Romain LEMBO & Marvin RAMEIX
+     *  Get next Journeys from an user
+     * @returns {Observable<Array<Journey>>}
+     */
     getJourneysByUserToDo(): Observable<Array<Journey>> {
 
         return this.http.get(this.uri + '/byuser/sup', this.authRequest.requestOptions)
@@ -81,6 +90,11 @@ export class JourneyService {
             });
     }
 
+    /**
+     * @author Marvin RAMEIX
+     * @param {Journey} journey
+     * @returns {Observable<string>}
+     */
     createJourney(journey: Journey): Observable<string> {
 
         return this.http.post(this.uri, JSON.stringify(journey), this.authRequest.requestOptions)
@@ -89,6 +103,11 @@ export class JourneyService {
             });
     }
 
+    /**
+     * @author Marvin RAMEIX
+     * Getting a journey from id
+     * @returns {Observable<string>}
+     */
     getJourney(id_journey): Observable<Journey> {
         return this.http.get(this.uri + '/' + id_journey, this.authRequest.requestOptions)
             .map((response: Response) => {
@@ -97,4 +116,16 @@ export class JourneyService {
             });
     }
 
+    /**
+     * @author Marvin RAMEIX
+     * Deleting a journey
+     * @returns {Observable<string>}
+     */
+    deleteJourney(id_journey): Observable<string> {
+        return this.http.delete(this.uri + '/del/' + id_journey, this.authRequest.requestOptions)
+            .map((response: Response) => {
+                console.log(response);
+                return response.text();
+            });
+    }
 }

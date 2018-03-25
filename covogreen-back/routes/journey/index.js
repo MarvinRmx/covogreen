@@ -6,6 +6,9 @@ module.exports = function (router) {
     var create = co.wrap(controller.create);
     router.post('/', create);
 
+    var del = co.wrap(controller.delete);
+    router.delete('/del/:id_journey', del);
+
     var getJourneysByUser = co.wrap(controller.getJourneysByUser);
     router.get('/byuser/:signe', getJourneysByUser);
 
