@@ -18,8 +18,8 @@ export class ChatComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private location: Location, private chatService: ChatService) {
     this.idTrajet = +this.route.snapshot.paramMap.get('id');
-    this.messageToSend = "";
-    this.offre = new TrajetEnt(this.idTrajet, "", "", new Date(), "", 0);
+    this.messageToSend = '';
+    this.offre = new TrajetEnt(this.idTrajet, '', '', new Date(), '', 0);
   }
 
   ngOnInit() {

@@ -38,22 +38,22 @@ export class UserComponent implements OnInit {
     ngOnInit() {
 
         this.updatePasswordForm = this.formBulder.group({
-            password: "",
-            new_password: "",
+            password: '',
+            new_password: '',
         });
 
         this.updateUserForm = this.formBulder.group({
-            firstName: "",
-            lastName: "",
-            username: "",
-            email: "",
-            address: "",
-            city: "",
-            cp: "",
-            phone: "",
+            firstName: '',
+            lastName: '',
+            username: '',
+            email: '',
+            address: '',
+            city: '',
+            cp: '',
+            phone: '',
 
-            is_driver: "false",
-            have_car: "false"
+            is_driver: 'false',
+            have_car: 'false'
         });
 
         this.updateOrCreateCarForm = this.formBulder.group({
