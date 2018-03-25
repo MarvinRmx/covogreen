@@ -151,7 +151,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id_user`, `firstName`, `lastName`, `username`, `email`, `password`, `address`, `city`, `cp`, `phone`, `privilege`, `is_driver`, `revoked`, `createdAt`, `updatedAt`, `id_car`) VALUES
-(2, 'test', 'test', 'test3', 'test@test.fr', '098f6bcd4621d373cade4e832627b4f6', 'trest', 'ville', '05888', '77777', 1, 1, 0, '2018-03-10 15:49:11', '2018-03-11 13:43:48', 6),
+(2, 'test', 'test', 'test3', 'test@test.fr', '098f6bcd4621d373cade4e832627b4f6', 'trest', 'ville', '05888', '77777', 1, 1, 0, '2018-03-10 15:49:11', '2018-03-11 13:43:48', NULL),
 (3, 'Romain', 'Lembo', 'admin', 'admin@admin.fr', '098f6bcd4621d373cade4e832627b4f6', '57, rue', 'Villeneuve-Loubet', '06270', '0645262075', 2, 1, 0, '2018-03-08 17:56:53', '2018-03-24 18:37:14', 1),
 (4, 'Prenom', 'Nom', 'test2', 'test@test.fr', '098f6bcd4621d373cade4e832627b4f6', 'rue', 'Ville', '65842', '06554445', 1, 1, 1, '2018-03-08 19:17:32', '2018-03-08 19:43:39', NULL),
 (8, 'Prénom', 'Nom', 'revoked', 'revoked', '098f6bcd4621d373cade4e832627b4f6', '70, rue des refusées', 'Ville', '06500', '068879944', 1, 0, 1, '2018-03-10 11:58:05', '2018-03-10 11:59:44', NULL),
