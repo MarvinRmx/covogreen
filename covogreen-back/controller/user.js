@@ -30,13 +30,11 @@ var LoginController = {
 
         User.findOne({
             where: {
-                username: req.body.username,
-                password: req.body.password
+                username: user.username,
+                password: user.password
             }
         })
         .then(function (response) {
-
-            console.log('login :', response);
 
             if(!response.revoked && response.revoked != null) {
                 var userToken = authToken.createToken(response);
