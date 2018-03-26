@@ -230,7 +230,6 @@ var ChatController = {
         try {
             if (messageData) {
                 var dateMessage = messageData.createdAt;
-
                 var chat = yield Chat.find({where: {id_trajet: idTrajet, createdAt: {[Op.gt]: dateMessage}}});
 
                 if (chat) {
@@ -253,6 +252,7 @@ var ChatController = {
                 res.send(out);
             }
         } catch(erreur){
+            console.log(erreur);
             out["errors"].push("Une erreur est survenue lors de l'execution de la req sql");
             res.status(500).send(out);
         }
@@ -293,7 +293,6 @@ var ChatController = {
                 // On envoi un message à chaque participant.
                 for (var i = 0; i<allParticipants.length; i++){
                     var userInfo = yield User.findById(allParticipants[i].id_user);
-                    // var userInfo = yield User.findById(allParticipants[i].id_user);
                     yield ChatController.sendEmail(userInfo.username, userInfo.email);
                 }
 
@@ -319,7 +318,12 @@ var ChatController = {
         var subject = 'Un utilisateur a ajouté un message.';
         var text = 'Bonjour '+ username +'\n\n Un utilisateur vient d\'ajouter un message dans le chat du trajet dans lequel vous ête inscrit.';
 
-        emailController.sendEmail(username, email, subject, text);
+        try {
+            emailController.sendEmail(username, email, subject, text);
+        }
+        catch(error){
+            console.log(error);
+        }
     }),
 
     /**
@@ -342,13 +346,15 @@ var ChatController = {
                 var author = yield ChatController.getAuthorNameById(trajet.id_driver);
 
                 out["offre"] = {
-                    id      : trajet.id,
+                    id      : trajet.id_journey,
                     depart : trajet.origin,
                     destination  : trajet.destination,
                     date_trajet    : trajet.date_journey,
                     auteur : author.firstName + " " + author.lastName,
                     nombre_place_disponible : trajet.seats_available
                 };
+
+                console.log('out["offre"] : ', out["offre"]);
 
                 res.send(out);
             }else{
