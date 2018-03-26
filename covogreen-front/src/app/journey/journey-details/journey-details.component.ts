@@ -25,7 +25,7 @@ export class JourneyDetailsComponent implements OnInit {
 
     ngOnInit() {
         let id_journey = window.location.href.substr(this.journeyService.getUri().length + 1, window.location.href.length);
-
+        //this.journeyService.canRateAndComment(id_journey);
         this.userService.getUser().subscribe(result => {
             this.user = result;
         });

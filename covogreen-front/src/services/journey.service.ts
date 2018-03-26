@@ -128,4 +128,12 @@ export class JourneyService {
                 return response.text();
             });
     }
+
+    /*canRateAndComment(id_journey): Observable<string> {
+        return this.http.get(this.uri + '/rateComment/' + id_journey, this.authRequest.requestOptions)
+            .map((response: Response) => {
+                console.log(response);
+                return response.text();
+            });
+    }*/
 }

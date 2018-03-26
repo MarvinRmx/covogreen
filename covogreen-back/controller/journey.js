@@ -1,4 +1,5 @@
 var Journey = require("../database/models/journey");
+var InscriptionTrajet = require("../database/models/inscriptionJourney");
 var sequelize = require("../database/db");
 var authToken = require("./tools/authToken");
 var co = require('co');
@@ -44,9 +45,9 @@ var JourneyController = {
 
         var userToken = authToken.getToken(req);
         var signe = "";
-        if(req.params.signe == 'sup')
-            signe =">=";
-        else if(req.params.signe == 'inf')
+        if (req.params.signe == 'sup')
+            signe = ">=";
+        else if (req.params.signe == 'inf')
             signe = "<";
         if (!userToken.revoked) {
             sequelize.query(' SELECT j.* ' +
@@ -80,7 +81,7 @@ var JourneyController = {
         Journey.findById(req.params.id_journey)
             .then(function (response) {
                 res.status(200).send(response);
-            }).catch(function (error){
+            }).catch(function (error) {
             console.log(error);
             res.status(500).send("Aucun trajet correspondant.");
         });
@@ -118,27 +119,44 @@ var JourneyController = {
      * @param req
      * @param res
      */
-    delete: function (req, res){
+    delete: function (req, res) {
         var userToken = authToken.getToken(req);
-        console.log(userToken);
         Journey.findById(req.params.id_journey)
             .then(function (response) {
-                if (userToken.id_user == response.dataValues.id_driver){
+                if (userToken.id_user == response.dataValues.id_driver) {
                     Journey.destroy({
                         where: {
                             id_journey: response.dataValues.id_journey
                         }
-                    }).then(function (resp){
+                    }).then(function (resp) {
                         res.status(200).send("Trajet supprimé");
-                    }).catch(function (err){
+                    }).catch(function (err) {
                         console.log(err);
                         res.status(500).send("Auteur non conducteur.");
                     });
                 }
-            }).catch(function (error){
+            }).catch(function (error) {
             console.log(error);
             res.status(500).send("Trajet non trouvé.");
         });
+    },
+
+    canRateAndComment: function (req, res) {
+        var userToken = authToken.getToken(req);
+        InscriptionTrajet.findOne({
+            where: {
+                id_journey: req.params.id_journey,
+                id_user: userToken
+            }
+        }).then(
+            function (value) {
+                res.status(200).send(true);
+            }
+        ).catch(
+            function (reason) {
+                res.status(400).send(false);
+            }
+        )
     }
 };
 

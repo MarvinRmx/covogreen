@@ -15,5 +15,8 @@ module.exports = function (router) {
     var isDriverThisJourney = co.wrap(controller.isDriverThisJourney);
     router.post('/isdriver', isDriverThisJourney);
 
+    var canRateAndComment = co.wrap(controller.canRateAndComment);
+    router.get('/rateComment/:id', canRateAndComment);
+
     router.get('/:id_journey', controller.getJourney);
 };

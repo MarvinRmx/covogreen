@@ -42,7 +42,6 @@ var InscriptionTrajetController = {
     // }
     res.send("ok");
   })
-
 };
 
 module.exports = InscriptionTrajetController;
