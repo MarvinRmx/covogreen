@@ -1,6 +1,6 @@
 <div class="inscription" *ngIf="!inscrit">
   <button class="btn btn-success btn-lg btn-block btnParticiper" (click)="inscriptionTrajet()" >
-    <span>S'inscription</span>
+    <span>S'inscrire</span>
   </button>
 </div>
 
@@ -9,3 +9,5 @@
     <span>Se désinscrire</span>
   </button>
 </div>
+
+<p class="messagesErreur">{{ messages }}</p>
