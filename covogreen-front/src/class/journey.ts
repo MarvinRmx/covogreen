@@ -1,3 +1,6 @@
+/**
+ * @author Romain Lembo
+ */
 export class Journey {
     public id_journey: number;
     public origin: string;

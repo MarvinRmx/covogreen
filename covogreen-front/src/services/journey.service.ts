@@ -4,6 +4,9 @@ import {Journey} from '../class/journey';
 import {Observable} from 'rxjs/Observable';
 import {AuthRequest} from './authrequest.service';
 
+/**
+ * @author Romain Lembo
+ */
 @Injectable()
 export class JourneyService {
 
@@ -55,6 +58,15 @@ export class JourneyService {
     getJourneysByUser(): Observable<Array<Journey>> {
 
         return this.http.get(this.uri  + '/byuser', this.authRequest.requestOptions)
+            .map((response: Response) => {
+                let result = response.text();
+                return JSON.parse(result);
+            });
+    }
+
+    getJourneysByID(id_journey: number): Observable<Journey> {
+
+        return this.http.get(this.uri + '/' + id_journey, this.authRequest.requestOptions)
             .map((response: Response) => {
                 let result = response.text();
                 return JSON.parse(result);

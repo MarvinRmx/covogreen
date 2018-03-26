@@ -1,6 +1,10 @@
 var controller = require("../../controller/journey");
 var co = require('co');
 
+/**
+ * @author Romain Lembo
+ * @param router
+ */
 module.exports = function (router) {
 
     var create = co.wrap(controller.create);
@@ -11,4 +15,7 @@ module.exports = function (router) {
 
     var isDriverThisJourney = co.wrap(controller.isDriverThisJourney);
     router.post('/isdriver', isDriverThisJourney);
+
+    var getJourneysByID = co.wrap(controller.getJourneysByID);
+    router.get('/:id_journey', getJourneysByID);
 };

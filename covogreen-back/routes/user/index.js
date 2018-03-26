@@ -1,6 +1,10 @@
 var controller = require("../../controller/user");
 var co = require('co');
 
+/**
+ * @author Romain Lembo
+ * @param router
+ */
 module.exports = function (router) {
 
     var test = co.wrap(controller.test);

@@ -4,6 +4,10 @@ var authToken = require("./tools/authToken");
 var co = require('co');
 var jwt = require('jsonwebtoken');
 
+/**
+ * @author Romain Lembo
+ * @type {{create: JourneyController.create, getJourneysByUser: JourneyController.getJourneysByUser, getJourneysByID: JourneyController.getJourneysByID, isDriverThisJourney: JourneyController.isDriverThisJourney}}
+ */
 var JourneyController = {
 
     /**
@@ -59,6 +63,30 @@ var JourneyController = {
                 console.log('Fail find for getting journeys by user :', error);
                 res.status(500).send("Echec de la récupération du profil.");
             });
+        }
+        else res.status(500).send("Compte bloqué !");
+    },
+
+    /**
+     * For getting all journeys with id_journey.
+     * @param req
+     * @param res
+     */
+    getJourneysByID: function (req, res) {
+
+        var id_journey = req.params.id_journey;
+        var userToken = authToken.getToken(req);
+
+        if (!userToken.revoked)
+        {
+            Journey.findOne({ where: {id_journey: id_journey} })
+                .then(function (response) {
+                    res.status(200).send(response);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                    res.status(500).send("Echec de la récupération des informations sur le trajet.");
+                });
         }
         else res.status(500).send("Compte bloqué !");
     },

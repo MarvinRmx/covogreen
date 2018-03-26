@@ -1,3 +1,6 @@
+/**
+ * @author Romain Lembo
+ */
 export class User {
     public id_user: number;
     public lastName: string;

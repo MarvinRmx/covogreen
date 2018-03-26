@@ -1,4 +1,20 @@
-<p>
-  detailed-card works!
-</p>
-<app-rate></app-rate>
+<!--
+author Romain Lembo
+-->
+<mat-card class="example-card"
+          *ngIf="journey != null || journey != undefined">
+
+    <mat-card-header>
+        <div mat-card-avatar class="example-header-image"></div>
+        <mat-card-title>De {{journey.origin}} à {{journey.destination}}</mat-card-title>
+        <mat-card-subtitle>le {{getSchedule(journey.date_journey)}}</mat-card-subtitle>
+    </mat-card-header>
+
+    <iframe [src]="getMap() | safe"
+            width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+
+</mat-card>
+
+<br/>
+
+<app-rate [id_journey]="id_journey"></app-rate>

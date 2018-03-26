@@ -4,6 +4,9 @@ import {User} from '../../../class/user';
 import {UserService} from '../../../services/user.service';
 import {AdminService} from "../../../services/admin.service";
 
+/**
+ * @author Romain Lembo
+ */
 @Component({
   selector: 'app-admin-users',
   templateUrl: './admin-users.component.html',
