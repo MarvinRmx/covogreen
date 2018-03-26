@@ -59,6 +59,7 @@ import { MyJourneysComponent } from './journey/my-journeys/my-journeys.component
 import {JourneyService} from '../services/journey.service';
 import { DetailedCardComponent } from './detailed-card/detailed-card.component';
 import { RateComponent } from './detailed-card/rate/rate.component';
+import { BoutonInscriptionComponent } from './bouton-inscription/bouton-inscription.component';
 
 import {SafePipe} from '../directives/safepipe.directive';
 
@@ -107,7 +108,8 @@ import {SafePipe} from '../directives/safepipe.directive';
         MyJourneysComponent,
         DetailedCardComponent,
         RateComponent,
-        SafePipe
+        SafePipe,
+        BoutonInscriptionComponent
     ],
     providers: [
         AuthentificationService,

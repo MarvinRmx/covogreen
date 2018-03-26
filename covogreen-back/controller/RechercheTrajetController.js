@@ -9,12 +9,14 @@ var co = require('co');
 
 
 /**
- * Controleur RechercheTrajet qui retourne une liste de trajet en fonctiont de la demmande des filtres
+ * Contrôleur RechercheTrajet qui retourne une liste de trajet en fonction des filtres sélectionnés
  */
 var RechercheTrajetController = {
 
   /**
-   * Execute le deroulement de recuperation des trajet
+   * Exécute le déroulement de récupération des trajets
+   * @param req Trame envoyée par le client
+   * @param res Trame de retour vers le client
    */
   doIt: co.wrap(function * (req, res) {
   	req.accepts('application/json');
@@ -28,9 +30,9 @@ var RechercheTrajetController = {
   }),
 
   /**
-   *
-   * @param request Trame envoier par les filtres
-   * @param result Trame qui retourne les erreurs, les trajets, le nobre de page
+   * Cette methode retourne une liste de Trajet selon la condition
+   * @param request Trame envoyée par les filtres
+   * @param result Trame qui retourne les erreurs, les trajets, le nombre de pages
    * @param condition
    */
   getListTrajet: co.wrap(function * (request, result, condition) {
@@ -39,26 +41,32 @@ var RechercheTrajetController = {
     if(journeyList != null)
       for(var i = 0; i < journeyList.length; i++){
         var driver = yield User.findById(journeyList[i].id_driver);
-        if( (journeyList[i].seats_available > 0 && request.place_libre) || !request.place_libre)
-          result.trajets.push(
-            {
-              id : journeyList[i].id_journey,
-      				depart : journeyList[i].origin,
-      				destination : journeyList[i].destination,
-      				auteur : driver.firstName + " " + driver.lastName,
-      				date_trajet : journeyList[i].date_journey,
-      				nombre_place_disponible : journeyList[i].seats_available
-      			}
-          );
+        var truc = {
+          id : journeyList[i].id_journey,
+          depart : journeyList[i].origin,
+          destination : journeyList[i].destination,
+          auteur : driver.firstName + " " + driver.lastName,
+          date_trajet : journeyList[i].date_journey,
+          nombre_place_disponible : journeyList[i].seats_available
+        };
+
+        if(request.place_libre == "true"){
+          if(journeyList[i].seats_available > 0 ){
+            result.trajets.push(truc);
+          }
+        }
+        else{
+          result.trajets.push(truc);
+        }
       }
 
     return result;
   }),
 
   /**
-   * Cette methode calcule le nobre de page pour tout la recherceh
+   * Cette methode calcule le nombre de pages pour toute la recherche
    * @param journey Le trajet
-   * @return le nobre de page
+   * @return le nombre de page
    */
   getNbPage: co.wrap(function * (condition)
   {
@@ -75,8 +83,8 @@ var RechercheTrajetController = {
   }),
 
   /**
-   * genere l'objet condition en fonctiont de la requete recu pour rechercher les trajets avec sequelize
-   * @param request Trame envoier par les filtres
+   * Génère l'objet condition en fonction de la requête reçue pour rechercher les trajets avec sequelize
+   * @param request Trame envoyée par les filtres
    * @return l'objet condition pour rechercher les trajets
    */
   getResearchCondition: function(request)
@@ -101,9 +109,9 @@ var RechercheTrajetController = {
 	},
 
   /**
-   * Cette methode test si la requete recu est correct.
-   * @param request Trame qui retourne les erreurs, les trajets, le nobre de page
-   * @return l'objet result initialiser ou ramplies avec les messages d'erreurs
+   * Cette methode test si la requete reçue est correcte.
+   * @param request Trame qui retourne les erreurs, les trajets, le nombre de pages
+   * @return l'objet result initialisé ou rempli avec les messages d'erreurs
    */
 	checkRequest: function(request)
 	{

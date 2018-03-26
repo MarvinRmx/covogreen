@@ -1,29 +1,59 @@
+/*
+    Auteur : Mohamed El Karmoudi
+*/
 import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import {AuthRequest} from "./authrequest.service";
 
 @Injectable()
 export class InscriptionTrajetService {
 
-  private url = 'http://localhost:1313/';
+    private uri;
 
-   httpOptions = {
-        headers: new HttpHeaders({
-            'Content-Type':  'application/json'
-        })
-   };
+    constructor( private http: Http, private authRequest: AuthRequest ) {
+        this.uri = "http://localhost:1313/";
+    }
 
-  constructor( private http: HttpClient) { }
+    // Effectue une requete vers le serveur pour inscrire un user à l'offre.
+    inscription(idTrajet: number): Observable<any> {
+        let headers = new Headers({ "Content-Type": "application/json" });
+        let options = new RequestOptions({ headers: headers });
 
-  inscription(token: string, idTrajet: number): Observable<any> {
-        console.log("token " + token);
-        console.log("idTrajet " + idTrajet);
-
-        // payload de la requete.
         let jsonData = {
-            'id_trajet' : idTrajet
+            'idTrajet' : idTrajet
         }
 
-      return this.http.post(this.url + 'inscription_trajet', jsonData, this.httpOptions);
-  }
+        return this.http.post(this.uri + 'inscriptionTrajet', jsonData, this.authRequest.requestOptions).map((response: Response) => {
+            return response.json();
+        });
+    }
+
+    // Effectue une requete vers le serveur pour vérifier qu'un user est inscrit ou pas.
+    verifInscription(idTrajet: number): Observable<any> {
+        let headers = new Headers({ "Content-Type": "application/json" });
+        let options = new RequestOptions({ headers: headers });
+
+        let jsonData = {
+            'idTrajet' : idTrajet
+        }
+
+        return this.http.post(this.uri + 'inscriptionTrajet/verif', jsonData, this.authRequest.requestOptions).map((response: Response) => {
+            return response.json();
+        });
+    }
+
+    // Effectue une requete vers le serveur pour désinscrire un user à l'offre.
+    desinscriptionTrajet(idTrajet: number): Observable<any> {
+        let headers = new Headers({ "Content-Type": "application/json" });
+        let options = new RequestOptions({ headers: headers });
+
+        let jsonData = {
+            'idTrajet' : idTrajet
+        }
+
+        return this.http.post(this.uri + 'desinscriptionTrajet', jsonData, this.authRequest.requestOptions).map((response: Response) => {
+            return response.json();
+        });
+    }
 }
