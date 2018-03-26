@@ -5,6 +5,7 @@ import {RechercheTrajetService} from '../../services/recherche-trajet.service';
 import {isNullOrUndefined} from 'util';
 import {TrajetEnt} from '../../class/TrajetEnt';
 import {forEach} from "@angular/router/src/utils/collection";
+import {RateService} from "../../services/rate.service";
 
 @Component({
     selector: 'app-recherche-page',
@@ -23,7 +24,12 @@ export class RecherchePageComponent implements OnInit {
     nb_total_page: number[];
     currentPage: number;
 
-    constructor(private route: ActivatedRoute, private rechercheService: RechercheTrajetService, private router: Router) {
+    constructor(
+        private route: ActivatedRoute,
+        private rechercheService: RechercheTrajetService,
+        private router: Router,
+        private rateService: RateService
+    ) {
         this.rechercheFormEnt = new RechercheFormEnt(null, null, false, null);
         this.offres = [];
         this.error = false;
@@ -81,6 +87,18 @@ export class RecherchePageComponent implements OnInit {
         });
     }
 
+    /**
+     * Method for return rate for each driver
+     * @returns {number}
+     */
+    getRateDyDriver(id_driver: number): number {
+        let rate: number = null;
+        this.rateService.getRateByDriver(id_driver)
+            .subscribe(result => {
+                rate = result;
+            });
+        return rate;
+    }
 
 
     /**
@@ -111,5 +129,5 @@ export class RecherchePageComponent implements OnInit {
         });
     }
 
-   
+
 }
