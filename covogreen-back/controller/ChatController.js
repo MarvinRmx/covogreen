@@ -311,6 +311,7 @@ var ChatController = {
         }
     }),
 
+
     /**
      * Se charge d'envoyer un email.
      */
