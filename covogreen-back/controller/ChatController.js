@@ -8,6 +8,7 @@ var Trajet = require("../database/models/journey");
 var InscriptionJourney =  require("../database/models/inscriptionJourney");
 const Op = require('sequelize').Op;
 var co = require('co');
+var authToken = require("./tools/authToken");
 
 const nodemailer = require('nodemailer');
 const emailController = require('../controller/EmailController');
@@ -139,11 +140,6 @@ var ChatController = {
         try {
             if(inscriptionJourney == null)
                 return res.status(200).send({ success: false,  message: "Impossible d'accéder à la page l'utilisateur n'est pas inscrit au trajet : " + idTrajet });
-
-            // On stocke l'id de l'user pour le récupérer dans la methode qui est demandé.
-            req.idUser = idUser;
-            next();
-
         }catch(erreur){
             return res.status(200).send({ success: false,  message: "Une erreur est survenue lors de l'execution de la req sql" });
         }
@@ -273,6 +269,7 @@ var ChatController = {
      */
     addMessage: co.wrap(function *  (req, res){
       ChatController.middlewareProtection(req,res);
+        var userToken = authToken.getToken(req);
 
       	req.accepts('application/json');
         // On vérifie les paramètres
@@ -283,7 +280,7 @@ var ChatController = {
 
         var idTrajet = parseInt(req.body.idTrajet);
         var message = req.body.message;
-        var idUser = parseInt(1);
+        var idUser = parseInt(userToken.id_user);
 
         var reqSql = yield Chat.create({id_auteur: idUser, id_trajet: idTrajet, message: message});
 
