@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { AuthentificationService } from '../services/authentification.service';
 import { User } from '../class/user';
-
 import 'hammerjs';
 
+/**
+ * @author Romain Lembo
+ */
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',

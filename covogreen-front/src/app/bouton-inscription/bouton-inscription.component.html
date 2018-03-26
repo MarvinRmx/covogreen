@@ -1,0 +1,11 @@
+<div class="inscription" *ngIf="!inscrit">
+  <button class="btn btn-success btn-lg btn-block btnParticiper" (click)="inscriptionTrajet()" >
+    <span>S'inscription</span>
+  </button>
+</div>
+
+<div class="desinscription" *ngIf="inscrit">
+  <button class="btn btn-warning btn-lg btn-block btnParticiper" (click)="desinscriptionTrajet()" >
+    <span>Se désinscrire</span>
+  </button>
+</div>

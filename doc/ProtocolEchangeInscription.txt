@@ -1,0 +1,47 @@
+1: Inscription trajet
+/inscriptionTrajet -> POST
+FrontEnd : {idTrajet: XX} + token dans le header
+Backend :
+{
+    success : TRUE
+}
+
+{
+    success : FALSE,
+    message: [
+        "XXXXXXXXXXXXXX",
+        "XXXXXXXXXXXXXX"
+    ]
+}
+
+2 : verification inscription trajet
+/inscriptionTrajet/verif -> POST
+FrontEnd: {idTrajet: XX} + token dans le header
+Backend :
+{
+    success : TRUE
+}
+
+{
+    success : FALSE,
+    message: [
+        "XXXXXXXXXXXXXX",
+        "XXXXXXXXXXXXXX"
+    ]
+}
+
+3 : Desinscription trajet
+/desinscriptionTrajet -> POST
+FrontEnd : {idTrajet: XX} + token dans le header
+Backend :
+{
+    success : TRUE
+}
+
+{
+    success : FALSE,
+    message: [
+        "XXXXXXXXXXXXXX",
+        "XXXXXXXXXXXXXX"
+    ]
+}

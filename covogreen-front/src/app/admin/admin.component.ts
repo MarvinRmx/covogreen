@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
+/**
+ * @author Romain Lembo
+ */
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',

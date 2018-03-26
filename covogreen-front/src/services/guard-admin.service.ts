@@ -2,6 +2,9 @@ import {Injectable} from '@angular/core';
 import {Router, CanActivate} from '@angular/router';
 import {AuthentificationService} from "./authentification.service";
 
+/**
+ * @author Romain Lembo
+ */
 @Injectable()
 export class GuardAdminService implements CanActivate {
 

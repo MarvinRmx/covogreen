@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
+/**
+ * @author Romain Lembo
+ */
 @Component({
   selector: 'app-newcar',
   templateUrl: './newcar.component.html',

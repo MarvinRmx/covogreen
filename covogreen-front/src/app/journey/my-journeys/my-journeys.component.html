@@ -1,3 +1,7 @@
+<!--
+author Romain Lembo
+-->
+
 <div>
     <h2>Mes trajets</h2>
 
@@ -31,6 +35,11 @@
                 <mat-cell *matCellDef="let element"> {{getSchedule(element.date_journey)}} </mat-cell>
             </ng-container>
 
+            <ng-container matColumnDef="event">
+                <mat-header-cell *matHeaderCellDef> Evenement </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{getEvent(element.date_journey)}} </mat-cell>
+            </ng-container>
+
             <ng-container matColumnDef="status">
                 <mat-header-cell *matHeaderCellDef> Statut </mat-header-cell>
                 <mat-cell *matCellDef="let element"> {{getStatus(element.is_driver)}} </mat-cell>
@@ -40,7 +49,15 @@
                 <mat-header-cell *matHeaderCellDef></mat-header-cell>
                 <mat-cell *matCellDef="let element">
                     <button mat-raised-button color="accent"
-                            (click)="ngxSmartModalService.getModal('detailedCard').open()">Détails</button>
+                            (click)="getModal_shareJourney(element.id_journey)">Détails</button>
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="chat">
+                <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <button mat-raised-button color="accent"
+                            routerLink="/chat/{{element.id_journey}}">Chat</button>
                 </mat-cell>
             </ng-container>
 
@@ -66,5 +83,5 @@
 </div>
 
 <ngx-smart-modal #detailedCard identifier="detailedCard" customClass="detailedCard">
-    <app-detailed-card></app-detailed-card>
+    <app-detailed-card [id_journey]="id_journey"></app-detailed-card>
 </ngx-smart-modal>

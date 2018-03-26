@@ -1,9 +1,12 @@
-import {AfterViewInit, Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild, ViewContainerRef, Input } from '@angular/core';
 import {JourneyService} from '../../../services/journey.service';
-import {MatPaginator, MatTableDataSource} from "@angular/material";
+import {MatPaginator, MatTableDataSource} from '@angular/material';
 import {Journey} from '../../../class/journey';
 import { NgxSmartModalService } from 'ngx-smart-modal';
 
+/**
+ * @author Romain Lembo
+ */
 @Component({
   selector: 'app-my-journeys',
   templateUrl: './my-journeys.component.html',
@@ -13,7 +16,8 @@ export class MyJourneysComponent implements OnInit, AfterViewInit {
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
-    public displayedColumns = ['id_journey', 'origin', 'destination', 'date_journey', 'status', 'access', 'cancel'];
+    public id_journey: number;
+    public displayedColumns = ['id_journey', 'origin', 'destination', 'date_journey', 'status', 'event', 'access', 'chat', 'cancel'];
     public dataSource = new MatTableDataSource<Journey>([]);
 
     constructor(
@@ -23,7 +27,7 @@ export class MyJourneysComponent implements OnInit, AfterViewInit {
 
     ngOnInit() {
 
-      this.journeyService.getJourneysByUser()
+        this.journeyService.getJourneysByUser()
           .subscribe(result => {
 
                 for (let journey of result) {
@@ -64,4 +68,19 @@ export class MyJourneysComponent implements OnInit, AfterViewInit {
         if (value) return 'Conducteur';
         return 'Passager';
     }
+
+    getEvent(value): string {
+
+        let date = new Date(value);
+        let now = Date.now();
+
+        if (now < date.getTime()) return 'A venir';
+        else return 'Terminé';
+    }
+
+    getModal_shareJourney(id_journey) {
+        this.ngxSmartModalService.getModal('detailedCard').open();
+        this.id_journey = id_journey;
+    }
+
 }

@@ -20,8 +20,8 @@ import {
     MatSlideToggleModule
 } from '@angular/material';
 import {MatTabsModule} from '@angular/material/tabs';
+import {MatCardModule} from '@angular/material/card';
 
-import { BarRatingModule } from "ngx-bar-rating";
 import { NgxSmartModalModule, NgxSmartModalService } from 'ngx-smart-modal';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
@@ -54,13 +54,14 @@ import { NewCarComponent } from './car/newcar.component';
 import {CreateJourneyComponent} from './journey/create-journey/create-journey.component';
 
 import { ChatComponent } from './detailed-card/chat/chat.component';
-import { TestComponent } from './test/test.component';
 import { AdminUsersComponent } from './admin/admin-users/admin-users.component';
 import { MyJourneysComponent } from './journey/my-journeys/my-journeys.component';
 import {JourneyService} from '../services/journey.service';
 import { DetailedCardComponent } from './detailed-card/detailed-card.component';
 import { RateComponent } from './detailed-card/rate/rate.component';
+import { BoutonInscriptionComponent } from './bouton-inscription/bouton-inscription.component';
 
+import {SafePipe} from '../directives/safepipe.directive';
 
 @NgModule({
     imports: [
@@ -84,7 +85,7 @@ import { RateComponent } from './detailed-card/rate/rate.component';
         MatPaginatorModule,
         MatSlideToggleModule,
         MatTabsModule,
-        BarRatingModule,
+        MatCardModule,
         NgxSmartModalModule.forRoot(),
         ConfirmationPopoverModule.forRoot({
             confirmButtonType: 'danger' // set defaults here
@@ -103,11 +104,12 @@ import { RateComponent } from './detailed-card/rate/rate.component';
         RecherchePageComponent,
         NewCarComponent,
         ChatComponent,
-        TestComponent,
         AdminUsersComponent,
         MyJourneysComponent,
         DetailedCardComponent,
-        RateComponent
+        RateComponent,
+        SafePipe,
+        BoutonInscriptionComponent
     ],
     providers: [
         AuthentificationService,

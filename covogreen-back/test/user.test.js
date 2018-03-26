@@ -12,6 +12,9 @@ var path = require('path');
 var skey_path = path.join(__dirname, '../skey.txt');
 var skey = fs.readFileSync(skey_path, 'utf-8');
 
+/**
+ * @author Romain Lembo
+ */
 describe('User', function () {
 
     var headersUser;
@@ -83,7 +86,7 @@ describe('User', function () {
                 .post('/user/login')
                 .send({
                     username: "admin",
-                    password: "21232f297a57a5a743894a0e4a801fc3"
+                    password: "098f6bcd4621d373cade4e832627b4f6"
                 })
                 .expect(200)
                 .end(function(err, res) {

@@ -18,15 +18,17 @@ export class ChatComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private location: Location, private chatService: ChatService) {
     this.idTrajet = +this.route.snapshot.paramMap.get('id');
-    this.messageToSend = "";
-    this.offre = new TrajetEnt(this.idTrajet, "", "", new Date(), "", 0);
+    this.messageToSend = '';
+    this.offre = new TrajetEnt(this.idTrajet, '', '', new Date(), '', 0);
   }
 
   ngOnInit() {
-    this.chatService.getInfoTrajet(this.idTrajet).subscribe((result: Response) => {
-      this.offre = result['offre'];
+    this.chatService.getInfoTrajet(this.idTrajet).subscribe((result: TrajetEnt) => {
+        this.offre = result["offre"];
+        console.log('this.offre : ', this.offre);
     });
-    this.chatService.getMessages(this.idTrajet, 0).subscribe((result: Response) => {
+    this.chatService.getMessages(this.idTrajet, 0).subscribe((result: string) => {
+        console.log(result);
       this.messages = result['messages'];
       this.updateChat();
       this.setScrollBarBottom();
@@ -38,8 +40,9 @@ export class ChatComponent implements OnInit {
     if(this.messages.length > 0){
       var lastMessageId = this.messages[this.messages.length-1].id;
 
-      this.chatService.getLastMessagesById(this.idTrajet, lastMessageId).subscribe((result: Response) => {
+      this.chatService.getLastMessagesById(this.idTrajet, lastMessageId).subscribe((result: string) => {
         var newmessages = result['messages'];
+        console.log('updateChat : ', newmessages);
 
         for(var i = 0; i < newmessages.length; i++){
           this.messages.push(newmessages[i]);

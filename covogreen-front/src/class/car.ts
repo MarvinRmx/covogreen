@@ -1,3 +1,7 @@
+
+/**
+ * @author Romain Lembo
+ */
 export class Car {
     public id_car: number;
     public licencePlate: string;

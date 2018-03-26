@@ -24,8 +24,9 @@
             <p><strong>Nombre de place restante :</strong> {{offre.nombre_place_disponible}}</p>
           </div>
 
+
           <div class="col-lg-2">
-            <button class="btn btn-success btn-lg btn-block btnParticiper" (click)="inscriptionTrajet($event, offre)">{{offre.actionSinscrireBouton}}</button>
+            <app-bouton-inscription idTrajet="{{offre.id}}"></app-bouton-inscription>
           </div>
         </div>
       </div><!-- .offre -->

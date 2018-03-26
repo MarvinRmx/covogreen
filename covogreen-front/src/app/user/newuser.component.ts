@@ -6,6 +6,10 @@ import { User } from '../../class/user';
 import { Car } from '../../class/car';
 import * as md5 from 'md5';
 
+
+/**
+ * @author Romain Lembo
+ */
 @Component({
     selector: 'app-newuser',
     templateUrl: './newuser.component.html',
@@ -46,8 +50,8 @@ export class NewuserComponent implements OnInit {
             address: this.formBulder.control('', Validators.required),
             cp: this.formBulder.control('', Validators.required),
             phone: this.formBulder.control('', Validators.required),
-            is_driver: "false",
-            have_car: "false",
+            is_driver: 'false',
+            have_car: 'false',
 
             licencePlate: this.formBulder.control(''),
             make: this.formBulder.control(''),
@@ -65,6 +69,7 @@ export class NewuserComponent implements OnInit {
         this.userService.createUser(this.user, this.car)
             .subscribe(result => {
                 alert(result);
+                this.user.password = '';
             });
     }
 

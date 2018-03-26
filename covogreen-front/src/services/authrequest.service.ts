@@ -1,5 +1,8 @@
 import {Headers, Http, BaseRequestOptions, RequestOptions} from '@angular/http';
 
+/**
+ * @author Romain Lembo
+ */
 export class AuthRequest {
 
     public headerAuth: Headers;
