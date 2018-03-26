@@ -1,5 +1,5 @@
 /**
- * Author: Alex Zarzitski
+ * Author: Alex Zarzitski & Romain Lembo
  * Date: 25/03/2018
  */
 var Journey = require("../database/models/journey");
@@ -7,6 +7,7 @@ var User = require("../database/models/user");
 var InscriptionJourney = require("../database/models/inscriptionJourney");
 const Op = require('sequelize').Op;
 var co = require('co');
+var sequelize = require("../database/db");
 
 var authToken = require("./tools/authToken");
 
@@ -21,6 +22,31 @@ var NoteConducteurController = {
    * @param req Trame envoyée par le client
    * @param res Trame de retour vers le client
    */
+  getJourneysByID: function (req, res) {
+
+      var id_driver = req.params.id_driver;
+      var userToken = authToken.getToken(req);
+
+      if (!userToken.revoked)
+      {
+          sequelize.query('SELECT getRateByDriver('+ id_driver +')')
+              .then(function (response) {
+
+                    var result = 0;
+                    for (var key in response[0][0]) {
+                        result = response[0][0][key];
+                        res.status(200).send(JSON.stringify(result));
+                    }
+              })
+              .catch(function (error) {
+                  console.log(error);
+                  res.status(500).send("Echec de la récupération de la note du conducteur.");
+              });
+      }
+      else res.status(500).send("Compte bloqué !");
+  },
+
+  /*
   doIt: co.wrap(function * (req, res) {
     req.accepts('application/json');
     // On décode le json
@@ -60,6 +86,7 @@ var NoteConducteurController = {
     else
       res.status(200).send({errors : ["Impossible to find driver"]});
   })
+  */
 
 };
 

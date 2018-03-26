@@ -213,7 +213,7 @@ var ChatController = {
      *      idMessage : entier
      */
     getLastMessageById: co.wrap(function * (req, res) {
-      ChatController.middlewareProtection(req,res);
+        ChatController.middlewareProtection(req,res);
 
         // On vérifie les paramètres
         var out = verifierParametresGetLastMessage(req.body.idTrajet, req.body.idMessage);
@@ -354,9 +354,6 @@ var ChatController = {
                     auteur : author.firstName + " " + author.lastName,
                     nombre_place_disponible : trajet.seats_available
                 };
-
-                console.log('out["offre"] : ', out["offre"]);
-
                 res.send(out);
             }else{
                 out["errors"].push("Le trajet n'existe pas");

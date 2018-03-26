@@ -14,6 +14,7 @@ export class DetailedCardComponent implements OnInit {
 
     private googleAPIKey = 'AIzaSyCn_4UrHcbZH6TXsuVe15odOdZusR0hUgs';
     private journey: Journey;
+    private id_driver: number;
 
     constructor(
         private journeyService: JourneyService
@@ -30,7 +31,7 @@ export class DetailedCardComponent implements OnInit {
             this.journeyService.getJourneysByID(id_journey)
                 .subscribe(result => {
                     this.journey = result;
-                    console.log('DetailedCardComponent : ', this.journey);
+                    this.id_driver = this.journey.id_driver;
                 });
         }
     }
