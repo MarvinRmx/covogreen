@@ -1,0 +1,41 @@
+/**
+ * @author Mohamed EL karmoudi
+ */
+#branding{
+    color:#fff;
+    padding:20px;
+    text-align: center;
+    border-radius:20px;
+}
+#branding h1{
+    font-size: 50px;
+    margin-top:30px;
+    margin-bottom:60px;
+}
+#branding h2{
+    margin-bottom:100px;
+}
+
+#offres{
+    margin-top:30px;
+}
+.offre{
+    padding:15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border-left: 1px solid #ccc;
+}
+.offre:nth-child(even){
+    background: #f5f5f5;
+}
+.offre:nth-child(odd){
+    background: #fff;
+}
+
+.offre p {
+    margin-bottom: 0
+}
+
+.alert-recherche p{
+    margin-bottom: 0;
+}

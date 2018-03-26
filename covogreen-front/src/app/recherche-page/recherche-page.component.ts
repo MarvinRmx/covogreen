@@ -1,3 +1,6 @@
+/**
+ * @author Mohamed EL karmoudi
+ */
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {RechercheFormEnt} from '../../class/RechercheFormEnt';
