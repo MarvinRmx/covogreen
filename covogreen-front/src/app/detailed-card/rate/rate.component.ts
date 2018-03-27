@@ -1,6 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {RateService} from '../../../services/rate.service';
+import {InscriptionTrajetService} from '../../../services/inscription-trajet.service';
+import {InscriptionJourney} from '../../../class/inscriptionJourney';
 
 /**
  * @author Romain Lembo
@@ -17,36 +19,53 @@ export class RateComponent implements OnInit {
 
         if (id_driver != null || id_driver !== undefined || id_driver < 0)
         {
-            this.rateService.getRateByDriver(id_driver)
-                .subscribe(result => {
-                    this.rateNow = result;
-                });
+            this.iddriver = id_driver;
+            this.getRateByDriver(this.iddriver);
         }
     }
 
+    private iddriver: number;
     private rateNow: number;
     private rateForm: FormGroup = new FormGroup({});
+    private inscriptionJourney: InscriptionJourney;
 
     constructor(
         private formBulder: FormBuilder,
-        private rateService: RateService
+        private rateService: RateService,
+        private inscriptionTrajetService: InscriptionTrajetService
     ) { }
 
     ngOnInit() {
-
-        this.rateService.getRateByDriver(8)
-            .subscribe(result => {
-                console.log('getRateByDriver : ', result);
-            });
-
         this.rateForm = this.formBulder.group({
             rate: ''
         });
 
+        this.getInscriptionJourneyByJourneyAndUser();
     }
 
-    sendRate() {
-        let result = this.rateForm.value.rate;
-        console.log('getRate : ', result);
+    getRateByDriver(id_driver) {
+        this.rateService.getRateByDriver(id_driver)
+            .subscribe(result => {
+                this.rateNow = result;
+            });
+    }
+
+    getInscriptionJourneyByJourneyAndUser() {
+        this.inscriptionTrajetService.getInscriptionJourneyByJourneyAndUser(this.id_journey)
+            .subscribe(result => {
+                this.inscriptionJourney = result;
+                console.log('getInscriptionJourneyByJourneyAndUser : ', result);
+            });
+    }
+
+    postRateByDriver() {
+        let rate = this.rateForm.value.rate;
+        this.inscriptionJourney.rate = rate;
+
+        this.rateService.postRateByDriver(this.inscriptionJourney)
+            .subscribe(result => {
+                alert(result);
+                this.getRateByDriver(this.iddriver);
+            });
     }
 }

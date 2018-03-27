@@ -9,11 +9,12 @@ var co = require('co');
 
 module.exports = function (router) {
 
-    //router.get('/:id_driver', NoteConducteurController.doIt);
+    var getRateByDriver = co.wrap(NoteConducteurController.getRateByDriver);
+    router.get('/:id_driver', getRateByDriver);
 
-    var getJourneysByID = co.wrap(NoteConducteurController.getJourneysByID);
-    router.get('/:id_driver', getJourneysByID);
+    //router.post('/', EvaluationTrajetController.doIt);
 
-    router.post('/', EvaluationTrajetController.doIt);
+    var postRateByDriver = co.wrap(EvaluationTrajetController.postRateByDriver);
+    router.post('/', postRateByDriver);
 
 };

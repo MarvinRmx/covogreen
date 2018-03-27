@@ -43,6 +43,7 @@ import {AdminService} from '../services/admin.service';
 import {RateService} from '../services/rate.service';
 import { RechercheTrajetService } from '../services/recherche-trajet.service';
 import { AuthRequest } from '../services/authrequest.service';
+import { InscriptionTrajetService } from '../services/inscription-trajet.service';
 
 import { UserComponent } from './user/user.component';
 import { NewuserComponent } from './user/newuser.component';
@@ -122,6 +123,7 @@ import {SafePipe} from '../directives/safepipe.directive';
         AuthRequest,
         JourneyService,
         RateService,
+        InscriptionTrajetService,
         NgxSmartModalService,
         {
             provide: MATERIAL_SANITY_CHECKS,

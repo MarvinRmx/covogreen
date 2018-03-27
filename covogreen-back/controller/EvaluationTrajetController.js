@@ -22,7 +22,34 @@ var EvaluationTrajetController = {
    * @param req Trame envoyée par le client
    * @param res Trame de retour vers le client
    */
-  doIt: co.wrap(function * (req, res) {
+  postRateByDriver: function  (req, res) {
+
+      var userToken = authToken.getToken(req);
+      var inscriptionJourney = req.body;
+
+      if(!userToken.revoked)
+      {
+          InscriptionJourney.update(
+                { rate: inscriptionJourney.rate },
+                { where: {
+                        id: inscriptionJourney.id,
+                        id_user: userToken.id_user
+                    }
+                }
+              )
+              .then(function (response) {
+                  res.status(200).send("Ajout de la note OK");
+              })
+              .catch(function (error) {
+                  console.log('Fail find for getting user :', error);
+                  res.status(500).send("Echec de la notation");
+              });
+      }
+      else res.status(500).send("Compte bloqué !");
+  },
+
+
+  /*doIt: co.wrap(function * (req, res) {
     req.accepts('application/json');
     // On décode le json
     var token = authToken.getToken(req);
@@ -49,7 +76,7 @@ var EvaluationTrajetController = {
         res.status(200).send({errors : ["Impossible to find user"]});
     else
       res.status(200).send({errors : ["Impossible to find journey"]});
-  })
+  })*/
 
 };
 
