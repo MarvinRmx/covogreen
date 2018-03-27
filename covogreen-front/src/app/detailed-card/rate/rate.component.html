@@ -3,7 +3,7 @@ author Romain Lembo
 -->
 <div class="col-md-12">
 
-    <h5>Noter le conducteur : </h5>
+    <h5 *ngIf="rateNow > 0">Note actuel du conducteur : {{rateNow}} </h5>
 
     <form (ngSubmit)="sendRate()" [formGroup]="rateForm" class="form" role="form" #f="ngForm" novalidate>
         <div class="form-group">

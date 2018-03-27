@@ -43,6 +43,7 @@ var RechercheTrajetController = {
         var driver = yield User.findById(journeyList[i].id_driver);
         var truc = {
           id : journeyList[i].id_journey,
+          id_driver: driver.id_user,
           depart : journeyList[i].origin,
           destination : journeyList[i].destination,
           auteur : driver.firstName + " " + driver.lastName,

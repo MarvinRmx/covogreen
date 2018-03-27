@@ -88,3 +88,19 @@ BEGIN
 	DELETE FROM cars WHERE id_car = _id_car;
 	DELETE FROM users WHERE id_user = _id_user;
 END|
+
+-- ---------------------------------- --
+
+-- Get rate by id_driver --
+DELIMITER |
+CREATE FUNCTION getRateByDriver(_id_user INTEGER) RETURNS FLOAT 
+READS SQL DATA
+BEGIN
+	DECLARE result float;
+	DECLARE _id_journey INT;
+
+	SET _id_journey := (SELECT id_journey FROM journeys WHERE id_driver = _id_user);
+    	SET result :=(SELECT SUM(rate)/COUNT(*) FROM inscriptionjourneys WHERE id_trajet = _id_journey);
+	
+	RETURN result;
+END|

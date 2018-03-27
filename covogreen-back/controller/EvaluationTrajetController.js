@@ -1,6 +1,6 @@
 /**
  * Author: Alex Zarzitski
- * Date: 19/03/2018
+ * Date: 25/03/2018
  */
 var Journey = require("../database/models/journey");
 var User = require("../database/models/user");
@@ -13,12 +13,12 @@ var InscriptionTrajetController = require("./InscriptionTrajetController");
 
 
 /**
- * Controleur DesinscriptionTrajetController
+ * Controleur EvaluationTrajetController
  */
-var DesinscriptionTrajetController = {
+var EvaluationTrajetController = {
 
   /**
-   * Cette methode effectue une tentative de desinscription du trajet d'utilisateur courant
+   * Cette methode enregistrer une note pour un trajet
    * @param req Trame envoyée par le client
    * @param res Trame de retour vers le client
    */
@@ -36,22 +36,21 @@ var DesinscriptionTrajetController = {
       if(user != null){
         var test = yield InscriptionTrajetController.checkSubscribe(journey, user);
         if(test == true){
-          journey.seats_available = journey.seats_available+1;
-          journey.save();
           var condition = { 'where' : { [Op.and] : [{"id_user" : user.id_user}, {"id_trajet" : journey.id_journey}] } };
           var inscriptionJourney = yield InscriptionJourney.find(condition);
-          inscriptionJourney.destroy();
-          res.status(200).send({success: true});
+          inscriptionJourney.rate = req.body.rate;
+          inscriptionJourney.save();
+          res.status(500).send({errors : []});
         }
         else
-          res.status(200).send({success: false, message: ["User is not in journey"]});
+          res.status(200).send({errors : ["User is not subscribed to journey"]});
       }
       else
-        res.status(200).send({success: false, message: ["Impossible to find user"]});
+        res.status(200).send({errors : ["Impossible to find user"]});
     else
-      res.status(200).send({success: false, message: ["Impossible to find journey"]});
+      res.status(200).send({errors : ["Impossible to find journey"]});
   })
 
 };
 
-module.exports = DesinscriptionTrajetController;
+module.exports = EvaluationTrajetController;

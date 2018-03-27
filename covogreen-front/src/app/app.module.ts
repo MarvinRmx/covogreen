@@ -40,6 +40,7 @@ import {GuardAdminService} from '../services/guard-admin.service';
 import {UserService} from '../services/user.service';
 import {CarService} from '../services/car.service';
 import {AdminService} from '../services/admin.service';
+import {RateService} from '../services/rate.service';
 import { RechercheTrajetService } from '../services/recherche-trajet.service';
 import { AuthRequest } from '../services/authrequest.service';
 
@@ -120,6 +121,7 @@ import {SafePipe} from '../directives/safepipe.directive';
         AdminService,
         AuthRequest,
         JourneyService,
+        RateService,
         NgxSmartModalService,
         {
             provide: MATERIAL_SANITY_CHECKS,
