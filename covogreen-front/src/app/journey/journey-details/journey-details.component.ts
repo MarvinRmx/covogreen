@@ -3,6 +3,7 @@ import {Journey} from '../../../class/journey';
 import {JourneyService} from '../../../services/journey.service';
 import {UserService} from '../../../services/user.service';
 import {User} from '../../../class/user';
+import {FormBuilder, Validators} from '@angular/forms';
 
 @Component({
     selector: 'app-journey-details',
@@ -19,13 +20,21 @@ export class JourneyDetailsComponent implements OnInit {
     public journey: Journey;
     public driver: User;
     public user: User;
+    public canRateAndComment: boolean;
     direction: any;
-    constructor(private journeyService: JourneyService, private userService: UserService) {
+    public rateAndCommentForm;
+
+    constructor(private journeyService: JourneyService, private userService: UserService, private formBuilder: FormBuilder) {
     }
 
     ngOnInit() {
         let id_journey = window.location.href.substr(this.journeyService.getUri().length + 1, window.location.href.length);
-        //this.journeyService.canRateAndComment(id_journey);
+
+        this.rateAndCommentForm = this.formBuilder.group({
+            rate: this.formBuilder.control(''),
+            comment: this.formBuilder.control('')
+        });
+
         this.userService.getUser().subscribe(result => {
             this.user = result;
         });
@@ -33,24 +42,36 @@ export class JourneyDetailsComponent implements OnInit {
         this.journeyService.getJourney(id_journey)
             .subscribe(result => {
                 this.journey = result;
-                this.direction  = {
+                this.direction = {
                     origin: result.origin,
                     destination: result.destination,
                     travelMode: 'DRIVING'
                 };
+                this.journeyService.canRateAndComment(id_journey).subscribe(res => {
+                    this.canRateAndComment = (res === 'true' && (new Date(Date.now()) > new Date(this.journey.date_journey)));
+                    console.log(this.canRateAndComment);
+                });
+
                 this.userService.getUserFromId(result.id_driver)
                     .subscribe(res => {
-                        this.driver = res;
-                    }
-                );
+                            this.driver = res;
+                        }
+                    );
             });
     }
 
     deleteCurrentJourney() {
-        if ( this.user.id_user === this.driver.id_user) {
+        if (this.user.id_user === this.driver.id_user) {
             this.journeyService.deleteJourney(this.journey.id_journey).subscribe(result => {
                 console.log(result);
             });
         }
+    }
+
+    rateAndComment() {
+        this.journeyService.rateAndComment(this.rateAndCommentForm.value, this.journey.id_journey)
+            .subscribe(result => {
+                alert(result);
+            });
     }
 }

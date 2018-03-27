@@ -5,9 +5,9 @@
     <div>Départ : {{journey.date_journey}}</div>
     <div>Nombre de sièges restants : {{journey.seats_available}}</div>
     <div *ngIf="user && driver">
-            <div *ngIf="user.id_user == driver.id_user">
-                <button (click)="deleteCurrentJourney()">Supprimer ce trajet</button>
-            </div>
+        <div *ngIf="user.id_user == driver.id_user">
+            <button (click)="deleteCurrentJourney()">Supprimer ce trajet</button>
+        </div>
     </div>
 </div>
 <ngui-map zoom="13" center="40.771, -73.974" *ngIf="direction">
@@ -17,4 +17,31 @@
         [directions-request]="direction">
     </directions-renderer>
 </ngui-map>
+<div *ngIf="canRateAndComment">
+    <form (ngSubmit)="rateAndComment()" [formGroup]="rateAndCommentForm" class="form" role="form" #f="ngForm" novalidate>
+        <div class="form-group">
+            <input  id="rate" name="rate" formControlName="rate"
+                    placeholder="Note sur 5"
+                    class="form-control form-control-sm"
+                    type="number"
+                    max="5"
+                    required>
+        </div>
+        <div class="form-group">
+            <textarea
+                name="comment"
+                id="comment"
+                maxlength="255"
+                formControlName="comment"
+                class="form-control form-control-sm"
+                placeholder="Commentaire"
+            >
+            </textarea>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block">Noter et commenter</button>
+        </div>
+    </form>
+
+</div>
 <div id="my-panel"></div>

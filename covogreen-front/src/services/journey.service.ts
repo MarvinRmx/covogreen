@@ -67,6 +67,7 @@ export class JourneyService {
                 return JSON.parse(result);
             });
     }
+
     /**
      * @author Romain LEMBO & Marvin RAMEIX
      *  Get next Journeys from an user
@@ -129,11 +130,19 @@ export class JourneyService {
             });
     }
 
-    /*canRateAndComment(id_journey): Observable<string> {
+    canRateAndComment(id_journey): Observable<string> {
         return this.http.get(this.uri + '/rateComment/' + id_journey, this.authRequest.requestOptions)
             .map((response: Response) => {
                 console.log(response);
                 return response.text();
             });
-    }*/
+    }
+
+    rateAndComment(rateAndComment: Object, id_journey: number): Observable<string> {
+        return this.http.post('http://localhost:1313/inscriptionTrajet/rateComment/' + id_journey,
+            JSON.stringify(rateAndComment), this.authRequest.requestOptions)
+            .map((response: Response) => {
+                return response.text();
+            });
+    }
 }

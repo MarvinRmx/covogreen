@@ -9,6 +9,12 @@ const InscriptionJourney = db.define('inscriptionjourney',
             type: Sequelize.INTEGER,
             primaryKey: true,
             autoIncrement: true
+        },
+        rate: {
+            type: Sequelize.INTEGER
+        },
+        comment: {
+            type: Sequelize.STRING
         }
     }
 );

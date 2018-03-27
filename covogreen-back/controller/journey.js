@@ -145,16 +145,22 @@ var JourneyController = {
         var userToken = authToken.getToken(req);
         InscriptionTrajet.findOne({
             where: {
-                id_journey: req.params.id_journey,
-                id_user: userToken
+                id_trajet: req.params.id_journey,
+                id_user: userToken.id_user
             }
         }).then(
             function (value) {
-                res.status(200).send(true);
+                if(value !== null){
+                    res.status(200).send(true);
+                }
+                else{
+                    res.status(200).send(false);
+                }
             }
         ).catch(
             function (reason) {
-                res.status(400).send(false);
+                console.log(reason);
+                res.status(200).send("Cet utilisateur ne participe pas au trajet");
             }
         )
     }
