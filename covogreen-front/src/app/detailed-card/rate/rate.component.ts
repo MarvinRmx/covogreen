@@ -15,6 +15,8 @@ export class RateComponent implements OnInit {
 
     @Input() id_journey: number;
 
+    @Input() happended: boolean;
+
     @Input() set id_driver(id_driver: number) {
 
         if (id_driver != null || id_driver !== undefined || id_driver < 0)
@@ -66,5 +68,9 @@ export class RateComponent implements OnInit {
                 alert(result);
                 this.getRateByDriver(this.iddriver);
             });
+    }
+
+    checkIsEvent() {
+
     }
 }

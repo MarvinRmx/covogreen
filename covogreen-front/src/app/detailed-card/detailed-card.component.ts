@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import {JourneyService} from '../../services/journey.service';
 import {Journey} from '../../class/journey';
+import {MyJourneysComponent} from "../journey/my-journeys/my-journeys.component";
 
 /**
  * @author Romain Lembo
@@ -15,13 +16,14 @@ export class DetailedCardComponent implements OnInit {
     private googleAPIKey = 'AIzaSyCn_4UrHcbZH6TXsuVe15odOdZusR0hUgs';
     private journey: Journey;
     private id_driver: number;
+    private happended: boolean;
 
     constructor(
         private journeyService: JourneyService
     ) { }
 
     ngOnInit() {
-
+        this.happended = false;
     }
 
     @Input() set id_journey(id_journey: number) {
@@ -36,7 +38,17 @@ export class DetailedCardComponent implements OnInit {
         }
     }
 
+    setHappended(value) {
+
+        let date = new Date(value);
+        let now = Date.now();
+
+        if (now < date.getTime()) this.happended = false;
+        else this.happended = true;
+    }
+
     getSchedule(value): string {
+        this.setHappended(value);
 
         let date = new Date(value);
 

@@ -78,7 +78,6 @@ export class JourneyService {
         return this.http.post(this.uri  + '/isdriver', JSON.stringify(journey), this.authRequest.requestOptions)
             .map((response: Response) => {
                 let result = response.text();
-                console.log('isDriverThisJourney : ' + result);
                 return JSON.parse(result);
             });
     }
