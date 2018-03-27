@@ -1,5 +1,5 @@
-/*
-    Auteur : Mohamed El Karmoudi
+/**
+ *  Auteur : Mohamed El Karmoudi & Romain Lembo
 */
 import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs/Observable';

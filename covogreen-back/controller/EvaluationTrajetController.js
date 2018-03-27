@@ -1,5 +1,5 @@
 /**
- * Author: Alex Zarzitski
+ * Author: Alex Zarzitski & Romain Lembo
  * Date: 25/03/2018
  */
 var Journey = require("../database/models/journey");
