@@ -70,6 +70,6 @@ jobs:
           command: cd ~/covogreen/covogreen-back && npm test
 
       # On lance le test du covogreen-front.
-      - run:
-          name: Test covogreen-front
-          command: cd ~/covogreen/covogreen-front && npm test
+      #- run:
+      #    name: Test covogreen-front
+      #   command: cd ~/covogreen/covogreen-front && npm test
