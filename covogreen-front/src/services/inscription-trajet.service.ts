@@ -69,7 +69,6 @@ export class InscriptionTrajetService {
         return this.http.get(this.uri + 'inscriptionTrajet/byjourneyuser/' + id_journey, this.authRequest.requestOptions)
             .map((response: Response) => {
                 let result = response.text();
-                console.log('getInscriptionJourneyByJourneyAndUser SERVICE : ', result);
                 return JSON.parse(result);
             });
     }

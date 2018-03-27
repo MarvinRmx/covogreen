@@ -54,7 +54,6 @@ export class RateComponent implements OnInit {
         this.inscriptionTrajetService.getInscriptionJourneyByJourneyAndUser(this.id_journey)
             .subscribe(result => {
                 this.inscriptionJourney = result;
-                console.log('getInscriptionJourneyByJourneyAndUser : ', result);
             });
     }
 

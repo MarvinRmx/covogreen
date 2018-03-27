@@ -3,6 +3,10 @@
  * Date: 25/03/2018
  */
 var Journey = require("../database/models/journey");
+var User = require("../database/models/user");
+var InscriptionJourney = require("../database/models/inscriptionJourney");
+const Op = require('sequelize').Op;
+var co = require('co');
 var sequelize = require("../database/db");
 
 var authToken = require("./tools/authToken");
@@ -22,23 +26,17 @@ var NoteConducteurController = {
 
       var id_driver = req.params.id_driver;
       var userToken = authToken.getToken(req);
-      var id_journey = 0;
 
       if (!userToken.revoked)
       {
-          Journey.findOne({ where: { id_driver: id_driver }})
-              .then(function (response) {
-                  id_journey = response.dataValues.id_journey;
 
-                  sequelize.query('SELECT SUM(rate)/COUNT(*) as sum_rate FROM inscriptionjourneys WHERE id_trajet = :id_journey AND rate != 0',
-                      { replacements: { id_journey: id_journey }, type: sequelize.QueryTypes.SELECT })
-                      .then(function (response) {
-                          res.status(200).send(JSON.stringify(response[0].sum_rate));
-                      })
-                      .catch(function (error) {
-                          console.log(error);
-                          res.status(500).send("Echec de la récupération de la note du conducteur.");
-                      });
+          sequelize.query('SELECT getRateByDriver(:id_driver) AS sum_rate',
+              {
+                  replacements: { id_driver: id_driver },
+                  type: sequelize.QueryTypes.SELECT
+              })
+              .then(function (response) {
+                  res.status(200).send(JSON.stringify(response[0].sum_rate));
               })
               .catch(function (error) {
                   console.log(error);
@@ -47,6 +45,7 @@ var NoteConducteurController = {
       }
       else res.status(500).send("Compte bloqué !");
   },
+
 };
 
 module.exports = NoteConducteurController;

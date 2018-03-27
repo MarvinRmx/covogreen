@@ -2,6 +2,7 @@
 DROP PROCEDURE IF EXISTS `createCar`;
 DROP PROCEDURE IF EXISTS `createUserWithCar`;
 DROP PROCEDURE IF EXISTS `deleteUser`;
+DROP FUNCTION IF EXISTS `getRateByDriver`;
 -- ---------------------------------- --
 
 -- Creating user and/or his car --
@@ -90,5 +91,22 @@ BEGIN
 END|
 
 
+-- ---------------------------------- --
 
+-- Get rate by id_driver --
+DELIMITER |
+CREATE FUNCTION getRateByDriver(_id_user INTEGER) RETURNS FLOAT 
+READS SQL DATA
+BEGIN
+	DECLARE result float;
 
+    	SET result := (
+            SELECT AVG(rate) 
+            FROM inscriptionjourneys ij, journeys j
+            WHERE j.id_journey = ij.id_trajet
+            AND rate > 0
+            AND j.id_driver = _id_user
+        );
+	
+	RETURN result;
+END|

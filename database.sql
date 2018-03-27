@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 -- Base de données :  `covogreen`
 --
 
+-- --------------------------------------------------------
+
 --
 -- Structure de la table `cars`
 --
@@ -67,17 +69,18 @@ CREATE TABLE `inscriptionjourneys` (
   `createdAt` datetime NOT NULL,
   `updatedAt` datetime NOT NULL,
   `id_user` int(11) DEFAULT NULL,
-  `id_trajet` int(11) DEFAULT NULL
+  `id_trajet` int(11) DEFAULT NULL,
+  `rate` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Contenu de la table `inscriptionjourneys`
 --
 
-INSERT INTO `inscriptionjourneys` (`id`, `createdAt`, `updatedAt`, `id_user`, `id_trajet`) VALUES
-(3, '2018-03-20 00:00:00', '2018-03-13 00:00:00', 3, 5),
-(4, '2018-03-14 00:00:00', '2018-03-14 00:00:00', 2, 6),
-(5, '2018-03-14 00:00:00', '2018-03-14 00:00:00', 3, 6);
+INSERT INTO `inscriptionjourneys` (`id`, `createdAt`, `updatedAt`, `id_user`, `id_trajet`, `rate`) VALUES
+(3, '2018-03-20 00:00:00', '2018-03-13 00:00:00', 3, 5, 5),
+(4, '2018-03-14 00:00:00', '2018-03-14 00:00:00', 2, 6, 1),
+(5, '2018-03-14 00:00:00', '2018-03-14 00:00:00', 3, 6, 1);
 
 -- --------------------------------------------------------
 
@@ -283,3 +286,4 @@ ALTER TABLE `users`
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
