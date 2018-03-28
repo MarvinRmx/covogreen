@@ -55,8 +55,15 @@ export class MyJourneysComponent implements OnInit, AfterViewInit {
         this.dataSource.filter = filterValue;
     }
 
-    getSchedule(value): string {
+    checkHappended(value) {
+        let date = new Date(value).getTime();
+        let now = Date.now();
 
+        if (now < date) return false;
+        else return true;
+    }
+
+    getSchedule(value): string {
         let date = new Date(value);
 
         let day = this.journeyService.getDay(date);
@@ -76,10 +83,10 @@ export class MyJourneysComponent implements OnInit, AfterViewInit {
 
     getEvent(value): string {
 
-        let date = new Date(value);
+        let date = new Date(value).getTime();
         let now = Date.now();
 
-        if (now < date.getTime()) return 'A venir';
+        if (now < date) return 'A venir';
         else return 'Terminé';
     }
 
