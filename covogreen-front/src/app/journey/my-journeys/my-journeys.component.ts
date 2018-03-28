@@ -3,6 +3,7 @@ import {JourneyService} from '../../../services/journey.service';
 import {MatPaginator, MatTableDataSource} from '@angular/material';
 import {Journey} from '../../../class/journey';
 import { NgxSmartModalService } from 'ngx-smart-modal';
+import {InscriptionTrajetService} from "../../../services/inscription-trajet.service";
 
 /**
  * @author Romain Lembo
@@ -22,13 +23,19 @@ export class MyJourneysComponent implements OnInit, AfterViewInit {
 
     constructor(
         private journeyService: JourneyService,
+        private inscriptionTrajetService: InscriptionTrajetService,
         private ngxSmartModalService: NgxSmartModalService
     ) { }
 
     ngOnInit() {
+        this.getJourneysByUser();
+    }
 
+    ngAfterViewInit() {}
+
+    getJourneysByUser() {
         this.journeyService.getJourneysByUser()
-          .subscribe(result => {
+            .subscribe(result => {
 
                 for (let journey of result) {
                     this.journeyService.isDriverThisJourney(journey)
@@ -37,12 +44,10 @@ export class MyJourneysComponent implements OnInit, AfterViewInit {
                         });
                 }
 
-              this.dataSource = new MatTableDataSource<Journey>(result);
-              this.dataSource.paginator = this.paginator;
-          });
+                this.dataSource = new MatTableDataSource<Journey>(result);
+                this.dataSource.paginator = this.paginator;
+            });
     }
-
-    ngAfterViewInit() {}
 
     applyFilter(filterValue: string) {
         filterValue = filterValue.trim(); // Remove whitespace
@@ -83,4 +88,16 @@ export class MyJourneysComponent implements OnInit, AfterViewInit {
         this.id_journey = id_journey;
     }
 
+    desinscriptionTrajet(id_journey){
+        this.inscriptionTrajetService.desinscriptionTrajet(id_journey)
+            .subscribe(result => {
+                console.log('desinscriptionTrajet : ', result.success);
+
+                if (result.success) {
+                    alert('Succès de la désinscription du trajet');
+                    this.getJourneysByUser();
+                } else alert('Echec de la désinscription du trajet');
+
+            });
+    }
 }

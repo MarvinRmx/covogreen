@@ -64,7 +64,8 @@ author Romain Lembo
             <ng-container matColumnDef="cancel">
                 <mat-header-cell *matHeaderCellDef></mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                    <button mat-raised-button color="accent">Annuler</button>
+                    <button mat-raised-button color="accent"
+                            (click)="desinscriptionTrajet(element.id_journey)">Désinscription</button>
                 </mat-cell>
             </ng-container>
 
