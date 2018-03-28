@@ -35,4 +35,7 @@ module.exports = function (router) {
 
     var remove = co.wrap(controller.remove);
     router.delete('/', remove);
+
+    var getRateAndCommentFromUserId = co.wrap(controller.getRateAndCommentFromUserId);
+    router.get('/rateAndComment/:id_user', getRateAndCommentFromUserId);
 };

@@ -30,20 +30,20 @@ var LoginController = {
                 password: req.body.password
             }
         })
-        .then(function (response) {
+            .then(function (response) {
 
-            console.log('login :', response);
+                console.log('login :', response);
 
-            if(!response.revoked && response.revoked != null) {
-                var userToken = authToken.createToken(response);
-                res.status(200).send(userToken);
-            }
-            else res.status(203).send("Compte bloqué");
-        })
-        .catch(function (error) {
-            console.log(error);
-            res.status(500).send('Identifiant et/ou mot de passe non reconnu');
-        });
+                if (!response.revoked && response.revoked != null) {
+                    var userToken = authToken.createToken(response);
+                    res.status(200).send(userToken);
+                }
+                else res.status(203).send("Compte bloqué");
+            })
+            .catch(function (error) {
+                console.log(error);
+                res.status(500).send('Identifiant et/ou mot de passe non reconnu');
+            });
     },
 
     /**
@@ -56,12 +56,12 @@ var LoginController = {
         req.accepts('application/json');
 
         User.all()
-        .then(function (response) {
-            res.status(200).send(response);
-        })
-        .catch(function (error) {
-            res.status(500).send("Echec de la récupération de tous les utilisateurs.");
-        });
+            .then(function (response) {
+                res.status(200).send(response);
+            })
+            .catch(function (error) {
+                res.status(500).send("Echec de la récupération de tous les utilisateurs.");
+            });
     },
 
     /**
@@ -69,21 +69,20 @@ var LoginController = {
      * @param req
      * @param res
      */
-    get: function  (req, res) {
+    get: function (req, res) {
         var userToken = authToken.getToken(req);
 
-        if (!userToken.revoked)
-        {
+        if (!userToken.revoked) {
             User.findOne({
                 where: {id_user: userToken.id_user}
             })
-            .then(function (response) {
-                res.status(200).send(response.dataValues);
-            })
-            .catch(function (error) {
-                console.log('Fail find for getting user :', error);
-                res.status(500).send("Echec de la récupération du profil.");
-            });
+                .then(function (response) {
+                    res.status(200).send(response.dataValues);
+                })
+                .catch(function (error) {
+                    console.log('Fail find for getting user :', error);
+                    res.status(500).send("Echec de la récupération du profil.");
+                });
         }
         else res.status(500).send("Compte bloqué !");
     },
@@ -93,23 +92,23 @@ var LoginController = {
      * @param req
      * @param res
      */
-    isAdmin: function  (req, res) {
+    isAdmin: function (req, res) {
         var userToken = authToken.getToken(req);
 
         User.findOne({
-            where: { id_user: userToken.id_user }
+            where: {id_user: userToken.id_user}
         })
-        .then(function (response) {
-            var result = response.dataValues;
-            console.log('isAdmin :', result.privilege);
+            .then(function (response) {
+                var result = response.dataValues;
+                console.log('isAdmin :', result.privilege);
 
-            if(result.privilege === 2) res.status(200).send(true);
-            else res.status(200).send(false);
-        })
-        .catch(function (error) {
-            console.log('Fail find for getting user :', error);
-            res.status(500).send("Echec de la récupération du profil.");
-        });
+                if (result.privilege === 2) res.status(200).send(true);
+                else res.status(200).send(false);
+            })
+            .catch(function (error) {
+                console.log('Fail find for getting user :', error);
+                res.status(500).send("Echec de la récupération du profil.");
+            });
     },
 
 
@@ -118,14 +117,13 @@ var LoginController = {
      * @param req
      * @param res
      */
-    handleRevoked: function  (req, res) {
+    handleRevoked: function (req, res) {
 
         var userToken = authToken.getToken(req);
         var user = req.body;
 
-        if(userToken.privilege === 2 && !userToken.revoked)
-        {
-            User.update({ revoked: user.revoked }, { where: {id_user: user.id_user} } )
+        if (userToken.privilege === 2 && !userToken.revoked) {
+            User.update({revoked: user.revoked}, {where: {id_user: user.id_user}})
                 .then(function (response) {
                     res.status(200).send("Modification de la propriété revoked OK");
                 })
@@ -142,14 +140,13 @@ var LoginController = {
      * @param req
      * @param res
      */
-    handlePrivilege: function  (req, res) {
+    handlePrivilege: function (req, res) {
 
         var userToken = authToken.getToken(req);
         var user = req.body;
 
-        if(userToken.privilege === 2 && !userToken.revoked)
-        {
-            User.update({ privilege: user.privilege }, { where: {id_user: user.id_user} } )
+        if (userToken.privilege === 2 && !userToken.revoked) {
+            User.update({privilege: user.privilege}, {where: {id_user: user.id_user}})
                 .then(function (response) {
                     res.status(200).send("Modification de la propriété privilege OK");
                 })
@@ -162,7 +159,7 @@ var LoginController = {
     },
 
     uniqueUsername: function (value) {
-        return User.findAndCountAll({where: { username: value }});
+        return User.findAndCountAll({where: {username: value}});
     },
 
     /**
@@ -170,20 +167,19 @@ var LoginController = {
      * @param req
      * @param res
      */
-    create: function  (req, res) {
+    create: function (req, res) {
 
         var unique = module.exports.uniqueUsername(req.body.user.username);
 
         unique
             .then(function (result) {
 
-                if(result.count > 0) {
+                if (result.count > 0) {
                     res.status(200).send("Username déjà utilisé !");
                     return null;
                 }
-                else
-                {
-                    if( JSON.parse(req.body.user.have_car) ) {
+                else {
+                    if (JSON.parse(req.body.user.have_car)) {
 
                         var values = {
                             "firstName": req.body.user.firstName,
@@ -200,15 +196,15 @@ var LoginController = {
                             "licencePlate": req.body.user.licencePlate,
                             "make": req.body.user.make,
                             "model": req.body.user.model,
-                            "capacity":  req.body.user.capacity
+                            "capacity": req.body.user.capacity
                         };
 
                         module.exports.uniqueUsername(values.username);
 
                         sequelize.query('CALL createUserWithCar(:firstName, :lastName, :username, :email, :password, :address, :city, :cp, :phone, :is_driver, ' +
-                            ':licencePlate, :make, :model, :capacity'  +
+                            ':licencePlate, :make, :model, :capacity' +
                             ')',
-                            {replacements: values} )
+                            {replacements: values})
                             .then(function (response) {
                                 console.log(response);
                                 res.status(200).send("Ajout de l'utilisateur et de sa voiture OK");
@@ -244,15 +240,14 @@ var LoginController = {
      * @param req
      * @param res
      */
-    update: function  (req, res) {
+    update: function (req, res) {
 
         var user = req.body;
         var userToken = authToken.getToken(req);
 
         console.log('update data : ', user);
 
-        if (!userToken.revoked)
-        {
+        if (!userToken.revoked) {
             User.update(user, {where: {id_user: userToken.id_user}})
                 .then(function (response) {
                     res.status(200).send("Succès de la mise-à-jour du profil.");
@@ -270,13 +265,12 @@ var LoginController = {
      * @param req
      * @param res
      */
-    remove: function  (req, res) {
+    remove: function (req, res) {
 
         var userToken = authToken.getToken(req);
 
-        if (!userToken.revoked)
-        {
-            sequelize.query('CALL deleteUser('+ userToken.id_user +')')
+        if (!userToken.revoked) {
+            sequelize.query('CALL deleteUser(' + userToken.id_user + ')')
                 .then(function (response) {
                     res.status(200).send("Succès de la suppression du profil.");
                 })
@@ -295,12 +289,27 @@ var LoginController = {
      */
     getFromId: function (req, res) {
         User.findById(req.params.id_user)
-                .then(function (response) {
-                        res.status(200).send(response.dataValues);
-                    }).catch(function (error){
-                        console.log(error);res.status(500).send("Echec de la récupération du profil.");
-                });
-        }
+            .then(function (response) {
+                res.status(200).send(response.dataValues);
+            }).catch(function (error) {
+            console.log(error);
+            res.status(500).send("Echec de la récupération du profil.");
+        });
+    },
+
+    getRateAndCommentFromUserId: function (req, res) {
+        var info = sequelize.query('SELECT rate, comment FROM inscriptionjourneys WHERE id_trajet IN (' +
+        'SELECT id_journey FROM journeys WHERE id_driver = '+ req.params.id_user +')')
+            .then(
+                function (value) {
+                    console.log(value[0]);
+                    res.status(200).send(value[0]);
+                }
+            ).catch(function (reason) {
+                console.log(reason);
+                res.status(400).send("Impossible de récupérer les notes et commentaires du profil");
+            });
+    }
 };
 
 
