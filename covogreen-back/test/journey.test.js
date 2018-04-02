@@ -4,7 +4,7 @@ process.env.NODE_ENV = 'test';
 //Require the dev-dependencies
 var app = require('../app');
 const request = require('supertest');
-var authToken = require("./tools/authToken");
+var authToken = require("../controller/tools/authToken");
 
 var jwt = require('jsonwebtoken');
 var fs = require("fs");
