@@ -6,13 +6,6 @@ var app = require('../app');
 const request = require('supertest');
 var authToken = require("../controller/tools/authToken");
 
-var jwt = require('jsonwebtoken');
-var fs = require("fs");
-var path = require('path');
-
-var skey_path = path.join(__dirname, '../skey.txt');
-var skey = fs.readFileSync(skey_path, 'utf-8');
-
 /**
  * @author Romain Lembo
  */
@@ -20,12 +13,12 @@ describe('Journey', function () {
 
     var headersUser;
     var tokenSignUser;
-    var user;
 
     beforeEach(function () {
 
-        user = JSON.stringify({id_user: 1, username: "test", privilege: 1, revoked: false});
-        tokenSignUser = authToken.createToken(user);
+        tokenSignUser = authToken.createToken(
+            {id_user: 1, username: "test", privilege: 1, revoked: false}
+        );
 
         headersUser = {
             'Content-Type': 'application/json',
