@@ -4,6 +4,7 @@ process.env.NODE_ENV = 'test';
 //Require the dev-dependencies
 var app = require('../app');
 const request = require('supertest');
+var authToken = require("./tools/authToken");
 
 var jwt = require('jsonwebtoken');
 var fs = require("fs");
@@ -24,7 +25,7 @@ describe('Journey', function () {
     beforeEach(function () {
 
         user = JSON.stringify({id_user: 1, username: "test", privilege: 1, revoked: false});
-        tokenSignUser = jwt.sign(user, skey);
+        tokenSignUser = authToken.createToken(user);
 
         headersUser = {
             'Content-Type': 'application/json',
