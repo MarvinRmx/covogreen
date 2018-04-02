@@ -4,6 +4,8 @@ import {FormBuilder, FormGroup, NgForm, Validators} from '@angular/forms';
 import { AuthentificationService } from '../../services/authentification.service';
 import { User } from '../../class/user';
 import * as md5 from 'md5';
+import {AppComponent} from '../app.component';
+import {AuthRequest} from '../../services/authrequest.service';
 
 /**
  * @author Romain Lembo
@@ -22,8 +24,10 @@ export class LoginComponent implements OnInit {
 
 	constructor(
 		private router: Router,
+        private appComponent: AppComponent,
         private authenticationService: AuthentificationService,
-        private formBulder: FormBuilder
+        private formBulder: FormBuilder,
+        private authRequest: AuthRequest
 	) { }
 
 	ngOnInit() {
@@ -41,17 +45,22 @@ export class LoginComponent implements OnInit {
         this.user.password = md5(this.user.password);
 
         this.authenticationService.login(this.user)
-            .subscribe(result => {
+            .subscribe(
+                result => {
+
                     if (result === 200) {
+
+                        let tokenUser = localStorage.getItem('currentUser');
+                        this.authRequest.setToken(tokenUser);
+                        this.appComponent.setIsAdministrator();
+
                         this.router.navigate(['/']);
-                        window.location.reload(true);
-                    } else if (result === 203) {
-                        alert('Compte bloqué');
                     }
+                    else if (result === 203) alert('Compte bloqué');
                 },
                 err => {
                     alert('Identifiant et/ou mot de passe non reconnu');
-                    window.location.reload(true);
+                    this.ngOnInit();
                 }
             );
     }

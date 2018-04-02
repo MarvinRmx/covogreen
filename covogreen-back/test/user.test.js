@@ -89,7 +89,7 @@ describe('User', function () {
                 });
         });
 
-        it('should refuse and return error 500 status', function testLogin (done) {
+        it('should refuse and return error 500 status', function testLoginRefused (done) {
             request(app)
                 .post('/user/login')
                 .send({
@@ -103,14 +103,14 @@ describe('User', function () {
                 });
         });
 
-        it('should refuse, because user is revoked', function testLogin (done) {
+        it('should refuse, because user is revoked', function testLoginRevoked (done) {
             request(app)
                 .post('/user/login')
                 .send({
                     username: "revoked",
                     password: "098f6bcd4621d373cade4e832627b4f6"
                 })
-                .expect(500)
+                .expect(401)
                 .end(function(err, res) {
                     console.log('Result:', res.text);
                     done();

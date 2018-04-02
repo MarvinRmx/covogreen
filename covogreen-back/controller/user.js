@@ -47,7 +47,7 @@ var UserController = {
         })
         .catch(function (error) {
             console.log(error);
-            res.status(500).send('Identifiant et/ou mot de passe non reconnu');
+            res.status(401).send('Identifiant et/ou mot de passe non reconnu');
         });
     },
 
@@ -103,24 +103,22 @@ var UserController = {
      */
     isAdmin: function  (req, res) {
         var userToken = authToken.getToken(req);
-        console.log('isAdmin : ', userToken);
 
         if(userToken)
         {
             User.findOne({
                 where: { id_user: userToken.id_user }
             })
-                .then(function (response) {
-                    var result = response.dataValues;
-                    console.log('isAdmin :', result.privilege);
+            .then(function (response) {
+                var result = response.dataValues;
 
-                    if(result.privilege === 2) res.status(200).send(true);
-                    else res.status(200).send(false);
-                })
-                .catch(function (error) {
-                    console.log('Fail find for getting user :', error);
-                    res.status(500).send("Echec de la récupération du profil.");
-                });
+                if(result.privilege === 2) res.status(200).send(true);
+                else res.status(200).send(false);
+            })
+            .catch(function (error) {
+                console.log('Fail find for getting user :', error);
+                res.status(500).send("Echec de la récupération du profil.");
+            });
         }
         else res.status(200).send(false);
 
