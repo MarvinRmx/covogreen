@@ -37,5 +37,13 @@ module.exports = function (router) {
     router.delete('/', remove);
 
     var getRateAndCommentFromUserId = co.wrap(controller.getRateAndCommentFromUserId);
-    router.get('/rateAndComment/:id_user', getRateAndCommentFromUserId);
+    router.get('/ratecomment/:id_user', getRateAndCommentFromUserId);
+
+    var countDoneJourneys = co.wrap(controller.countDoneJourneys);
+    router.get('/countdonejourneys/:id_user', countDoneJourneys);
+
+    var getAverageRating = co.wrap(controller.getAverageRating);
+    router.get('/getaveragerating/:id_user', getAverageRating);
+
+
 };

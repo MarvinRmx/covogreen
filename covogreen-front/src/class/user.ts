@@ -13,6 +13,7 @@ export class User {
     public id_car: number;
     public privilege: number;
     public revoked: boolean;
+    public createdAt: Date;
 
     constructor(
         id_user: number,
@@ -25,7 +26,8 @@ export class User {
         city: string,
         cp: string,
         phone: string,
-        is_driver: boolean
+        is_driver: boolean,
+        createdAt: Date
     ) {
         this.id_user = id_user;
         this.lastName = lastName;
@@ -38,5 +40,6 @@ export class User {
         this.cp = cp;
         this.phone = phone;
         this.is_driver = is_driver;
+        this.createdAt = createdAt;
     }
 }

@@ -1,14 +1,11 @@
-<!-- author Marvin RAMEIX -->
-<div *ngIf="journey">
+<!-- Author : Marvin RAMEIX -->
+<div *ngIf="journey" class="info">
     <h1>Trajet vers {{journey.destination}}</h1>
-    <div *ngIf="driver"> Conducteur : {{driver.firstName}} {{driver.lastName}}</div>
-    <div>Départ : {{journey.date_journey}}</div>
-    <div>Nombre de sièges restants : {{journey.seats_available}}</div>
-    <div *ngIf="user && driver">
-        <div *ngIf="user.id_user == driver.id_user">
-            <button (click)="deleteCurrentJourney()">Supprimer ce trajet</button>
-        </div>
-    </div>
+    <h4 *ngIf="driver"> Conducteur : <a href="/user/{{driver.id_user}}">{{driver.firstName}} {{driver.lastName}}</a></h4>
+    <p>Départ : {{this.direction.origin}}</p>
+    <p>Destination : {{this.direction.destination}}</p>
+    <p>Heure de départ : {{this.journeyService.getDate(journey.date_journey)}}</p>
+    <p>Nombre de sièges restants : {{journey.seats_available}}</p>
 </div>
 <ngui-map zoom="13" center="40.771, -73.974" *ngIf="direction">
     <directions-renderer
@@ -17,6 +14,11 @@
         [directions-request]="direction">
     </directions-renderer>
 </ngui-map>
+<div *ngIf="user && driver">
+    <div *ngIf="user.id_user == driver.id_user">
+        <button (click)="deleteCurrentJourney()" class="btn btn-danger btn-block">Supprimer ce trajet</button>
+    </div>
+</div>
 <div *ngIf="canRateAndComment">
     <form (ngSubmit)="rateAndComment()" [formGroup]="rateAndCommentForm" class="form" role="form" #f="ngForm" novalidate>
         <div class="form-group">

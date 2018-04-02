@@ -4,6 +4,8 @@ import {JourneyService} from '../../../services/journey.service';
 import {UserService} from '../../../services/user.service';
 import {User} from '../../../class/user';
 import {FormBuilder, Validators} from '@angular/forms';
+import {Router} from '@angular/router';
+
 
 @Component({
     selector: 'app-journey-details',
@@ -24,7 +26,8 @@ export class JourneyDetailsComponent implements OnInit {
     direction: any;
     public rateAndCommentForm;
 
-    constructor(private journeyService: JourneyService, private userService: UserService, private formBuilder: FormBuilder) {
+    constructor(protected journeyService: JourneyService, private userService: UserService,
+                private formBuilder: FormBuilder, private router: Router) {
     }
 
     ngOnInit() {
@@ -49,12 +52,12 @@ export class JourneyDetailsComponent implements OnInit {
                 };
                 this.journeyService.canRateAndComment(id_journey).subscribe(res => {
                     this.canRateAndComment = (res === 'true' && (new Date(Date.now()) > new Date(this.journey.date_journey)));
-                    console.log(this.canRateAndComment);
                 });
 
                 this.userService.getUserFromId(result.id_driver)
                     .subscribe(res => {
                             this.driver = res;
+                            this.userService.getRateAndCommentFromUserId(this.driver.id_user).subscribe();
                         }
                     );
             });
@@ -63,7 +66,6 @@ export class JourneyDetailsComponent implements OnInit {
     deleteCurrentJourney() {
         if (this.user.id_user === this.driver.id_user) {
             this.journeyService.deleteJourney(this.journey.id_journey).subscribe(result => {
-                console.log(result);
             });
         }
     }

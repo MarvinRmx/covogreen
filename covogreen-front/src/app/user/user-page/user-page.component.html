@@ -1,0 +1,51 @@
+<!-- Author : Marvin RAMEIX -->
+<div *ngIf="user">
+    <div class="info">
+        <img id="avatar" src="https://image.noelshack.com/fichiers/2018/14/1/1522685313-avatar.png" alt="avatar"
+             width="150px" height="150px" align="right">
+        <h2>Nom : {{ user.lastName }}</h2>
+        <h2>Prénom : {{ user.firstName }}</h2><br>
+        <p> Nombre de trajets effectués : {{ countDoneJourneys}}</p>
+        <p> Note moyenne des évaluations : {{ averageRating }}/5 </p>
+        <p> Inscrit depuis le : {{this.userService.getDate(user.createdAt)}}</p>
+
+    </div>
+    <div *ngIf="((this.rateComments| json) != ([] | json))">
+        <h3> Appréciation des passagers</h3>
+        <div class="mat-elevation-z8">
+
+            <mat-table #table [dataSource]="rateComments">
+                <ng-container matColumnDef="user">
+                    <mat-header-cell *matHeaderCellDef> Utilisateur</mat-header-cell>
+                    <mat-cell *matCellDef="let element"><a href="/user/{{element.id_user}}"> {{element.firstName}}
+                        {{element.lastName}} </a></mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="rate">
+                    <mat-header-cell *matHeaderCellDef> Note</mat-header-cell>
+                    <mat-cell *matCellDef="let element">{{element.rate}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="comment">
+                    <mat-header-cell *matHeaderCellDef> Commentaire</mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.comment}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="id_journey">
+                    <mat-header-cell *matHeaderCellDef> Trajet</mat-header-cell>
+                    <mat-cell *matCellDef="let element"><a
+                        href="/journey/{{element.id_trajet}}">{{element.id_trajet}}</a></mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="dateComment">
+                    <mat-header-cell *matHeaderCellDef> Date du commentaire</mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{this.journeyService.getDate(element.updatedAt)}}</mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+            </mat-table>
+        </div>
+    </div>
+</div>
+

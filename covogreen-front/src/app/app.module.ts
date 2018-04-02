@@ -62,6 +62,7 @@ import {JourneyService} from '../services/journey.service';
 import { DetailedCardComponent } from './detailed-card/detailed-card.component';
 import { RateComponent } from './detailed-card/rate/rate.component';
 import { JourneyDetailsComponent } from './journey/journey-details/journey-details.component';
+import { UserPageComponent } from './user/user-page/user-page.component';
 
 
 @NgModule({
@@ -112,7 +113,8 @@ import { JourneyDetailsComponent } from './journey/journey-details/journey-detai
         MyJourneysComponent,
         DetailedCardComponent,
         RateComponent,
-        JourneyDetailsComponent
+        JourneyDetailsComponent,
+        UserPageComponent
     ],
     providers: [
         AuthentificationService,

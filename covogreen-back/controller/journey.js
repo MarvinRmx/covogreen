@@ -141,6 +141,12 @@ var JourneyController = {
         });
     },
 
+    /**
+     * @author Marvin RAMEIX
+     * Allow to know if the user connected can rate and comment the current journey
+     * @param req
+     * @param res
+     */
     canRateAndComment: function (req, res) {
         var userToken = authToken.getToken(req);
         InscriptionTrajet.findOne({
@@ -160,7 +166,7 @@ var JourneyController = {
         ).catch(
             function (reason) {
                 console.log(reason);
-                res.status(200).send("Cet utilisateur ne participe pas au trajet");
+                res.status(500).send("Cet utilisateur ne participe pas au trajet");
             }
         )
     }

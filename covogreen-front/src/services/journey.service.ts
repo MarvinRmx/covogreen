@@ -125,24 +125,40 @@ export class JourneyService {
     deleteJourney(id_journey): Observable<string> {
         return this.http.delete(this.uri + '/del/' + id_journey, this.authRequest.requestOptions)
             .map((response: Response) => {
-                console.log(response);
                 return response.text();
             });
     }
 
+    /**
+     * @author Marvin RAMEIX
+     * Getting the information about the right to rate and comment for a user
+     * @returns {Observable<string>}
+     */
     canRateAndComment(id_journey): Observable<string> {
         return this.http.get(this.uri + '/rateComment/' + id_journey, this.authRequest.requestOptions)
             .map((response: Response) => {
-                console.log(response);
                 return response.text();
             });
     }
 
+    /**
+     * @author Marvin RAMEIX
+     * Allow a user to rate and comment a journey
+     * @returns {Observable<string>}
+     */
     rateAndComment(rateAndComment: Object, id_journey: number): Observable<string> {
         return this.http.post('http://localhost:1313/inscriptionTrajet/rateComment/' + id_journey,
             JSON.stringify(rateAndComment), this.authRequest.requestOptions)
             .map((response: Response) => {
                 return response.text();
             });
+    }
+    /**
+     * @author Marvin RAMEIX
+     * Format sql date to locale date
+     * @returns String
+     */
+    getDate(date) {
+        return new Date(date).toLocaleDateString() + " " + new Date(date).toLocaleTimeString();
     }
 }

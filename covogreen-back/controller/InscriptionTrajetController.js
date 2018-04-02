@@ -1,5 +1,5 @@
 /**
- * Author: Alex Zarzitski
+ * Author: Alex Zarzitski & Marvin RAMEIX
  * Date: 19/02/2018
  */
 var Journey = require("../database/models/journey");
@@ -45,7 +45,14 @@ var InscriptionTrajetController = {
             // }
             res.send("ok");
         }),
-        rateAndComment: function (req, res) {
+
+    /**
+     * @author Marvin RAMEIX
+     * allow an user to rate and comment with date check
+     * @param req
+     * @param res
+     */
+    rateAndComment: function (req, res) {
             var userToken = authToken.getToken(req);
             Journey.findOne({
                 where: {

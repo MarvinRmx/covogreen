@@ -283,6 +283,7 @@ var LoginController = {
     },
 
     /**
+     * @author Marvin RAMEIX
      * Getting an user from his id_user
      * @param req
      * @param res
@@ -297,18 +298,63 @@ var LoginController = {
         });
     },
 
+    /**
+     * @author Marvin RAMEIX
+     * Get all rates and comments from an user id
+     * @param req
+     * @param res
+     */
     getRateAndCommentFromUserId: function (req, res) {
-        var info = sequelize.query('SELECT rate, comment FROM inscriptionjourneys WHERE id_trajet IN (' +
-        'SELECT id_journey FROM journeys WHERE id_driver = '+ req.params.id_user +')')
+        sequelize.query("SELECT i.rate, IF((comment IS NOT NULL)&&(comment!=''), comment, 'Aucun commentaire') as comment, " +
+            "i.id_user, i.id_trajet, i.updatedAt, u.firstName, u.lastName FROM inscriptionjourneys i, users u " +
+            "WHERE i.rate > 0 AND i.rate IS NOT NULL AND i.id_user = u.id_user AND id_trajet IN (" +
+        "SELECT id_journey FROM journeys WHERE id_driver = "+ req.params.id_user +")",{ type: sequelize.QueryTypes.SELECT})
             .then(
                 function (value) {
-                    console.log(value[0]);
-                    res.status(200).send(value[0]);
+                    res.status(200).send(JSON.stringify(value));
                 }
             ).catch(function (reason) {
                 console.log(reason);
                 res.status(400).send("Impossible de récupérer les notes et commentaires du profil");
             });
+    },
+
+    /**
+     * @author Marvin RAMEIX
+     * Get all done journeys of an user from his id
+     * @param req
+     * @param res
+     */
+    countDoneJourneys: function (req, res) {
+        sequelize.query('SELECT COUNT(*) as "Count" FROM journeys  WHERE id_driver = '+ req.params.id_user+' AND updatedAt < NOW()', { type: sequelize.QueryTypes.SELECT})
+            .then(
+                function (value) {
+                    res.status(200).send(JSON.stringify(value[0]['Count']));
+                }
+            ).catch(function (reason) {
+            console.log(reason);
+            res.status(400).send("Impossible de récupérer le nombre de trajets effectué par le profil");
+        });
+    },
+
+    /**
+     * @author Marvin RAMEIX
+     * Get the average rating of an user from his id
+     * @param req
+     * @param res
+     */
+    getAverageRating: function (req, res) {
+        sequelize.query('SELECT SUM(rate)/COUNT(*) as Average FROM inscriptionjourneys WHERE rate IS NOT NULL AND rate > 0 AND ' +
+            '  id_trajet IN (SELECT id_journey FROM journeys where id_driver = '+ req.params.id_user +')',{ type: sequelize.QueryTypes.SELECT})
+            .then(
+                function (value) {
+                    console.log(value[0]);
+                    res.status(200).send(JSON.stringify(value[0]['Average']));
+                }
+            ).catch(function (reason) {
+            console.log(reason);
+            res.status(400).send("Impossible de récupérer la note moyenne du profil");
+        });
     }
 };
 
