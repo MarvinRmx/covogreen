@@ -293,7 +293,7 @@ var ChatController = {
                 // On envoi un message à chaque participant.
                 for (var i = 0; i<allParticipants.length; i++){
                     var userInfo = yield User.findById(allParticipants[i].id_user);
-                    yield ChatController.sendEmail(userInfo.username, userInfo.email);
+                    //yield ChatController.sendEmail(userInfo.username, userInfo.email);
                 }
 
                 res.send({
