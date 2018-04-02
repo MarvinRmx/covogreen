@@ -1,18 +1,19 @@
-var User = require("../database/models/user");
 var Car = require("../database/models/car");
 var sequelize = require("../database/db");
-var co = require('co');
-var jwt = require('jsonwebtoken');
 var authToken = require("./tools/authToken");
 
 /**
  * @author Romain Lembo
  * @type {{get: CarController.get, update: CarController.update, remove: CarController.remove, create: CarController.create}}
+ *
+ * FR: Couche contrôleur de l'entité Car.
+ * ENG: Controller layer of Car Entity.
  */
 var CarController = {
 
     /**
-     * For getting a car.
+     * FR: Pour récupérer les données d'une voiture (selon son ID).
+     * ENG: For getting a car (with his ID).
      * @param req
      * @param res
      */
@@ -39,7 +40,8 @@ var CarController = {
     },
 
     /**
-     * For updating an car.
+     * FR: Pour mettre-à-jour un utilisateur.
+     * ENG: For updating a car.
      * @param req
      * @param res
      */
@@ -64,7 +66,8 @@ var CarController = {
     },
 
     /**
-     * For deleting an car.
+     * FR: Pour supprimer une voiture (selon son ID).
+     * ENG: For deleting a car (with her ID).
      * @param id_car
      * @param res
      */
@@ -89,7 +92,8 @@ var CarController = {
     },
 
     /**
-     * For creating an new car.
+     * FR: Pour créer une nouvelle voiture.
+     * ENG: For creating a new car.
      * @param req
      * @param res
      */

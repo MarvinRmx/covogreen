@@ -4,6 +4,7 @@ var Car = require('./car');
 
 /**
  * @author Romain Lembo
+ * User entity.
  */
 const User = db.define('user',
     {

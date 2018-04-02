@@ -1,17 +1,19 @@
 var User = require("../database/models/user");
 var sequelize = require("../database/db");
 var authToken = require("./tools/authToken");
-var co = require('co');
-var jwt = require('jsonwebtoken');
 
 /**
  * @author Romain Lembo
  * @type {{test: LoginController.test, login: LoginController.login, all: LoginController.all, get: LoginController.get, isAdmin: LoginController.isAdmin, handleRevoked: LoginController.handleRevoked, handlePrivilege: LoginController.handlePrivilege, uniqueUsername: LoginController.uniqueUsername, create: LoginController.create, update: LoginController.update, remove: LoginController.remove}}
+ *
+ * FR: Couche contrôleur de l'entité User.
+ * ENG: Controller layer of User Entity.
  */
-var LoginController = {
+var UserController = {
 
     /**
-     * For testing sending from backend.
+     * FR: Pour tester si ces données sont bien envoyées.
+     * ENG: For testing sending from backend.
      * @param req
      * @param res
      */
@@ -20,7 +22,8 @@ var LoginController = {
     },
 
     /**
-     * For checking username/password, if OK, an user is connected.
+     * FR: Pour vérifier si la paire usersame/mot de passe est valide, un utilisateur est donc connecté à l'application.
+     * ENG: For checking username/password, if OK, an user is connected.
      * @param req
      * @param res
      */
@@ -49,7 +52,8 @@ var LoginController = {
     },
 
     /**
-     * For getting all users.
+     * FR: Pour récupérer les données de tous les utilisateurs.
+     * ENG: For getting all users.
      * @param req
      * @param res
      */
@@ -67,7 +71,8 @@ var LoginController = {
     },
 
     /**
-     * For getting an user.
+     * FR: Pour récupérer les données d'un utilisateur (selon son ID).
+     * ENG: For getting an user (with his ID).
      * @param req
      * @param res
      */
@@ -91,7 +96,8 @@ var LoginController = {
     },
 
     /**
-     * For checking is user is administrator.
+     * FR: Pour vérifier si un utilisateur est un administrateur.
+     * ENG: For checking is user is administrator.
      * @param req
      * @param res
      */
@@ -116,7 +122,8 @@ var LoginController = {
 
 
     /**
-     * For updating revoked property (administrator only) .
+     * FR: Pour mettre-à-jour la propriété revoked (révoqué) d'un utilisateur (Action seulement pour l'administrateur).
+     * ENG: For updating revoked property (administrator only) .
      * @param req
      * @param res
      */
@@ -140,7 +147,8 @@ var LoginController = {
     },
 
     /**
-     * For updating privilege property (administrator only) .
+     * FR: Pour mettre-à-jour la propriété privilege (privilège) d'un utilisateur (Action seulement pour l'administrateur).
+     * ENG: For updating privilege property (administrator only) .
      * @param req
      * @param res
      */
@@ -168,7 +176,8 @@ var LoginController = {
     },
 
     /**
-     * For creating an new user and/or his car.
+     * FR: Pour créer un nouvel utilisateur avec ou sans son véhicule.
+     * ENG: For creating a new user and/or his car.
      * @param req
      * @param res
      */
@@ -242,7 +251,8 @@ var LoginController = {
     },
 
     /**
-     * For updating a user.
+     * FR: Pour mettre-à-jour un utilisateur.
+     * ENG: For updating a user.
      * @param req
      * @param res
      */
@@ -268,7 +278,8 @@ var LoginController = {
     },
 
     /**
-     * For deleting an user.
+     * FR: Pour supprimer un utilisateur (selon son ID).
+     * ENG: For deleting an user (with his ID).
      * @param req
      * @param res
      */
@@ -294,4 +305,4 @@ var LoginController = {
 };
 
 
-module.exports = LoginController;
+module.exports = UserController;

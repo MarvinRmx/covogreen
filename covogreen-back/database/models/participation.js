@@ -3,6 +3,9 @@ const Sequelize = require('sequelize');
 var User = require('./user');
 var Journey = require('./journey');
 
+/**
+ * Participation entity
+ */
 const Participation = db.define('participation',
     {
         id_participation: {

@@ -3,6 +3,9 @@ const Sequelize = require('sequelize');
 var User = require('./user');
 var Journey = require('./journey');
 
+/**
+ * InscriptionJourney entity
+ */
 const InscriptionJourney = db.define('inscriptionjourney',
     {
         id: {

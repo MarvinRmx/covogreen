@@ -7,11 +7,15 @@ var jwt = require('jsonwebtoken');
 /**
  * @author Romain Lembo
  * @type {{create: JourneyController.create, getJourneysByUser: JourneyController.getJourneysByUser, getJourneysByID: JourneyController.getJourneysByID, isDriverThisJourney: JourneyController.isDriverThisJourney}}
+ * FR: Couche contrôleur de l'entité Journey.
+ * ENG: Controller layer of Journey Entity.
  */
 var JourneyController = {
 
     /**
-     * Cration of a journey
+     * FR: Pour créer un nouveau trajet.
+     * ENG: For creating a new journey.
+     * Creation of a journey
      * @param req
      * @param res
      */
@@ -40,7 +44,8 @@ var JourneyController = {
     },
 
     /**
-     * For getting all journeys with id_user.
+     * FR: Pour récupérer les données des trajets selon l'utilisateur.
+     * ENG: For getting all journeys with id_user.
      * @param req
      * @param res
      */
@@ -68,7 +73,8 @@ var JourneyController = {
     },
 
     /**
-     * For getting all journeys with id_journey.
+     * FR: Pour récupérer un trajet selon son id_journey.
+     * ENG: For getting all journeys with id_journey.
      * @param req
      * @param res
      */
@@ -92,7 +98,8 @@ var JourneyController = {
     },
 
     /**
-     * Checking if user with this token it's driver for this journey
+     * FR: Pour vérifier si l'utilisateur connecté est le conducteur d'un trajet.
+     * ENG: Checking if user with this token it's driver for this journey
      * @param req
      * @param res
      */
