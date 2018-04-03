@@ -9,9 +9,9 @@ import {InscriptionTrajetService} from "../../../services/inscription-trajet.ser
  * @author Romain Lembo
  */
 @Component({
-  selector: 'app-my-journeys',
-  templateUrl: './my-journeys.component.html',
-  styleUrls: ['./my-journeys.component.css']
+    selector: 'app-my-journeys',
+    templateUrl: './my-journeys.component.html',
+    styleUrls: ['./my-journeys.component.css']
 })
 export class MyJourneysComponent implements OnInit, AfterViewInit {
 
@@ -73,7 +73,7 @@ export class MyJourneysComponent implements OnInit, AfterViewInit {
         let minutes = date.getMinutes();
 
         return  day + ' ' + dayUTC + ' ' + month + ', à ' +
-                hours + 'h' + minutes;
+            hours + 'h' + minutes;
     }
 
     getStatus(value): string {

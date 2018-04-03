@@ -62,13 +62,13 @@ author Romain Lembo
             </ng-container>
 
             <ng-container matColumnDef="cancel">
-                    <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                    <mat-cell *matCellDef="let element">
-                        <div *ngIf="!checkHappended(element.date_journey)">
-                            <button mat-raised-button color="accent"
-                                    (click)="desinscriptionTrajet(element.id_journey)">Annuler</button>
-                        </div>
-                    </mat-cell>
+                <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                    <div *ngIf="!checkHappended(element.date_journey)">
+                        <button mat-raised-button color="accent"
+                                (click)="desinscriptionTrajet(element.id_journey)">Annuler</button>
+                    </div>
+                </mat-cell>
             </ng-container>
 
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

@@ -1,0 +1,49 @@
+<!-- Author : Marvin RAMEIX -->
+<div *ngIf="journey" class="info">
+    <h1>Trajet vers {{journey.destination}}</h1>
+    <h4 *ngIf="driver"> Conducteur : <a href="/user/{{driver.id_user}}">{{driver.firstName}} {{driver.lastName}}</a></h4>
+    <p>Départ : {{this.direction.origin}}</p>
+    <p>Destination : {{this.direction.destination}}</p>
+    <p>Heure de départ : {{this.journeyService.getDate(journey.date_journey)}}</p>
+    <p>Nombre de sièges restants : {{journey.seats_available}}</p>
+</div>
+<ngui-map zoom="13" center="40.771, -73.974" *ngIf="direction">
+    <directions-renderer
+        [suppressMarkers]="false"
+        [draggable]="true"
+        [directions-request]="direction">
+    </directions-renderer>
+</ngui-map>
+<div *ngIf="user && driver">
+    <div *ngIf="user.id_user == driver.id_user">
+        <button (click)="deleteCurrentJourney()" class="btn btn-danger btn-block">Supprimer ce trajet</button>
+    </div>
+</div>
+<div *ngIf="canRateAndComment">
+    <form (ngSubmit)="rateAndComment()" [formGroup]="rateAndCommentForm" class="form" role="form" #f="ngForm" novalidate>
+        <div class="form-group">
+            <input  id="rate" name="rate" formControlName="rate"
+                    placeholder="Note sur 5"
+                    class="form-control form-control-sm"
+                    type="number"
+                    max="5"
+                    required>
+        </div>
+        <div class="form-group">
+            <textarea
+                name="comment"
+                id="comment"
+                maxlength="255"
+                formControlName="comment"
+                class="form-control form-control-sm"
+                placeholder="Commentaire"
+            >
+            </textarea>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block">Noter et commenter</button>
+        </div>
+    </form>
+
+</div>
+<div id="my-panel"></div>

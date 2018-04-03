@@ -29,14 +29,14 @@ describe('Journey', function () {
 
     describe('getJourneysByUser()', function () {
 
-        it('should accept and return journey datas', function testGetJourneysByUser (done) {
+        it('should accept and return journey datas', function testGetJourneysByUser(done) {
 
             request(app)
                 .get('/journey/byuser')
                 .set('Authorization', 'bearer ')
                 .set(headersUser)
                 .expect(200)
-                .end(function(err, res) {
+                .end(function (err, res) {
                     if (err) return done(err);
                     else console.log('Result:', res.text);
                     done();
@@ -46,7 +46,7 @@ describe('Journey', function () {
 
     describe('isDriverThisJourney()', function () {
 
-        it('should accept and return true or false', function testIsDriverThisJourney (done) {
+        it('should accept and return true or false', function testIsDriverThisJourney(done) {
 
             request(app)
                 .post('/journey/isdriver')
@@ -56,7 +56,7 @@ describe('Journey', function () {
                 .set('Authorization', 'bearer ')
                 .set(headersUser)
                 .expect(200)
-                .end(function(err, res) {
+                .end(function (err, res) {
                     if (err) return done(err);
                     else console.log('Result:', res.text);
                     done();
@@ -64,5 +64,18 @@ describe('Journey', function () {
         });
     });
 
+    describe('getJourney()', function () {
+        it('should accept and return data of the selected journey', function testIsDriverThisJourney(done) {
+            request(app)
+                .get('/journey/5')
+                .expect('Content-Type', /json/)
+                .expect(200)
+                .end(function (err, res) {
+                    done.error(err, 'No error');
+                    done.same(res.body, journey, 'Journey as expected');
+                    done.end();
+                });
+        });
 
+    });
 });

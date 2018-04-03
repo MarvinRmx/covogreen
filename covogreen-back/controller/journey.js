@@ -32,13 +32,13 @@ var JourneyController = {
                 date_journey: req.body.date_journey,
                 id_driver: userToken.id_user
             })
-            .then(function (response) {
-                res.status(200).send('Trajet ajouté');
-            })
-            .catch(function (error) {
-                console.log('create error : ', error);
-                res.status(500).json(error);
-            });
+                .then(function (response) {
+                    res.status(200).send('Trajet ajouté');
+                })
+                .catch(function (error) {
+                    console.log('create error : ', error);
+                    res.status(500).json(error);
+                });
         }
         else res.status(500).send("Compte bloqué !");
     },
@@ -61,13 +61,13 @@ var JourneyController = {
                 'AND ij.id_user = ' + userToken.id_user,
                 { model: Journey }
             )
-            .then(function (response) {
-                res.status(200).send(response);
-            })
-            .catch(function (error) {
-                console.log('Fail find for getting journeys by user :', error);
-                res.status(500).send("Echec de la récupération du profil.");
-            });
+                .then(function (response) {
+                    res.status(200).send(response);
+                })
+                .catch(function (error) {
+                    console.log('Fail find for getting journeys by user :', error);
+                    res.status(500).send("Echec de la récupération du profil.");
+                });
         }
         else res.status(500).send("Compte bloqué !");
     },
@@ -124,6 +124,64 @@ var JourneyController = {
         }
         else res.status(500).send("Compte bloqué !");
     },
+
+    /**
+     * @author Marvin RAMEIX
+     * Deleting journey by id with author check
+     * @param req
+     * @param res
+     */
+    delete: function (req, res) {
+        var userToken = authToken.getToken(req);
+        Journey.findById(req.params.id_journey)
+            .then(function (response) {
+                if (userToken.id_user == response.dataValues.id_driver) {
+                    Journey.destroy({
+                        where: {
+                            id_journey: response.dataValues.id_journey
+                        }
+                    }).then(function (resp) {
+                        res.status(200).send("Trajet supprimé");
+                    }).catch(function (err) {
+                        console.log(err);
+                        res.status(500).send("Auteur non conducteur.");
+                    });
+                }
+            }).catch(function (error) {
+            console.log(error);
+            res.status(500).send("Trajet non trouvé.");
+        });
+    },
+
+    /**
+     * @author Marvin RAMEIX
+     * Allow to know if the user connected can rate and comment the current journey
+     * @param req
+     * @param res
+     */
+    canRateAndComment: function (req, res) {
+        var userToken = authToken.getToken(req);
+        InscriptionTrajet.findOne({
+            where: {
+                id_trajet: req.params.id_journey,
+                id_user: userToken.id_user
+            }
+        }).then(
+            function (value) {
+                if(value !== null){
+                    res.status(200).send(true);
+                }
+                else{
+                    res.status(200).send(false);
+                }
+            }
+        ).catch(
+            function (reason) {
+                console.log(reason);
+                res.status(500).send("Cet utilisateur ne participe pas au trajet");
+            }
+        )
+    }
 
 };
 

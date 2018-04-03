@@ -6,6 +6,7 @@ import { NgModule, AfterViewInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule, JsonpModule, Http, RequestOptions } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
+import { NguiMapModule} from '@ngui/map';
 
 import {
     MatButtonModule,
@@ -62,6 +63,8 @@ import {JourneyService} from '../services/journey.service';
 import { DetailedCardComponent } from './detailed-card/detailed-card.component';
 import { RateComponent } from './detailed-card/rate/rate.component';
 import { BoutonInscriptionComponent } from './bouton-inscription/bouton-inscription.component';
+import { JourneyDetailsComponent } from './journey/journey-details/journey-details.component';
+import { UserPageComponent } from './user/user-page/user-page.component';
 
 import {SafePipe} from '../directives/safepipe.directive';
 
@@ -91,7 +94,9 @@ import {SafePipe} from '../directives/safepipe.directive';
         NgxSmartModalModule.forRoot(),
         ConfirmationPopoverModule.forRoot({
             confirmButtonType: 'danger' // set defaults here
-        })
+        }),
+
+        NguiMapModule.forRoot({apiUrl: 'https://maps.google.com/maps/api/js?key=AIzaSyAhXA5sVoz5TxW9qrrj-NoH121q6TW7Kys'})
     ],
     declarations: [
         AppComponent,
@@ -111,7 +116,9 @@ import {SafePipe} from '../directives/safepipe.directive';
         DetailedCardComponent,
         RateComponent,
         SafePipe,
-        BoutonInscriptionComponent
+        BoutonInscriptionComponent,
+        JourneyDetailsComponent,
+        UserPageComponent
     ],
     providers: [
         AuthentificationService,

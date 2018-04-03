@@ -15,6 +15,9 @@ const InscriptionJourney = db.define('inscriptionjourney',
         },
         rate: {
             type: Sequelize.INTEGER
+        },
+        comment: {
+            type: Sequelize.STRING
         }
     }
 );

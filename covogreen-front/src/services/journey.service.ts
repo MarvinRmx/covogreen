@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Headers, Http, RequestOptions, Response} from '@angular/http';
 import {Journey} from '../class/journey';
 import {Observable} from 'rxjs/Observable';
@@ -12,11 +12,13 @@ export class JourneyService {
 
     private uri: string;
 
-    constructor(
-        private http: Http,
-        private authRequest: AuthRequest
-    ) {
+    constructor(private http: Http,
+                private authRequest: AuthRequest) {
         this.uri = 'http://localhost:1313/journey';
+    }
+
+    getUri(): string {
+        return this.uri;
     }
 
     getDay(value): string {
@@ -55,6 +57,34 @@ export class JourneyService {
         return month[value.getMonth()];
     }
 
+    /**
+     * @author Romain LEMBO & Marvin RAMEIX
+     *  Get Journeys from an user which are already done
+     * @returns {Observable<Array<Journey>>}
+     */
+    /*getJourneysByUserDone(): Observable<Array<Journey>> {
+
+        return this.http.get(this.uri + '/byuser/inf', this.authRequest.requestOptions)
+            .map((response: Response) => {
+                let result = response.text();
+                return JSON.parse(result);
+            });
+    }*/
+
+    /**
+     * @author Romain LEMBO & Marvin RAMEIX
+     *  Get next Journeys from an user
+     * @returns {Observable<Array<Journey>>}
+     */
+    /*getJourneysByUserToDo(): Observable<Array<Journey>> {
+
+        return this.http.get(this.uri + '/byuser/sup', this.authRequest.requestOptions)
+            .map((response: Response) => {
+                let result = response.text();
+                return JSON.parse(result);
+            });
+    }*/
+
     getJourneysByUser(): Observable<Array<Journey>> {
 
         return this.http.get(this.uri  + '/byuser', this.authRequest.requestOptions)
@@ -75,18 +105,81 @@ export class JourneyService {
 
     isDriverThisJourney(journey: Journey): Observable<boolean> {
 
-        return this.http.post(this.uri  + '/isdriver', JSON.stringify(journey), this.authRequest.requestOptions)
+        return this.http.post(this.uri + '/isdriver', JSON.stringify(journey), this.authRequest.requestOptions)
             .map((response: Response) => {
                 let result = response.text();
                 return JSON.parse(result);
             });
     }
 
+    /**
+     * @author Marvin RAMEIX
+     * @param {Journey} journey
+     * @returns {Observable<string>}
+     */
     createJourney(journey: Journey): Observable<string> {
 
         return this.http.post(this.uri, JSON.stringify(journey), this.authRequest.requestOptions)
             .map((response: Response) => {
                 return response.text();
             });
+    }
+
+    /**
+     * @author Marvin RAMEIX
+     * Getting a journey from id
+     * @returns {Observable<string>}
+     */
+    getJourney(id_journey): Observable<Journey> {
+        return this.http.get(this.uri + '/' + id_journey, this.authRequest.requestOptions)
+            .map((response: Response) => {
+                let result = response.text();
+                return JSON.parse(result);
+            });
+    }
+
+    /**
+     * @author Marvin RAMEIX
+     * Deleting a journey
+     * @returns {Observable<string>}
+     */
+    deleteJourney(id_journey): Observable<string> {
+        return this.http.delete(this.uri + '/del/' + id_journey, this.authRequest.requestOptions)
+            .map((response: Response) => {
+                return response.text();
+            });
+    }
+
+    /**
+     * @author Marvin RAMEIX
+     * Getting the information about the right to rate and comment for a user
+     * @returns {Observable<string>}
+     */
+    canRateAndComment(id_journey): Observable<string> {
+        return this.http.get(this.uri + '/rateComment/' + id_journey, this.authRequest.requestOptions)
+            .map((response: Response) => {
+                return response.text();
+            });
+    }
+
+    /**
+     * @author Marvin RAMEIX
+     * Allow a user to rate and comment a journey
+     * @returns {Observable<string>}
+     */
+    rateAndComment(rateAndComment: Object, id_journey: number): Observable<string> {
+        return this.http.post('http://localhost:1313/inscriptionTrajet/rateComment/' + id_journey,
+            JSON.stringify(rateAndComment), this.authRequest.requestOptions)
+            .map((response: Response) => {
+                return response.text();
+            });
+    }
+    /**
+     * @author Marvin RAMEIX
+     * Format sql date to locale date
+     * @returns String
+     */
+    getDate(date) {
+        return new Date(date).toLocaleDateString() + " " + new Date(date).toLocaleTimeString();
     }
 }

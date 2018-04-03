@@ -49,6 +49,7 @@ var UserController = {
             console.log(error);
             res.status(401).send('Identifiant et/ou mot de passe non reconnu');
         });
+
     },
 
     /**
@@ -62,12 +63,12 @@ var UserController = {
         req.accepts('application/json');
 
         User.all()
-        .then(function (response) {
-            res.status(200).send(response);
-        })
-        .catch(function (error) {
-            res.status(500).send("Echec de la récupération de tous les utilisateurs.");
-        });
+            .then(function (response) {
+                res.status(200).send(response);
+            })
+            .catch(function (error) {
+                res.status(500).send("Echec de la récupération de tous les utilisateurs.");
+            });
     },
 
     /**
@@ -76,21 +77,20 @@ var UserController = {
      * @param req
      * @param res
      */
-    get: function  (req, res) {
+    get: function (req, res) {
         var userToken = authToken.getToken(req);
 
-        if (!userToken.revoked)
-        {
+        if (!userToken.revoked) {
             User.findOne({
                 where: {id_user: userToken.id_user}
             })
-            .then(function (response) {
-                res.status(200).send(response.dataValues);
-            })
-            .catch(function (error) {
-                console.log('Fail find for getting user :', error);
-                res.status(500).send("Echec de la récupération du profil.");
-            });
+                .then(function (response) {
+                    res.status(200).send(response.dataValues);
+                })
+                .catch(function (error) {
+                    console.log('Fail find for getting user :', error);
+                    res.status(500).send("Echec de la récupération du profil.");
+                });
         }
         else res.status(500).send("Compte bloqué !");
     },
@@ -101,7 +101,7 @@ var UserController = {
      * @param req
      * @param res
      */
-    isAdmin: function  (req, res) {
+    isAdmin: function (req, res) {
         var userToken = authToken.getToken(req);
 
         if(userToken)
@@ -121,7 +121,6 @@ var UserController = {
             });
         }
         else res.status(200).send(false);
-
     },
 
 
@@ -131,14 +130,13 @@ var UserController = {
      * @param req
      * @param res
      */
-    handleRevoked: function  (req, res) {
+    handleRevoked: function (req, res) {
 
         var userToken = authToken.getToken(req);
         var user = req.body;
 
-        if(userToken.privilege === 2 && !userToken.revoked)
-        {
-            User.update({ revoked: user.revoked }, { where: {id_user: user.id_user} } )
+        if (userToken.privilege === 2 && !userToken.revoked) {
+            User.update({revoked: user.revoked}, {where: {id_user: user.id_user}})
                 .then(function (response) {
                     res.status(200).send("Modification de la propriété revoked OK");
                 })
@@ -156,14 +154,13 @@ var UserController = {
      * @param req
      * @param res
      */
-    handlePrivilege: function  (req, res) {
+    handlePrivilege: function (req, res) {
 
         var userToken = authToken.getToken(req);
         var user = req.body;
 
-        if(userToken.privilege === 2 && !userToken.revoked)
-        {
-            User.update({ privilege: user.privilege }, { where: {id_user: user.id_user} } )
+        if (userToken.privilege === 2 && !userToken.revoked) {
+            User.update({privilege: user.privilege}, {where: {id_user: user.id_user}})
                 .then(function (response) {
                     res.status(200).send("Modification de la propriété privilege OK");
                 })
@@ -176,7 +173,7 @@ var UserController = {
     },
 
     uniqueUsername: function (value) {
-        return User.findAndCountAll({where: { username: value }});
+        return User.findAndCountAll({where: {username: value}});
     },
 
     /**
@@ -185,20 +182,19 @@ var UserController = {
      * @param req
      * @param res
      */
-    create: function  (req, res) {
+    create: function (req, res) {
 
         var unique = module.exports.uniqueUsername(req.body.user.username);
 
         unique
             .then(function (result) {
 
-                if(result.count > 0) {
+                if (result.count > 0) {
                     res.status(200).send("Username déjà utilisé !");
                     return null;
                 }
-                else
-                {
-                    if( JSON.parse(req.body.user.have_car) ) {
+                else {
+                    if (JSON.parse(req.body.user.have_car)) {
 
                         var values = {
                             "firstName": req.body.user.firstName,
@@ -215,15 +211,15 @@ var UserController = {
                             "licencePlate": req.body.user.licencePlate,
                             "make": req.body.user.make,
                             "model": req.body.user.model,
-                            "capacity":  req.body.user.capacity
+                            "capacity": req.body.user.capacity
                         };
 
                         module.exports.uniqueUsername(values.username);
 
                         sequelize.query('CALL createUserWithCar(:firstName, :lastName, :username, :email, :password, :address, :city, :cp, :phone, :is_driver, ' +
-                            ':licencePlate, :make, :model, :capacity'  +
+                            ':licencePlate, :make, :model, :capacity' +
                             ')',
-                            {replacements: values} )
+                            {replacements: values})
                             .then(function (response) {
                                 console.log(response);
                                 res.status(200).send("Ajout de l'utilisateur et de sa voiture OK");
@@ -260,15 +256,14 @@ var UserController = {
      * @param req
      * @param res
      */
-    update: function  (req, res) {
+    update: function (req, res) {
 
         var user = req.body;
         var userToken = authToken.getToken(req);
 
         console.log('update data : ', user);
 
-        if (!userToken.revoked)
-        {
+        if (!userToken.revoked) {
             User.update(user, {where: {id_user: userToken.id_user}})
                 .then(function (response) {
                     res.status(200).send("Succès de la mise-à-jour du profil.");
@@ -287,13 +282,12 @@ var UserController = {
      * @param req
      * @param res
      */
-    remove: function  (req, res) {
+    remove: function (req, res) {
 
         var userToken = authToken.getToken(req);
 
-        if (!userToken.revoked)
-        {
-            sequelize.query('CALL deleteUser('+ userToken.id_user +')')
+        if (!userToken.revoked) {
+            sequelize.query('CALL deleteUser(' + userToken.id_user + ')')
                 .then(function (response) {
                     res.status(200).send("Succès de la suppression du profil.");
                 })
@@ -305,7 +299,80 @@ var UserController = {
         else res.status(500).send("Compte bloqué !");
     },
 
+    /**
+     * @author Marvin RAMEIX
+     * Getting an user from his id_user
+     * @param req
+     * @param res
+     */
+    getFromId: function (req, res) {
+        User.findById(req.params.id_user)
+            .then(function (response) {
+                res.status(200).send(response.dataValues);
+            }).catch(function (error) {
+            console.log(error);
+            res.status(500).send("Echec de la récupération du profil.");
+        });
+    },
 
+    /**
+     * @author Marvin RAMEIX
+     * Get all rates and comments from an user id
+     * @param req
+     * @param res
+     */
+    getRateAndCommentFromUserId: function (req, res) {
+        sequelize.query("SELECT i.rate, IF((comment IS NOT NULL)&&(comment!=''), comment, 'Aucun commentaire') as comment, " +
+            "i.id_user, i.id_trajet, i.updatedAt, u.firstName, u.lastName FROM inscriptionjourneys i, users u " +
+            "WHERE i.rate > 0 AND i.rate IS NOT NULL AND i.id_user = u.id_user AND id_trajet IN (" +
+        "SELECT id_journey FROM journeys WHERE id_driver = "+ req.params.id_user +")",{ type: sequelize.QueryTypes.SELECT})
+            .then(
+                function (value) {
+                    res.status(200).send(JSON.stringify(value));
+                }
+            ).catch(function (reason) {
+                console.log(reason);
+                res.status(400).send("Impossible de récupérer les notes et commentaires du profil");
+            });
+    },
+
+    /**
+     * @author Marvin RAMEIX
+     * Get all done journeys of an user from his id
+     * @param req
+     * @param res
+     */
+    countDoneJourneys: function (req, res) {
+        sequelize.query('SELECT COUNT(*) as "Count" FROM journeys  WHERE id_driver = '+ req.params.id_user+' AND updatedAt < NOW()', { type: sequelize.QueryTypes.SELECT})
+            .then(
+                function (value) {
+                    res.status(200).send(JSON.stringify(value[0]['Count']));
+                }
+            ).catch(function (reason) {
+            console.log(reason);
+            res.status(400).send("Impossible de récupérer le nombre de trajets effectué par le profil");
+        });
+    },
+
+    /**
+     * @author Marvin RAMEIX
+     * Get the average rating of an user from his id
+     * @param req
+     * @param res
+     */
+    getAverageRating: function (req, res) {
+        sequelize.query('SELECT SUM(rate)/COUNT(*) as Average FROM inscriptionjourneys WHERE rate IS NOT NULL AND rate > 0 AND ' +
+            '  id_trajet IN (SELECT id_journey FROM journeys where id_driver = '+ req.params.id_user +')',{ type: sequelize.QueryTypes.SELECT})
+            .then(
+                function (value) {
+                    console.log(value[0]);
+                    res.status(200).send(JSON.stringify(value[0]['Average']));
+                }
+            ).catch(function (reason) {
+            console.log(reason);
+            res.status(400).send("Impossible de récupérer la note moyenne du profil");
+        });
+    }
 };
 
 
