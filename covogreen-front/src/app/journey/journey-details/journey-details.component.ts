@@ -43,6 +43,12 @@ export class JourneyDetailsComponent implements OnInit, OnChanges {
                 private formBuilder: FormBuilder, private router: Router) {
     }
 
+    /**
+     * @author Romain Lembo
+     * FR: Compare les variable avant et après changements.
+     * ENG: Compare between variable, before and after changes.
+     * @param {SimpleChanges} changes
+     */
     ngOnChanges(changes: SimpleChanges) {
         for (let propName in changes) {
 
