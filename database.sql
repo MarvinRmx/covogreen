@@ -56,6 +56,14 @@ CREATE TABLE `chats` (
   `id_trajet` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Contenu de la table `chats`
+--
+
+INSERT INTO `chats` (`id`, `message`, `createdAt`, `updatedAt`, `id_auteur`, `id_trajet`) VALUES
+(1, 'Message test', '2018-04-03 16:57:39', '2018-04-03 16:57:39', 2, 5),
+(2, 'Test message 2', '2018-04-03 18:27:27', '2018-04-03 18:27:27', 3, 5);
+
 -- --------------------------------------------------------
 
 --
