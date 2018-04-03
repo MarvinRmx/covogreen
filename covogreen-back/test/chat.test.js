@@ -126,18 +126,6 @@ describe('Test ChatBack', function() {
         };
     });
 
-    it('middlewareProtection',  function(done) {
-        // On vérifie que on recois bien "TOKEN REVOQUE" si l'user est revoqué dans la db
-
-        // On vérifie que l'id_user existe dans le token
-
-        // On vérifie qu'un id trajet exist dans la requete.
-
-        // On vérifie qu'il est inscrit au trajet (idTrajet).
-
-        done();
-    });
-
     // OK
     it('getAuthorNameById',     function(done) {
        co(ChatController.getAuthorNameById(3)).then( function(val){
@@ -217,10 +205,10 @@ describe('Test ChatBack', function() {
                 }else{
                     var dataJson = JSON.parse(res.text)
                     chai.assert.isObject(dataJson);
-                    chai.assert.isEqual(dataJson["messages"][0].id === 2, "L'id du message n'est pas egal à 2");
-                    chai.assert.isEqual(dataJson["messages"][0].message === "Test message 2", "Le message n'est pas egal à Test message 2");
-                    chai.assert.isEqual(dataJson["messages"][0].auteur ==="Romain Lembo" , "L'auteur n'est pas egal à Romain Lembo");
-                    chai.assert.isEqual(dataJson["messages"][0].date === "2018-04-03T18:27:27.000Z", "La date ne correspond pas");
+                    chai.assert.equal(dataJson["messages"][0].id, 2, "L'id du message n'est pas egal à 2");
+                    chai.assert.equal(dataJson["messages"][0].message, "Test message 2", "Le message n'est pas egal à Test message 2");
+                    chai.assert.equal(dataJson["messages"][0].auteur, "Romain Lembo" , "L'auteur n'est pas egal à Romain Lembo");
+                    chai.assert.equal(dataJson["messages"][0].date, "2018-04-03T18:27:27.000Z", "La date ne correspond pas");
                 }
             });
 
@@ -238,10 +226,8 @@ describe('Test ChatBack', function() {
                     return done(err);
                 }else{
                     var dataJson = JSON.parse(res.text)
-                    console.log(dataJson);
                     chai.assert.isObject(dataJson);
                     chai.assert.isEmpty(dataJson["messages"], "Messages doit etre vide");
-                    chai.assert.isEqual(dataJson["errors"], "Errors doit etre vide");
                 }
             });
 
@@ -265,7 +251,7 @@ describe('Test ChatBack', function() {
                     var dataJson = JSON.parse(res.text)
                     console.log(dataJson);
                     chai.assert.isObject(dataJson);
-                    chai.assert.isEqual(dataJson.success === true, "La requete n'a pas renvoyé true");
+                    chai.assert.equal(dataJson.success, true, "La requete n'a pas renvoyé true");
                 }
             });
 
@@ -307,22 +293,22 @@ describe('Test ChatBack', function() {
                 chai.assert.isObject(dataJson);
 
                 chai.assert.isNotNull(dataJson.id, "id ne peut pas être vide.");
-                chai.assert.isEqual(dataJson.id === 5, "L'id doit etre 5");
+                chai.assert.equal(dataJson.id, 5, "L'id doit etre 5");
 
                 chai.assert.isNotNull(dataJson.depart, "depart ne peut pas être vide.");
-                chai.assert.isEqual(dataJson.depart === "Nice", "Nice doit etre le depart.");
+                chai.assert.equal(dataJson.depart, "Nice", "Nice doit etre le depart.");
 
                 chai.assert.isNotNull(dataJson.destination, "destination ne peut pas être vide.");
-                chai.assert.isEqual(dataJson.destination === "Antibes", "Antibes doit etre la destination.");
+                chai.assert.equal(dataJson.destination, "Antibes", "Antibes doit etre la destination.");
 
                 chai.assert.isNotNull(dataJson.date_trajet, "date_trajet ne peut pas être vide.");
-                chai.assert.isEqual(dataJson.date_trajet === "2018-03-13 00:00:00", "La date du trajet ne correspond pas");
+                chai.assert.equal(dataJson.date_trajet, "2018-03-13 00:00:00", "La date du trajet ne correspond pas");
 
                 chai.assert.isNotNull(dataJson.auteur, "auteur ne peut pas être vide.");
-                chai.assert.isEqual(dataJson.auteur === 3, "L'auteur doit êtrre égal à 3.");
+                chai.assert.equal(dataJson.auteur, 3, "L'auteur doit êtrre égal à 3.");
 
                 chai.assert.isNotNull(dataJson.nombre_place_disponible, "nombre_place_disponible ne peut pas être vide.");
-                chai.assert.isEqual(dataJson.nombre_place_disponible === 2, "Le nombre de place doit être de 2.");
+                chai.assert.equal(dataJson.nombre_place_disponible, 2, "Le nombre de place doit être de 2.");
 
             }
         });
@@ -341,7 +327,7 @@ describe('Test ChatBack', function() {
                 chai.assert.isObject(dataJson);
 
                 chai.assert.isNotNull(dataJson.errors, "La variables errors ne peut pas etre vide.");
-                chai.assert.isEqual(dataJson.errors[0] === "Le trajet n'existe pas", "le message (\"Le trajet n'existe pas\") doit etre retourné.");
+                chai.assert.equal(dataJson.errors[0], "Le trajet n'existe pas", "le message (\"Le trajet n'existe pas\") doit etre retourné.");
             }
         });
 
