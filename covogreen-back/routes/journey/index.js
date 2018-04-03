@@ -7,8 +7,6 @@ var co = require('co');
  */
 module.exports = function (router) {
 
-    //router.get('/:id_journey', controller.getJourney);
-
     var canRateAndComment = co.wrap(controller.canRateAndComment);
     router.get('/rateComment/:id_journey', canRateAndComment);
 
@@ -26,6 +24,4 @@ module.exports = function (router) {
 
     var getJourneysByID = co.wrap(controller.getJourneysByID);
     router.get('/:id_journey', getJourneysByID);
-
-
 };

@@ -57,34 +57,6 @@ export class JourneyService {
         return month[value.getMonth()];
     }
 
-    /**
-     * @author Romain LEMBO & Marvin RAMEIX
-     *  Get Journeys from an user which are already done
-     * @returns {Observable<Array<Journey>>}
-     */
-    /*getJourneysByUserDone(): Observable<Array<Journey>> {
-
-        return this.http.get(this.uri + '/byuser/inf', this.authRequest.requestOptions)
-            .map((response: Response) => {
-                let result = response.text();
-                return JSON.parse(result);
-            });
-    }*/
-
-    /**
-     * @author Romain LEMBO & Marvin RAMEIX
-     *  Get next Journeys from an user
-     * @returns {Observable<Array<Journey>>}
-     */
-    /*getJourneysByUserToDo(): Observable<Array<Journey>> {
-
-        return this.http.get(this.uri + '/byuser/sup', this.authRequest.requestOptions)
-            .map((response: Response) => {
-                let result = response.text();
-                return JSON.parse(result);
-            });
-    }*/
-
     getJourneysByUser(): Observable<Array<Journey>> {
 
         return this.http.get(this.uri  + '/byuser', this.authRequest.requestOptions)
@@ -113,7 +85,7 @@ export class JourneyService {
     }
 
     /**
-     * @author Marvin RAMEIX
+     * @author Marvin RAMEIX & Romain Lembo
      * @param {Journey} journey
      * @returns {Observable<string>}
      */
@@ -122,19 +94,6 @@ export class JourneyService {
         return this.http.post(this.uri, JSON.stringify(journey), this.authRequest.requestOptions)
             .map((response: Response) => {
                 return response.text();
-            });
-    }
-
-    /**
-     * @author Marvin RAMEIX
-     * Getting a journey from id
-     * @returns {Observable<string>}
-     */
-    getJourney(id_journey): Observable<Journey> {
-        return this.http.get(this.uri + '/' + id_journey, this.authRequest.requestOptions)
-            .map((response: Response) => {
-                let result = response.text();
-                return JSON.parse(result);
             });
     }
 

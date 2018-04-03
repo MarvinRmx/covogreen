@@ -1,4 +1,5 @@
 var Journey = require("../database/models/journey");
+var InscriptionJourney = require("../database/models/inscriptionJourney");
 var sequelize = require("../database/db");
 var authToken = require("./tools/authToken");
 var co = require('co');
@@ -161,7 +162,7 @@ var JourneyController = {
      */
     canRateAndComment: function (req, res) {
         var userToken = authToken.getToken(req);
-        InscriptionTrajet.findOne({
+        InscriptionJourney.findOne({
             where: {
                 id_trajet: req.params.id_journey,
                 id_user: userToken.id_user

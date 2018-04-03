@@ -142,7 +142,7 @@ var InscriptionTrajetController = {
         }).then(
             function (trajet) {
                 if (trajet !== null) {
-                    InscriptionTrajet.update({
+                    InscriptionJourney.update({
                             rate: req.body.rate,
                             comment: req.body.comment
                         }, {

@@ -85,6 +85,6 @@ author Romain Lembo
 
 </div>
 
-<ngx-smart-modal #detailedCard identifier="detailedCard" customClass="detailedCard">
+<ngx-smart-modal #detailedCard identifier="detailedCard" customClass="detailedCard" *ngIf="id_journey !== null">
     <app-detailed-card [id_journey]="id_journey"></app-detailed-card>
 </ngx-smart-modal>

@@ -4,6 +4,7 @@ import {MatPaginator, MatTableDataSource} from '@angular/material';
 import {Journey} from '../../../class/journey';
 import { NgxSmartModalService } from 'ngx-smart-modal';
 import {InscriptionTrajetService} from "../../../services/inscription-trajet.service";
+import {JourneyDetailsComponent} from "../journey-details/journey-details.component";
 
 /**
  * @author Romain Lembo
@@ -24,7 +25,7 @@ export class MyJourneysComponent implements OnInit, AfterViewInit {
     constructor(
         private journeyService: JourneyService,
         private inscriptionTrajetService: InscriptionTrajetService,
-        private ngxSmartModalService: NgxSmartModalService
+        private ngxSmartModalService: NgxSmartModalService,
     ) { }
 
     ngOnInit() {

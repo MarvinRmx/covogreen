@@ -19,6 +19,7 @@
         <button (click)="deleteCurrentJourney()" class="btn btn-danger btn-block">Supprimer ce trajet</button>
     </div>
 </div>
+
 <div *ngIf="canRateAndComment">
     <form (ngSubmit)="rateAndComment()" [formGroup]="rateAndCommentForm" class="form" role="form" #f="ngForm" novalidate>
         <div class="form-group">
@@ -46,4 +47,5 @@
     </form>
 
 </div>
+
 <div id="my-panel"></div>
