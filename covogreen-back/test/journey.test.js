@@ -22,7 +22,13 @@ describe('Journey', function () {
     beforeEach(function () {
 
         user = JSON.stringify({id_user: 1, username: "test", privilege: 1, revoked: false});
-        journey = JSON.stringify({id_journey: 5, origin: "Nice", destination: "Antibes", seats_available: 2, id_driver: 3});
+        journey = JSON.stringify({
+            id_journey: 5,
+            origin: "Nice",
+            destination: "Antibes",
+            seats_available: 2,
+            id_driver: 3
+        });
         tokenSignUser = jwt.sign(user, skey);
 
         headersUser = {
@@ -74,13 +80,21 @@ describe('Journey', function () {
             request(app)
                 .get('/journey/5')
                 .expect('Content-Type', /json/)
-                .expect(200)
+                .expect(200, {
+                    "id_journey": 5,
+                    "origin": "Nice",
+                    "destination": "Antibes",
+                    "seats_available": 2,
+                    "date_journey": "2018-03-13T00:00:00.000Z",
+                    "createdAt": "2018-03-13T00:00:00.000Z",
+                    "updatedAt": "2018-03-11T00:00:00.000Z",
+                    "id_driver": 3
+                })
                 .end(function (err, res) {
-                    done.error(err, 'No error');
-                    done.same(res.body, journey, 'Journey as expected');
-                    done.end();
+                    if (err) return done(err);
+                    else console.log('Result:', res.text);
+                    done();
                 });
         });
-
     });
 });

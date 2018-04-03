@@ -45,9 +45,9 @@ var JourneyController = {
 
         var userToken = authToken.getToken(req);
         var signe = "";
-        if (req.params.signe == 'sup')
+        if (req.params.signe === 'sup')
             signe = ">=";
-        else if (req.params.signe == 'inf')
+        else if (req.params.signe === 'inf')
             signe = "<";
         if (!userToken.revoked) {
             sequelize.query(' SELECT j.* ' +
@@ -123,7 +123,7 @@ var JourneyController = {
         var userToken = authToken.getToken(req);
         Journey.findById(req.params.id_journey)
             .then(function (response) {
-                if (userToken.id_user == response.dataValues.id_driver) {
+                if (userToken.id_user === response.dataValues.id_driver) {
                     Journey.destroy({
                         where: {
                             id_journey: response.dataValues.id_journey
