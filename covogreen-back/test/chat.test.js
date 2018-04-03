@@ -313,24 +313,6 @@ describe('Test ChatBack', function() {
             }
         });
 
-        // On récupère un trajet qui n'existe pas
-        request(app).post('/chat/getTrajet')
-            .send({
-                idTrajet: 999
-            })
-            .set('Authorization', 'bearer ').set(headersUser)
-            .expect(200).end(function(err, res) {
-            if (err){
-                return done(err);
-            } else{
-                var dataJson = JSON.parse(res.text)
-                chai.assert.isObject(dataJson);
-
-                chai.assert.isNotNull(dataJson.errors, "La variables errors ne peut pas etre vide.");
-                chai.assert.equal(dataJson.errors[0], "Le trajet n'existe pas", "le message (\"Le trajet n'existe pas\") doit etre retourné.");
-            }
-        });
-
         done();
     });
 });
