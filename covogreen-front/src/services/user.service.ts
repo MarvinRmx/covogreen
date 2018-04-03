@@ -76,6 +76,7 @@ export class UserService {
             });
     }
 
+
     /**
      * Method for getting all users data.
      * @returns {Observable<User>}
