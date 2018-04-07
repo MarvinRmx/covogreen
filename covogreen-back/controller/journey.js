@@ -111,6 +111,7 @@ var JourneyController = {
                 {model: Journey}
             )
                 .then(function (response) {
+                    console.log(response);
                     res.status(200).send(response);
                 })
                 .catch(function (error) {
@@ -201,7 +202,7 @@ var JourneyController = {
         var userToken = authToken.getToken(req);
         Journey.findById(req.params.id_journey)
             .then(function (response) {
-                if (userToken.id_user == response.dataValues.id_driver) {
+                if (userToken.id_user === response.dataValues.id_driver) {
                     Journey.destroy({
                         where: {
                             id_journey: response.dataValues.id_journey
@@ -228,12 +229,15 @@ var JourneyController = {
     canRateAndComment: function (req, res) {
         var userToken = authToken.getToken(req);
         if(userToken){
-            InscriptionJourney.findOne({
-                where: {
-                    id_trajet: req.params.id_journey,
-                    id_user: userToken.id_user
-                }
-            }).then(
+            sequelize.query(' SELECT *' +
+                'FROM inscriptionjourneys ij, journeys j ' +
+                'WHERE ij.id_trajet = j.id_journey ' +
+                'AND ij.id_trajet = '+ req.params.id_journey +
+                'AND ij.id_user ='+ userToken.id_user+
+                'AND ij.id_user NOT IN (SELECT id_driver ' +
+                '                       FROM journeys ' +
+                '                       WHERE id_journey = '+ req.params.id_journey +')'
+            ).then(
                 function (value) {
                     if(value !== null){
                         res.status(200).send(true);
