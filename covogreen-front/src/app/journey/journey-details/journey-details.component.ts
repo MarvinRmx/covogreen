@@ -38,6 +38,7 @@ export class JourneyDetailsComponent implements OnInit, OnChanges {
     public canRateAndComment: boolean;
     public direction: any;
     public rateAndCommentForm;
+    public tokenUser;
 
     constructor(protected journeyService: JourneyService, private userService: UserService,
                 private formBuilder: FormBuilder, private router: Router) {
@@ -64,15 +65,13 @@ export class JourneyDetailsComponent implements OnInit, OnChanges {
 
     ngOnInit() {
         let id_journey = window.location.href.substr(this.journeyService.getUri().length + 1, window.location.href.length);
+        this.tokenUser = localStorage.getItem('currentUser');
 
         this.rateAndCommentForm = this.formBuilder.group({
             rate: this.formBuilder.control(''),
             comment: this.formBuilder.control('')
         });
 
-        this.userService.getUser().subscribe(result => {
-            this.user = result;
-        });
         (this.id_journey != null) ?  this.getJourney(this.id_journey) : this.getJourney(id_journey);
 
     }
@@ -89,11 +88,11 @@ export class JourneyDetailsComponent implements OnInit, OnChanges {
                     destination: result.destination,
                     travelMode: 'DRIVING'
                 };
-
-                this.journeyService.canRateAndComment(id_journey).subscribe(res => {
-                    this.canRateAndComment = (res === 'true' && (new Date(Date.now()) > new Date(this.journey.date_journey)));
-                });
-
+                if (this.tokenUser) {
+                    this.journeyService.canRateAndComment(id_journey).subscribe(res => {
+                        this.canRateAndComment = (res === 'true' && (new Date(Date.now()) > new Date(this.journey.date_journey)));
+                    });
+                }
                 this.getUserFromId(this.journey.id_driver);
             });
     }
@@ -102,7 +101,6 @@ export class JourneyDetailsComponent implements OnInit, OnChanges {
         this.userService.getUserFromId(id_driver)
             .subscribe(res => {
                     this.driver = res;
-                    this.userService.getRateAndCommentFromUserId(this.driver.id_user).subscribe();
                 }
             );
     }
@@ -115,9 +113,11 @@ export class JourneyDetailsComponent implements OnInit, OnChanges {
     }
 
     rateAndComment() {
-        this.journeyService.rateAndComment(this.rateAndCommentForm.value, this.journey.id_journey)
-            .subscribe(result => {
-                alert(result);
-            });
+        if (this.tokenUser != null) {
+            this.journeyService.rateAndComment(this.rateAndCommentForm.value, this.journey.id_journey)
+                .subscribe(result => {
+                    alert(result);
+                });
+        }
     }
 }

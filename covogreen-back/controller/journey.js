@@ -53,14 +53,15 @@ var JourneyController = {
     getJourneysByUser: function (req, res) {
 
         var userToken = authToken.getToken(req);
-
         if (!userToken.revoked)
         {
             sequelize.query(' SELECT j.* ' +
                 'FROM inscriptionjourneys ij, journeys j ' +
                 'WHERE ij.id_trajet = j.id_journey ' +
-                'AND ij.id_user = ' + userToken.id_user,
-                { model: Journey }
+                'AND ij.id_user = ' + userToken.id_user +
+                ' UNION SELECT * FROM journeys j WHERE id_driver = ' + userToken.id_user
+                ,
+                {model: Journey}
             )
                 .then(function (response) {
                     res.status(200).send(response);
@@ -73,6 +74,7 @@ var JourneyController = {
         else res.status(500).send("Compte bloqué !");
     },
 
+
     /**
      * FR: Pour récupérer un trajet selon son id_journey.
      * ENG: For getting all journeys with id_journey.
@@ -82,7 +84,7 @@ var JourneyController = {
     getJourneysByID: function (req, res) {
 
         var id_journey = req.params.id_journey;
-        var userToken = authToken.getToken(req);
+        //var userToken = authToken.getToken(req);
 
         if (!userToken.revoked)
         {
@@ -96,6 +98,22 @@ var JourneyController = {
                 });
         }
         else res.status(500).send("Compte bloqué !");
+    },
+
+    /**
+     * @author Marvin RAMEIX
+     * Getting info of the Journey from the id used in the url
+     * @param req
+     * @param res
+     */
+    getJourney: function (req, res) {
+        Journey.findById(req.params.id_journey)
+            .then(function (response) {
+                res.status(200).send(response);
+            }).catch(function (error) {
+            console.log(error);
+            res.status(500).send("Aucun trajet correspondant.");
+        });
     },
 
     /**
@@ -162,26 +180,31 @@ var JourneyController = {
      */
     canRateAndComment: function (req, res) {
         var userToken = authToken.getToken(req);
-        InscriptionJourney.findOne({
-            where: {
-                id_trajet: req.params.id_journey,
-                id_user: userToken.id_user
-            }
-        }).then(
-            function (value) {
-                if(value !== null){
-                    res.status(200).send(true);
+        if(userToken){
+            InscriptionJourney.findOne({
+                where: {
+                    id_trajet: req.params.id_journey,
+                    id_user: userToken.id_user
                 }
-                else{
-                    res.status(200).send(false);
+            }).then(
+                function (value) {
+                    if(value !== null){
+                        res.status(200).send(true);
+                    }
+                    else{
+                        res.status(200).send(false);
+                    }
                 }
-            }
-        ).catch(
-            function (reason) {
-                console.log(reason);
-                res.status(500).send("Cet utilisateur ne participe pas au trajet");
-            }
-        )
+            ).catch(
+                function (reason) {
+                    console.log(reason);
+                    res.status(500).send("Cet utilisateur ne participe pas au trajet");
+                }
+            )
+        }
+        else{
+            res.status(400).send("Cet internaute n'est pas inscrit");
+        }
     }
 
 };
