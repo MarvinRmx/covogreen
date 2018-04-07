@@ -33,27 +33,32 @@ var JourneyController = {
                 date_journey: req.body.date_journey,
                 id_driver: userToken.id_user
             })
-                .then(function (response) {
-                    res.status(200).send('Trajet ajouté');
-                })
-                .catch(function (error) {
-                    console.log('create error : ', error);
-                    res.status(500).json(error);
-                });
+            .then(function (response) {
+
+                var inscriptionJourney = {
+                    id_user: response.dataValues.id_driver,
+                    id_trajet: response.dataValues.id_journey
+                };
+                InscriptionJourney.create(inscriptionJourney);
+
+                res.status(200).send('Trajet ajouté');
+            })
+            .catch(function (error) {
+                console.log('create error : ', error);
+                res.status(500).json(error);
+            });
         }
         else res.status(500).send("Compte bloqué !");
     },
 
     /**
      * FR: Pour récupérer tous les trajets non passé.
-     * ENG; Gettings all journeys not happened.
+     * ENG: Gettings all journeys not happened.
      * @param req
      * @param res
      */
     getJourneys: function (req, res) {
 
-        //sequelize.query('SELECT * FROM journeys WHERE date_journey >= CURRENT_TIMESTAMP()')
-        //Journey.all()
         Journey.findAll()
         .then(function (response) {
             console.log('getJourneys :', response);
@@ -66,12 +71,16 @@ var JourneyController = {
 
     },
 
+    /**
+     * FR: Vérifie si l'utilisateur est le créateur du trajet.
+     * ENG: Check if this user is not the creator of journey.
+     * @param req
+     * @param res
+     */
     isCreatorOfJourney: function (req, res) {
 
         var userToken = authToken.getToken(req);
         var id_journey = req.params.id_journey;
-
-        console.log('isCreatorOfJourney userToken ', userToken);
 
         if(userToken != null)
         {

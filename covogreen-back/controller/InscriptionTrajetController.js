@@ -116,13 +116,13 @@ var InscriptionTrajetController = {
                     id_trajet: id_journey
                 }
             })
-                .then(function (response) {
-                    res.status(200).send(response);
-                })
-                .catch(function (error) {
-                    console.log('Fail find for getting InscriptionJourney :', error);
-                    res.status(500).send("Echec de la requête de récupation d'InscriptionJourney");
-                });
+            .then(function (response) {
+                res.status(200).send(response);
+            })
+            .catch(function (error) {
+                console.log('Fail find for getting InscriptionJourney :', error);
+                res.status(500).send("Echec de la requête de récupation d'InscriptionJourney");
+            });
         }
         else res.status(500).send("Compte bloqué !");
     },
