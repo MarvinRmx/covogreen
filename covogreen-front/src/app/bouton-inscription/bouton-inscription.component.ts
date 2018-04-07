@@ -41,7 +41,7 @@ export class BoutonInscriptionComponent implements OnInit {
 			}
     	});
   	}
-  
+
   	/**
   	*	Envoi une requete vers le backend pour desinscrire l'utilisateur connecté au trajet X
   	*/
@@ -66,5 +66,9 @@ export class BoutonInscriptionComponent implements OnInit {
         this.inscriptionService.verifInscription(this.idTrajet).subscribe( (res: Response) => {
         	this.inscrit = (res["success"] === false) ? true : false ;
         });
+    }
+
+    isCreaterOfJourney() {
+
     }
 }

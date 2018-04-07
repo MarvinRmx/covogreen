@@ -226,9 +226,12 @@ var ChatController = {
         var idMessage = req.body.idMessage;
 
         // On récupère les info du message passé en parametre
-        var messageData = yield Chat.find({ where: { id_trajet: idTrajet,  id : idMessage }, order:[['createdAt', 'ASC']] });
+        //var messageData = yield Chat.find({ where: { id_trajet: idTrajet,  id : idMessage }, order:[['createdAt', 'ASC']] });
 
         try {
+            // On récupère les info du message passé en parametre
+            var messageData = yield Chat.find({ where: { id_trajet: idTrajet,  id : idMessage }, order:[['createdAt', 'ASC']] });
+
             if (messageData) {
                 var dateMessage = messageData.createdAt;
                 var chat = yield Chat.find({where: {id_trajet: idTrajet, createdAt: {[Op.gt]: dateMessage}}});
