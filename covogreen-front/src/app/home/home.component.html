@@ -1,41 +1,44 @@
 <!--
 author Romain Lembo
+author Mohamed El karmoudi
 -->
-<app-recherche-form></app-recherche-form>
 
 <div class="row">
     <div class="col-lg-12">
 
-        <p>home works!</p>
+        <div id="branding" style="background: url('assets/banner-home-img.png')">
+            <h1>Covo Green</h1>
+            <h2>Le covoiturage écologique</h2>
 
-        <!--The content below is only a placeholder and can be replaced.-->
-        <div style="text-align: center">
-            <h1>Welcome to {{title}}!</h1>
-            <img width="300" alt="Angular Logo"
-                src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+            <app-recherche-form></app-recherche-form>
         </div>
-        <h2>Here are some links to help you start:</h2>
-        <ul>
-            <li>
-                <h2>
-                    <a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour
-                        of Heroes</a>
-                </h2>
-            </li>
-            <li>
-                <h2>
-                    <a target="_blank" rel="noopener"
-                        href="https://github.com/angular/angular-cli/wiki">CLI
-                        Documentation</a>
-                </h2>
-            </li>
-            <li>
-                <h2>
-                    <a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular
-                        blog</a>
-                </h2>
-            </li>
-        </ul>
+
+        <div id="offres">
+            <h2>Les 10 dernières offres :</h2>
+            <div class="row">
+
+                <div class="col-lg-12">
+                    <div class="offre" *ngFor="let offre of offres; let i = index">
+
+                        <div class="row">
+                            <div class="col-lg-10">
+                                <h4><a href="#">Trajet {{offre.depart}} à {{offre.destination}}</a></h4>
+                                <p><strong>Date du trajet :</strong> {{offre.date_trajet}}</p>
+                                <p><strong>Posté par :</strong> {{offre.auteur}}</p>
+                                <p><strong>Nombre de place restante :</strong> {{offre.nombre_place_disponible}}</p>
+                            </div>
+
+
+                            <div class="col-lg-2">
+                                <app-bouton-inscription idTrajet="{{offre.id}}" [offre]="offres[i]"></app-bouton-inscription>
+                            </div>
+                        </div>
+                    </div><!-- .offre -->
+                </div>
+
+            </div><!-- row -->
+
+        </div><!-- offres -->
 
     </div>
 </div>
