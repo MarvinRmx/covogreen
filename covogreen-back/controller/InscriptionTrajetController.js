@@ -59,6 +59,7 @@ var InscriptionTrajetController = {
      */
     verif: co.wrap(function * (req, res) {
         req.accepts('application/json');
+
         // On décode le json
         var token = authToken.getToken(req);
         if(token.revoked)
