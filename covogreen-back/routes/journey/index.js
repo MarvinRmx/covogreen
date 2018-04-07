@@ -22,6 +22,9 @@ module.exports = function (router) {
     var isDriverThisJourney = co.wrap(controller.isDriverThisJourney);
     router.post('/isdriver', isDriverThisJourney);
 
+    var getJourneys = co.wrap(controller.getJourneys);
+    router.get('/all', getJourneys);
+
     var getJourneysByID = co.wrap(controller.getJourneysByID);
     router.get('/:id_journey', getJourneysByID);
 };

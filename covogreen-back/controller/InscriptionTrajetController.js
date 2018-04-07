@@ -62,24 +62,26 @@ var InscriptionTrajetController = {
 
         // On décode le json
         var token = authToken.getToken(req);
-        if(token.revoked)
-            res.status(200).send({success: false, message: ["Error Token"]});
 
-        var journey = yield Journey.findById(parseInt(req.body.idTrajet));
-        var user = yield User.findById(parseInt(token.id_user));
+        if(token != null) {
 
-        if(journey != null)
-            if(user != null){
-                var test = yield InscriptionTrajetController.checkSubscribe(journey, user);
-                if(test == false)
-                    res.status(200).send({success: true});
+            var journey = yield Journey.findById(parseInt(req.body.idTrajet));
+            var user = yield User.findById(parseInt(token.id_user));
+
+            if(journey != null)
+                if(user != null){
+                    var test = yield InscriptionTrajetController.checkSubscribe(journey, user);
+                    if(test == false)
+                        res.status(200).send({success: true});
+                    else
+                        res.status(200).send({success: false, message: ["User is already subscribed to journey"]});
+                }
                 else
-                    res.status(200).send({success: false, message: ["User is already subscribed to journey"]});
-            }
+                    res.status(200).send({success: false, message: ["Impossible to find user"]});
             else
-                res.status(200).send({success: false, message: ["Impossible to find user"]});
-        else
-            res.status(200).send({success: false, message: ["Impossible to find journey"]});
+                res.status(200).send({success: false, message: ["Impossible to find journey"]});
+
+        }
     }),
 
     /**

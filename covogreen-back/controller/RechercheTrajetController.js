@@ -36,11 +36,42 @@ var RechercheTrajetController = {
    * @param condition
    */
   getListTrajet: co.wrap(function * (request, result, condition) {
+      var journeyList = yield Journey.findAll(condition);
+
+      if(journeyList != null) {
+          for (var i = 0; i < journeyList.length; i++) {
+              var driver = yield User.findById(journeyList[i].id_driver);
+
+              var truc = {
+                  id: journeyList[i].id_journey,
+                  id_driver: driver.id_user,
+                  depart: journeyList[i].origin,
+                  destination: journeyList[i].destination,
+                  auteur: driver.firstName + " " + driver.lastName,
+                  date_trajet: journeyList[i].date_journey,
+                  nombre_place_disponible: journeyList[i].seats_available
+              };
+
+              if (request.place_libre == "true") {
+                  if (journeyList[i].seats_available > 0) {
+                      result.trajets.push(truc);
+                  }
+              }
+              else {
+                  result.trajets.push(truc);
+              }
+          }
+      }
+      return result;
+  }),
+
+  /*getListTrajet: co.wrap(function * (request, result, condition) {
     var journeyList = yield Journey.findAll(condition);
 
     if(journeyList != null)
       for(var i = 0; i < journeyList.length; i++){
         var driver = yield User.findById(journeyList[i].id_driver);
+        console.log("id_user ---- "+driver.id_user);
         var truc = {
           id : journeyList[i].id_journey,
           id_driver: driver.id_user,
@@ -62,7 +93,7 @@ var RechercheTrajetController = {
       }
 
     return result;
-  }),
+  }),*/
 
   /**
    * Cette methode calcule le nombre de pages pour toute la recherche
