@@ -115,6 +115,7 @@ export class JourneyService {
         return this.http.delete(this.uri + '/del/' + id_journey, this.authRequest.requestOptions)
             .map((response: Response) => {
                 return response.text();
+
             });
     }
 

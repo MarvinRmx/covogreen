@@ -112,6 +112,7 @@ export class JourneyDetailsComponent implements OnInit, OnChanges {
     deleteCurrentJourney() {
         if (this.user.id_user === this.driver.id_user) {
             this.journeyService.deleteJourney(this.journey.id_journey).subscribe(result => {
+                alert(result);
             });
         }
     }

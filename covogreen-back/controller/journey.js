@@ -177,7 +177,7 @@ var JourneyController = {
         var userToken = authToken.getToken(req);
         Journey.findById(req.params.id_journey)
             .then(function (response) {
-                if (userToken.id_user == response.dataValues.id_driver) {
+                if (userToken.id_user === response.dataValues.id_driver) {
                     Journey.destroy({
                         where: {
                             id_journey: response.dataValues.id_journey
