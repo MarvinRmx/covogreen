@@ -23,8 +23,7 @@ export class JourneyDetailsComponent implements OnInit, OnChanges {
 
     @Input() set id_driver(id_driver: number) {
 
-        if (id_driver != null || id_driver !== undefined || id_driver < 0)
-        {
+        if (id_driver != null || id_driver !== undefined || id_driver < 0) {
             this.iddriver = id_driver;
             this.getUserFromId(this.iddriver);
         }
@@ -72,7 +71,7 @@ export class JourneyDetailsComponent implements OnInit, OnChanges {
             comment: this.formBuilder.control('')
         });
 
-        (this.id_journey != null) ?  this.getJourney(this.id_journey) : this.getJourney(id_journey);
+        (this.id_journey != null) ? this.getJourney(this.id_journey) : this.getJourney(id_journey);
 
     }
 
@@ -89,8 +88,13 @@ export class JourneyDetailsComponent implements OnInit, OnChanges {
                     travelMode: 'DRIVING'
                 };
                 if (this.tokenUser) {
-                    this.journeyService.canRateAndComment(id_journey).subscribe(res => {
-                        this.canRateAndComment = (res === 'true' && (new Date(Date.now()) > new Date(this.journey.date_journey)));
+                    this.userService.getUser().subscribe(user => {
+                        this.user = user;
+                        if (user.id_user !== this.journey.id_driver) {
+                            this.journeyService.canRateAndComment(id_journey).subscribe(res => {
+                                this.canRateAndComment = (res === 'true' && (new Date(Date.now()) > new Date(this.journey.date_journey)));
+                            });
+                        }
                     });
                 }
                 this.getUserFromId(this.journey.id_driver);
