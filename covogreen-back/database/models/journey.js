@@ -27,6 +27,6 @@ const Journey = db.define('journey',
     }
 );
 
-Journey.belongsTo(User, {foreignKey: "id_driver"});
+Journey.belongsTo(User, {foreignKey: "id_driver", onDelete: 'cascade'});
 
 module.exports = Journey;
