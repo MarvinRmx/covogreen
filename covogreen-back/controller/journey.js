@@ -66,19 +66,28 @@ var JourneyController = {
 
     },
 
-    isCreaterOfJourney: function (req, res) {
+    isCreatorOfJourney: function (req, res) {
 
         var userToken = authToken.getToken(req);
+        var id_journey = req.params.id_journey;
 
-        Journey.findOne( where: { id_user: userToken.id_user })
-            .then(function (response) {
-                console.log('getJourneys :', response);
-                res.status(200).send(response);
+        console.log('isCreatorOfJourney userToken ', userToken);
+
+        if(userToken != null)
+        {
+            Journey.findOne({ where:
+                    {
+                        id_driver: userToken.id_user,
+                        id_journey:  id_journey
+                    }
             })
-            .catch(function (error) {
-                console.log('Fail find for getting journeys :', error);
-                res.status(500).send("Echec de la récupération du profil.");
+            .then(function (response) {
+                var result = false;
+                if(response != null) result = true;
+                res.status(200).send(result);
             });
+        }
+        else res.status(200).send(false);
 
     },
 

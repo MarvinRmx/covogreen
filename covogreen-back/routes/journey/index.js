@@ -27,4 +27,7 @@ module.exports = function (router) {
 
     var getJourneysByID = co.wrap(controller.getJourney);
     router.get('/:id_journey', getJourneysByID);
+
+    var isCreatorOfJourney = co.wrap(controller.isCreatorOfJourney);
+    router.get('/is_creator/:id_journey', isCreatorOfJourney);
 };

@@ -5,6 +5,8 @@ import { Component, OnInit, Input  } from '@angular/core';
 import {InscriptionTrajetService} from '../../services/inscription-trajet.service';
 import {Response} from '@angular/http';
 import {TrajetEnt} from "../../class/TrajetEnt";
+import {JourneyService} from "../../services/journey.service";
+import {isBoolean} from "util";
 
 @Component({
   selector: 'app-bouton-inscription',
@@ -16,13 +18,18 @@ export class BoutonInscriptionComponent implements OnInit {
   	@Input() idTrajet: number;
   	inscrit: boolean;
   	messages: string[];
+  	is_creator: boolean;
 
   	@Input() offre: TrajetEnt;
 
-  	constructor( private inscriptionService: InscriptionTrajetService ) { }
+  	constructor(
+  	    private inscriptionService: InscriptionTrajetService,
+        private journeyService: JourneyService
+    ) { }
 
 	ngOnInit() {
   		this.verifUserInscription();
+  		this.isCreatorOfJourney();
   	}
 
   	/**
@@ -68,7 +75,15 @@ export class BoutonInscriptionComponent implements OnInit {
         });
     }
 
-    isCreaterOfJourney() {
-
+    /**
+     * @author Romain Lembo
+     * Evite au créateur de l'offre de s'inscrire ou se désinscrire du trajet
+     */
+    isCreatorOfJourney() {
+        this.journeyService.isCreatorOfJourney(this.idTrajet)
+            .subscribe( result => {
+                console.log('isCreatorOfJourney : ', result);
+                this.is_creator = result;
+            });
     }
 }

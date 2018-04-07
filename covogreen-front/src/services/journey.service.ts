@@ -94,6 +94,19 @@ export class JourneyService {
     }
 
     /**
+     * Evite au créateur de l'offre de s'inscrire ou se désinscrire du trajet
+     */
+    isCreatorOfJourney(id_journey: number): Observable<boolean> {
+
+        return this.http.get(this.uri + '/is_creator/' + id_journey, this.authRequest.requestOptions)
+            .map((response: Response) => {
+                let result = response.text();
+                console.log('isCreatorOfJourney :', result);
+                return JSON.parse(result);
+            });
+    }
+
+    /**
      * @author Marvin RAMEIX & Romain Lembo
      * @param {Journey} journey
      * @returns {Observable<string>}

@@ -48,6 +48,4 @@ module.exports = function (router) {
 
     var getAverageRating = co.wrap(controller.getAverageRating);
     router.get('/getaveragerating/:id_user', getAverageRating);
-
-
 };
