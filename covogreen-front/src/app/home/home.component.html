@@ -40,5 +40,33 @@ author Mohamed El karmoudi
 
         </div><!-- offres -->
 
+
+        <!--<div id="offres">
+            <h2>Les 10 dernières offres :</h2>
+            <div class="row">
+
+                <div class="col-lg-12">
+                    <div class="offre" *ngFor="let offre of offres; let i = index">
+
+                        <div class="row">
+                            <div class="col-lg-10">
+                                <h4><a href="#">Trajet {{offre.origin}} à {{offre.destination}}</a></h4>
+                                <p><strong>Date du trajet :</strong> {{offre.date_trajet}}</p>
+                                &lt;!&ndash;<p><strong>Posté par :</strong> {{offre.auteur}}</p>&ndash;&gt;
+                                <p><strong>Nombre de place restante :</strong> {{offre.seats_available}}</p>
+                            </div>
+
+
+                            <div class="col-lg-2">
+                                <app-bouton-inscription idTrajet="{{offre.id}}" [offre]="offres[i]"></app-bouton-inscription>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>-->
+
     </div>
 </div>
