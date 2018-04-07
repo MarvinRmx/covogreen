@@ -45,6 +45,28 @@ var JourneyController = {
     },
 
     /**
+     * FR: Pour récupérer tous les trajets non passé.
+     * ENG; Gettings all journeys not happened.
+     * @param req
+     * @param res
+     */
+    getJourneys: function (req, res) {
+
+        //sequelize.query('SELECT * FROM journeys WHERE date_journey >= CURRENT_TIMESTAMP()')
+        //Journey.all()
+        Journey.findAll()
+        .then(function (response) {
+            console.log('getJourneys :', response);
+            res.status(200).send(response);
+        })
+        .catch(function (error) {
+            console.log('Fail find for getting journeys :', error);
+            res.status(500).send("Echec de la récupération du profil.");
+        });
+
+    },
+
+    /**
      * FR: Pour récupérer les données des trajets selon l'utilisateur.
      * ENG: For getting all journeys with id_user.
      * @param req
