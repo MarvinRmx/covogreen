@@ -207,9 +207,9 @@ var JourneyController = {
             sequelize.query(' SELECT *' +
                 'FROM inscriptionjourneys ij, journeys j ' +
                 'WHERE ij.id_trajet = j.id_journey ' +
-                'AND ij.id_trajet = '+ req.params.id_journey +
-                'AND ij.id_user ='+ userToken.id_user+
-                'AND ij.id_user NOT IN (SELECT id_driver ' +
+                ' AND ij.id_trajet = '+ req.params.id_journey +
+                ' AND ij.id_user ='+ userToken.id_user+
+                ' AND ij.id_user NOT IN (SELECT id_driver ' +
                 '                       FROM journeys ' +
                 '                       WHERE id_journey = '+ req.params.id_journey +')'
             ).then(

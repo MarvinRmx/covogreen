@@ -34,7 +34,7 @@ const routes: Routes = [
     { path: 'journey/create', component: CreateJourneyComponent, canActivate: [GuardService] },
     { path: 'journey/my', component: MyJourneysComponent, canActivate: [GuardService] },
     { path: 'recherche', component: RecherchePageComponent },
-    { path: 'chat/:id', component: ChatComponent },
+    { path: 'chat/:id', component: ChatComponent, canActivate: [GuardService] },
     { path: 'journey/:id', component: JourneyDetailsComponent },
     { path: 'user/:id', component: UserPageComponent }
 
