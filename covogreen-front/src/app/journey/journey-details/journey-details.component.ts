@@ -63,7 +63,7 @@ export class JourneyDetailsComponent implements OnInit, OnChanges {
     }
 
     ngOnInit() {
-        //let id_jour;ney = window.location.href.substr(this.journeyService.getUri().length + 1, window.location.href.length);
+        let id_journey = window.location.href.substr(this.journeyService.getUri().length + 1, window.location.href.length);
 
         this.rateAndCommentForm = this.formBuilder.group({
             rate: this.formBuilder.control(''),
@@ -73,9 +73,8 @@ export class JourneyDetailsComponent implements OnInit, OnChanges {
         this.userService.getUser().subscribe(result => {
             this.user = result;
         });
+        (this.id_journey != null) ?  this.getJourney(this.id_journey) : this.getJourney(id_journey);
 
-        this.getJourney(this.id_journey);
-        //this.getJourney(id_journey);
     }
 
     getJourney(id_journey) {
