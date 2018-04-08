@@ -20,4 +20,12 @@ export class AuthRequest {
 
         this.requestOptions = new RequestOptions({ headers: this.headerAuth });
     }
+
+    setToken(data) {
+        this.headerAuth = new Headers();
+        this.headerAuth.append('Content-Type', 'application/json');
+        this.headerAuth.append('Authorization', 'bearer ' + data);
+
+        this.requestOptions = new RequestOptions({ headers: this.headerAuth });
+    }
 }

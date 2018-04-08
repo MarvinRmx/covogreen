@@ -1,3 +1,13 @@
+/**
+ * @author Mohamed EL karmoudi
+ */
 .btnParticiper{
 	margin-top: 35px;
+}
+
+.messagesErreur{
+	color:red;
+	margin-top: 5px;
+	font-size: 12px;
+	text-align: center;
 }

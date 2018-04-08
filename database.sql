@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.6deb4
+-- version 4.7.7
 -- https://www.phpmyadmin.net/
 --
--- Client :  localhost:3306
--- Généré le :  Dim 25 Mars 2018 à 21:38
--- Version du serveur :  10.1.26-MariaDB-0+deb9u1
--- Version de PHP :  7.0.27-0+deb9u1
+-- Hôte : 127.0.0.1
+-- Généré le :  sam. 07 avr. 2018 à 16:31
+-- Version du serveur :  5.7.17
+-- Version de PHP :  7.2.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -37,7 +39,7 @@ CREATE TABLE `cars` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Contenu de la table `cars`
+-- Déchargement des données de la table `cars`
 --
 
 INSERT INTO `cars` (`id_car`, `licencePlate`, `make`, `model`, `capacity`, `createdAt`, `updatedAt`) VALUES
@@ -58,6 +60,14 @@ CREATE TABLE `chats` (
   `id_trajet` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Déchargement des données de la table `chats`
+--
+
+INSERT INTO `chats` (`id`, `message`, `createdAt`, `updatedAt`, `id_auteur`, `id_trajet`) VALUES
+(1, 'Message test', '2018-04-03 16:57:39', '2018-04-03 16:57:39', 2, 5),
+(2, 'Test message 2', '2018-04-03 18:27:27', '2018-04-03 18:27:27', 3, 5);
+
 -- --------------------------------------------------------
 
 --
@@ -74,7 +84,7 @@ CREATE TABLE `inscriptionjourneys` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Contenu de la table `inscriptionjourneys`
+-- Déchargement des données de la table `inscriptionjourneys`
 --
 
 INSERT INTO `inscriptionjourneys` (`id`, `createdAt`, `updatedAt`, `id_user`, `id_trajet`, `rate`) VALUES
@@ -100,7 +110,7 @@ CREATE TABLE `journeys` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Contenu de la table `journeys`
+-- Déchargement des données de la table `journeys`
 --
 
 INSERT INTO `journeys` (`id_journey`, `origin`, `destination`, `seats_available`, `date_journey`, `createdAt`, `updatedAt`, `id_driver`) VALUES
@@ -150,7 +160,7 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Contenu de la table `users`
+-- Déchargement des données de la table `users`
 --
 
 INSERT INTO `users` (`id_user`, `firstName`, `lastName`, `username`, `email`, `password`, `address`, `city`, `cp`, `phone`, `privilege`, `is_driver`, `revoked`, `createdAt`, `updatedAt`, `id_car`) VALUES
@@ -165,7 +175,7 @@ INSERT INTO `users` (`id_user`, `firstName`, `lastName`, `username`, `email`, `p
 (51, 'test66', 'test66', 'test66', 'test66', '098f6bcd4621d373cade4e832627b4f6', 'test66', 'test66', 'test6', 'test66', 1, 0, 1, '2018-03-17 12:17:01', '2018-03-17 12:25:28', NULL);
 
 --
--- Index pour les tables exportées
+-- Index pour les tables déchargées
 --
 
 --
@@ -213,7 +223,7 @@ ALTER TABLE `users`
   ADD KEY `id_car` (`id_car`);
 
 --
--- AUTO_INCREMENT pour les tables exportées
+-- AUTO_INCREMENT pour les tables déchargées
 --
 
 --
@@ -221,33 +231,39 @@ ALTER TABLE `users`
 --
 ALTER TABLE `cars`
   MODIFY `id_car` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
 --
 -- AUTO_INCREMENT pour la table `chats`
 --
 ALTER TABLE `chats`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
 --
 -- AUTO_INCREMENT pour la table `inscriptionjourneys`
 --
 ALTER TABLE `inscriptionjourneys`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
 --
 -- AUTO_INCREMENT pour la table `journeys`
 --
 ALTER TABLE `journeys`
   MODIFY `id_journey` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
 --
 -- AUTO_INCREMENT pour la table `participations`
 --
 ALTER TABLE `participations`
   MODIFY `id_participation` int(11) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
   MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+
 --
--- Contraintes pour les tables exportées
+-- Contraintes pour les tables déchargées
 --
 
 --
@@ -262,13 +278,13 @@ ALTER TABLE `chats`
 --
 ALTER TABLE `inscriptionjourneys`
   ADD CONSTRAINT `inscriptionjourneys_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`) ON DELETE SET NULL ON UPDATE CASCADE,
-  ADD CONSTRAINT `inscriptionjourneys_ibfk_2` FOREIGN KEY (`id_trajet`) REFERENCES `journeys` (`id_journey`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `inscriptionjourneys_ibfk_2` FOREIGN KEY (`id_trajet`) REFERENCES `journeys` (`id_journey`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `journeys`
 --
 ALTER TABLE `journeys`
-  ADD CONSTRAINT `journeys_ibfk_1` FOREIGN KEY (`id_driver`) REFERENCES `users` (`id_user`) ON DELETE SET NULL ON UPDATE CASCADE;
+  ADD CONSTRAINT `journeys_ibfk_1` FOREIGN KEY (`id_driver`) REFERENCES `users` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `participations`
@@ -282,6 +298,7 @@ ALTER TABLE `participations`
 --
 ALTER TABLE `users`
   ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`id_car`) REFERENCES `cars` (`id_car`) ON DELETE SET NULL ON UPDATE CASCADE;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

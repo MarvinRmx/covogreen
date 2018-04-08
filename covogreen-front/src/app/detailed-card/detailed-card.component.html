@@ -1,7 +1,8 @@
 <!--
 author Romain Lembo
 -->
-<mat-card class="example-card"
+
+<!--<mat-card class="example-card"
           *ngIf="journey != null || journey != undefined">
 
     <mat-card-header>
@@ -15,10 +16,15 @@ author Romain Lembo
 
 </mat-card>
 
-<br/>
+<br/>-->
 
-<app-rate *ngIf="journey != null || journey != undefined"
+<!--<app-rate *ngIf="journey != null || journey != undefined"
           [id_journey]="journey.id_journey"
           [id_driver]="id_driver"
           [happended]="happended">
-</app-rate>
+</app-rate>-->
+
+<app-journey-details *ngIf="journey != null || journey != undefined"
+                     [id_journey]="journey.id_journey">
+</app-journey-details>
+

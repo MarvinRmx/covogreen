@@ -64,7 +64,10 @@ author Romain Lembo
             <ng-container matColumnDef="cancel">
                 <mat-header-cell *matHeaderCellDef></mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                    <button mat-raised-button color="accent">Annuler</button>
+                    <div *ngIf="!checkHappended(element.date_journey)">
+                        <button mat-raised-button color="accent"
+                                (click)="desinscriptionTrajet(element.id_journey)">Annuler</button>
+                    </div>
                 </mat-cell>
             </ng-container>
 
@@ -82,6 +85,6 @@ author Romain Lembo
 
 </div>
 
-<ngx-smart-modal #detailedCard identifier="detailedCard" customClass="detailedCard">
+<ngx-smart-modal #detailedCard identifier="detailedCard" customClass="detailedCard" *ngIf="id_journey !== null">
     <app-detailed-card [id_journey]="id_journey"></app-detailed-card>
 </ngx-smart-modal>

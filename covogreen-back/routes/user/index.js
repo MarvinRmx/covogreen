@@ -19,6 +19,9 @@ module.exports = function (router) {
     var get = co.wrap(controller.get);
     router.get('/get', get);
 
+    var getFromId = co.wrap(controller.getFromId);
+    router.get('/get/:id_user', getFromId);
+
     var isAdmin = co.wrap(controller.isAdmin);
     router.get('/admin', isAdmin);
 
@@ -36,4 +39,13 @@ module.exports = function (router) {
 
     var remove = co.wrap(controller.remove);
     router.delete('/', remove);
+
+    var getRateAndCommentFromUserId = co.wrap(controller.getRateAndCommentFromUserId);
+    router.get('/ratecomment/:id_user', getRateAndCommentFromUserId);
+
+    var countDoneJourneys = co.wrap(controller.countDoneJourneys);
+    router.get('/countdonejourneys/:id_user', countDoneJourneys);
+
+    var getAverageRating = co.wrap(controller.getAverageRating);
+    router.get('/getaveragerating/:id_user', getAverageRating);
 };

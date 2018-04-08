@@ -69,8 +69,4 @@ export class RateComponent implements OnInit {
                 this.getRateByDriver(this.iddriver);
             });
     }
-
-    checkIsEvent() {
-
-    }
 }

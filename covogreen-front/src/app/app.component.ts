@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { AuthentificationService } from '../services/authentification.service';
 import { User } from '../class/user';
 import 'hammerjs';
@@ -14,6 +14,7 @@ import 'hammerjs';
 })
 
 export class AppComponent {
+
     public user: User;
     public isAdmin: boolean;
 

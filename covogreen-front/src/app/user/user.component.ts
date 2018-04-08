@@ -107,7 +107,6 @@ export class UserComponent implements OnInit {
 
         this.userService.getUser()
             .subscribe(result => {
-                console.log(result);
                 old_password = result.password;
 
                 if(old_password === password)

@@ -5,7 +5,7 @@ author Romain Lembo
 
     <h5 *ngIf="rateNow > 0">Note actuel du conducteur : {{rateNow}} </h5>
 
-    <form   *ngIf="happended"
+    <form *ngIf="happended"
             (ngSubmit)="postRateByDriver()" [formGroup]="rateForm" class="form" role="form" #f="ngForm" novalidate>
         <div class="form-group">
             <label>Notation du trajet</label>

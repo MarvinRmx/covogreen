@@ -3,6 +3,7 @@ const Sequelize = require('sequelize');
 
 /**
  * @author Romain Lembo
+ * Car entity
  */
 const Car =  db.define('car',
     {

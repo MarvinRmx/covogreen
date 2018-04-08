@@ -9,16 +9,13 @@ var authToken = require("../controller/tools/authToken");
 /**
  * @author Romain Lembo
  */
-describe('Car', function () {
+describe('Rate', function () {
 
     var headersUser;
     var tokenSignUser;
 
     var headersUserRevoked;
     var tokenSignUserRevoked;
-
-    var headersUserAdmin;
-    var tokenSignUserAdmin;
 
     beforeEach(function () {
 
@@ -40,24 +37,17 @@ describe('Car', function () {
             'Authorization': 'bearer ' + tokenSignUserRevoked
         };
 
-        tokenSignUserAdmin = authToken.createToken(
-            {id_user: 3, username: "admin", privilege: 2, revoked: false}
-        );
 
-        headersUserAdmin = {
-            'Content-Type': 'application/json',
-            'Authorization': 'bearer ' + tokenSignUserAdmin
-        };
     });
 
-    describe('get()', function () {
+    describe('getRateByDriver()', function () {
 
-        it('should accept and return car datas', function testGet (done) {
+        it('should accept and return rate acccording to id_driver/id_user', function testGetRateByDriver (done) {
 
             request(app)
-                .get('/car/1')
+                .get('/rate/3')
                 .set('Authorization', 'bearer ')
-                .set(headersUserAdmin)
+                .set(headersUser)
                 .expect(200)
                 .end(function(err, res) {
                     if (err) return done(err);
@@ -66,10 +56,10 @@ describe('Car', function () {
                 });
         });
 
-        it('should not accept because user is revoked', function testNotGet (done) {
+        it('should refused because user connected is revoked', function testGetRateByDriverRevoked (done) {
 
             request(app)
-                .get('/car/1')
+                .get('/rate/3')
                 .set('Authorization', 'bearer ')
                 .set(headersUserRevoked)
                 .expect(500)
@@ -79,64 +69,19 @@ describe('Car', function () {
                     done();
                 });
         });
-
     });
 
-    describe('update()', function () {
+    describe('postRateByDriver()', function () {
 
-        it('should update a car and return status 200', function testUpdate (done) {
+        it('should accept and post rate', function testPostRateByDriver (done) {
+
             request(app)
-                .put('/car/')
-                .set('Authorization', 'bearer ')
-                .set(headersUserAdmin)
+                .post('/rate')
                 .send({
-                    id_car: 1,
-                    licencePlate: "88-11-22-33",
-                    make: "Ferrari",
-                    model: "Enzo",
-                    capacity: 3
+                    rate: 3,
+                    id:7,
+                    id_driver: 3
                 })
-                .expect(200)
-                .end(function(err, res) {
-                    if (err) return done(err);
-                    else console.log('Result:', res.text);
-                    done();
-                });
-        });
-
-    });
-
-    describe('create()', function () {
-
-        it('should create a car and return status 200', function testCreate (done) {
-            request(app)
-                .post('/car/')
-                .set('Authorization', 'bearer ')
-                .set(headersUser)
-                .send({
-                        user: {id_user: 2},
-                        car: {
-                        licencePlate: "99-11-22-33",
-                        make: "Bugatti",
-                        model: "Veron",
-                        capacity: 3
-                    }
-                })
-                .expect(200)
-                .end(function(err, res) {
-                    if (err) return done(err);
-                    else console.log('Result:', res.text);
-                    done();
-                });
-        });
-
-    });
-
-    describe('delete()', function () {
-
-        it('should delete a car and return status 200', function testCreate (done) {
-            request(app)
-                .delete('/car/5')
                 .set('Authorization', 'bearer ')
                 .set(headersUser)
                 .expect(200)
@@ -147,6 +92,24 @@ describe('Car', function () {
                 });
         });
 
+        it('should refused because user connected is revoked', function testPostRateByDriverRevoked (done) {
+
+            request(app)
+                .post('/rate')
+                .send({
+                    rate: 3,
+                    id:7,
+                    id_driver: 3
+                })
+                .set('Authorization', 'bearer ')
+                .set(headersUserRevoked)
+                .expect(500)
+                .end(function(err, res) {
+                    if (err) return done(err);
+                    else console.log('Result:', res.text);
+                    done();
+                });
+        });
     });
 
 });

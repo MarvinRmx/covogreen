@@ -2,6 +2,9 @@ var db = require('../db.js');
 const Sequelize = require('sequelize');
 var User = require('./user');
 
+/**
+ * Journey entity
+ */
 const Journey = db.define('journey',
     {
         id_journey: {
@@ -24,6 +27,6 @@ const Journey = db.define('journey',
     }
 );
 
-Journey.belongsTo(User, {foreignKey: "id_driver"});
+Journey.belongsTo(User, {foreignKey: "id_driver", onDelete: 'cascade'});
 
 module.exports = Journey;

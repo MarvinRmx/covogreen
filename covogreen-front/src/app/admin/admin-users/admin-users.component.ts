@@ -2,7 +2,7 @@ import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource, MatPaginator} from '@angular/material';
 import {User} from '../../../class/user';
 import {UserService} from '../../../services/user.service';
-import {AdminService} from "../../../services/admin.service";
+import {AdminService} from '../../../services/admin.service';
 
 /**
  * @author Romain Lembo
@@ -16,7 +16,7 @@ export class AdminUsersComponent implements OnInit, AfterViewInit {
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
-    public user: User = new User(null, null, null, null, null,  null,  null,  null,  null,  null,  null);
+    public user: User = new User(null, null, null, null, null,  null,  null,  null,  null,  null,  null, null);
     public displayedColumns = ['id_user', 'username', 'privilege', 'revoked'];
     public dataSource = new MatTableDataSource<User>([]);
 

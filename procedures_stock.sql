@@ -83,13 +83,16 @@ DELIMITER |
 CREATE PROCEDURE deleteUser(_id_user INTEGER)
 BEGIN
     	DECLARE _id_car INT;
+	DECLARE _id_journey INT;
 
 	SET _id_car := (SELECT id_car FROM users WHERE id_user = _id_user);
+	SET _id_journey := (SELECT id_journey FROM journeys WHERE id_driver = _id_user);
 
 	DELETE FROM cars WHERE id_car = _id_car;
+	DELETE FROM inscriptionjourneys WHERE id_trajet = _id_journey;
+	DELETE FROM journeys WHERE id_driver = _id_user;
 	DELETE FROM users WHERE id_user = _id_user;
 END|
-
 
 -- ---------------------------------- --
 

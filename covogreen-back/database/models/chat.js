@@ -3,6 +3,9 @@ const Sequelize = require('sequelize');
 var User = require('./user');
 var Journey = require('./journey');
 
+/**
+ * Chat entity
+ */
 const Chat = db.define('chat',
     {
         id: {

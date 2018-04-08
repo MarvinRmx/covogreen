@@ -1,5 +1,5 @@
 /**
- * Author: Alex Zarzitski
+ * @author: Alex Zarzitski & Marvin Rameix
  * Date: 19/03/2018
  */
 var Journey = require("../database/models/journey");
@@ -22,34 +22,34 @@ var InscriptionTrajetController = {
      * @param res Trame de retour vers le client
      */
     doIt: co.wrap(function * (req, res) {
-      req.accepts('application/json');
-      // On décode le json
-      var token = authToken.getToken(req);
-      if(token.revoked)
-        res.status(200).send({success: false, message: ["Error Token"]});
+        req.accepts('application/json');
+        // On décode le json
+        var token = authToken.getToken(req);
+        if(token.revoked)
+            res.status(200).send({success: false, message: ["Error Token"]});
 
-      var journey = yield Journey.findById(parseInt(req.body.idTrajet));
-      var user = yield User.findById(parseInt(token.id_user));
+        var journey = yield Journey.findById(parseInt(req.body.idTrajet));
+        var user = yield User.findById(parseInt(token.id_user));
 
-      if(journey != null)
-        if(user != null)
-          if(journey.seats_available >= 1){
-            var test = yield InscriptionTrajetController.checkSubscribe(journey, user);
-            if(test == false){
-              journey.seats_available = journey.seats_available-1;
-              journey.save();
-              var inscriptionJourney = yield InscriptionJourney.create({ "id_user" : user.id_user, "id_trajet" : journey.id_journey});
-              res.status(200).send({success: true});
-            }
+        if(journey != null)
+            if(user != null)
+                if(journey.seats_available >= 1){
+                    var test = yield InscriptionTrajetController.checkSubscribe(journey, user);
+                    if(test == false){
+                        journey.seats_available = journey.seats_available-1;
+                        journey.save();
+                        var inscriptionJourney = yield InscriptionJourney.create({ "id_user" : user.id_user, "id_trajet" : journey.id_journey});
+                        res.status(200).send({success: true});
+                    }
+                    else
+                        res.status(200).send({success: false, message: ["Error the user is already subscribed to journey"]});
+                }
+                else
+                    res.status(200).send({success: false, message: ["Error the journey is full"]});
             else
-              res.status(200).send({success: false, message: ["Error the user is already subscribed to journey"]});
-          }
-          else
-            res.status(200).send({success: false, message: ["Error the journey is full"]});
+                res.status(200).send({success: false, message: ["Impossible to find user"]});
         else
-          res.status(200).send({success: false, message: ["Impossible to find user"]});
-      else
-        res.status(200).send({success: false, message: ["Impossible to find journey"]});
+            res.status(200).send({success: false, message: ["Impossible to find journey"]});
     }),
 
     /**
@@ -58,27 +58,30 @@ var InscriptionTrajetController = {
      * @param res Trame de retour vers le client
      */
     verif: co.wrap(function * (req, res) {
-      req.accepts('application/json');
-      // On décode le json
-      var token = authToken.getToken(req);
-      if(token.revoked)
-        res.status(200).send({success: false, message: ["Error Token"]});
+        req.accepts('application/json');
 
-      var journey = yield Journey.findById(parseInt(req.body.idTrajet));
-      var user = yield User.findById(parseInt(token.id_user));
+        // On décode le json
+        var token = authToken.getToken(req);
 
-      if(journey != null)
-        if(user != null){
-          var test = yield InscriptionTrajetController.checkSubscribe(journey, user);
-          if(test == false)
-            res.status(200).send({success: true});
-          else
-            res.status(200).send({success: false, message: ["User is already subscribed to journey"]});
+        if(token != null) {
+
+            var journey = yield Journey.findById(parseInt(req.body.idTrajet));
+            var user = yield User.findById(parseInt(token.id_user));
+
+            if(journey != null)
+                if(user != null){
+                    var test = yield InscriptionTrajetController.checkSubscribe(journey, user);
+                    if(test == false)
+                        res.status(200).send({success: true});
+                    else
+                        res.status(200).send({success: false, message: ["User is already subscribed to journey"]});
+                }
+                else
+                    res.status(200).send({success: false, message: ["Impossible to find user"]});
+            else
+                res.status(200).send({success: false, message: ["Impossible to find journey"]});
+
         }
-        else
-          res.status(200).send({success: false, message: ["Impossible to find user"]});
-      else
-        res.status(200).send({success: false, message: ["Impossible to find journey"]});
     }),
 
     /**
@@ -87,12 +90,12 @@ var InscriptionTrajetController = {
      * @param user L'utilisateur sélectionné
      */
     checkSubscribe: co.wrap(function * (journey, user) {
-      var condition = { 'where' : { [Op.and] : [{"id_user" : user.id_user}, {"id_trajet" : journey.id_journey}] } };
-      var inscriptionJourneyList = yield InscriptionJourney.findAll(condition);
-      if(inscriptionJourneyList == null || inscriptionJourneyList.length <= 0 )
-        return false;
-      else
-        return true;
+        var condition = { 'where' : { [Op.and] : [{"id_user" : user.id_user}, {"id_trajet" : journey.id_journey}] } };
+        var inscriptionJourneyList = yield InscriptionJourney.findAll(condition);
+        if(inscriptionJourneyList == null || inscriptionJourneyList.length <= 0 )
+            return false;
+        else
+            return true;
     }),
 
     /**
@@ -109,8 +112,8 @@ var InscriptionTrajetController = {
         {
             InscriptionJourney.findOne({
                 where: {
-                  id_user: userToken.id_user,
-                  id_trajet: id_journey
+                    id_user: userToken.id_user,
+                    id_trajet: id_journey
                 }
             })
             .then(function (response) {
@@ -123,6 +126,49 @@ var InscriptionTrajetController = {
         }
         else res.status(500).send("Compte bloqué !");
     },
+
+    /**
+     * @author Marvin RAMEIX
+     * allow an user to rate and comment with date check
+     * @param req
+     * @param res
+     */
+    rateAndComment: function (req, res) {
+        var userToken = authToken.getToken(req);
+        Journey.findOne({
+            where: {
+                id_journey: req.params.id_journey,
+                date_journey: {
+                    [Op.lt]: new Date()
+                }
+            }
+        }).then(
+            function (trajet) {
+                if (trajet !== null) {
+                    InscriptionJourney.update({
+                            rate: req.body.rate,
+                            comment: req.body.comment
+                        }, {
+                            where: {
+                                id_user: userToken.id_user,
+                                id_trajet: trajet.dataValues.id_journey
+                            }
+                        }
+                    );
+                    res.status(200).send("La note et commentaire ont bien été pris en compte");
+                }
+                else{
+                    res.status(400).send("Aucun trajet terminé n'a été trouvé pour l'utilisateur courant ");
+                }
+            }
+        ).catch(
+            function (reason) {
+                console.log(reason);
+                res.status(400).send("Le trajet correspondant ne peut être noté");
+            }
+        )
+    }
+
 
 };
 

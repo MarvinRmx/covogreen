@@ -19,13 +19,15 @@ var path = require('path');
 
 var authToken = require("./tools/authToken");
 
-/**
- * @param idTrajet
- * @param nbElement
- *
- * On vérifie les parametres envoyé par le front de la requete getMessages
- */
-function verifierParametresGetMessages(idTrajet, nbElement) {
+
+var ChatController = {
+    /**
+     * @param idTrajet
+     * @param nbElement
+     *
+     * On vérifie les parametres envoyé par le front de la requete getMessages
+     */
+     verifierParametresGetMessages: function(idTrajet, nbElement) {
     var out = { "messages" : [], "errors" : [] };
 
     // On vérifie que idTrajet est un entier et qu'il n'est pas négatif
@@ -43,77 +45,76 @@ function verifierParametresGetMessages(idTrajet, nbElement) {
         out.errors.push("Le nombre d'élement demandé doit être strictement positif");
 
     return out;
-};
+},
 
-/**
- * @param idTrajet
- * @param idMessage
- *
- * On vérifie les parametres envoyé par le front pour la requete qui renvoi le message ajouté juste
- * apres un autre message (idMessage)
- */
-function verifierParametresGetLastMessage(idTrajet, idMessage) {
-    var out = { "messages" : [], "errors" : [] };
+    /**
+     * @param idTrajet
+     * @param idMessage
+     *
+     * On vérifie les parametres envoyé par le front pour la requete qui renvoi le message ajouté juste
+     * apres un autre message (idMessage)
+     */
+     verifierParametresGetLastMessage : function(idTrajet, idMessage) {
+        var out = { "messages" : [], "errors" : [] };
 
-    // On vérifie que idTrajet est un entier et qu'il n'est pas négatif
-    if(!Number.isInteger(parseInt(idTrajet)))
-        out.errors.push("Le trajet n'est pas un chiffre");
+        // On vérifie que idTrajet est un entier et qu'il n'est pas négatif
+        if(!Number.isInteger(parseInt(idTrajet)))
+            out.errors.push("Le trajet n'est pas un chiffre");
 
-    if(idTrajet < 0)
-        out.errors.push("Le trajet ne peut pas être négatif");
+        if(idTrajet < 0)
+            out.errors.push("Le trajet ne peut pas être négatif");
 
-    // On vérifie que le nbElement est strictement positif et que c'est un entier.
-    if(!Number.isInteger(parseInt(idMessage)))
-        out.errors.push("L'identifiant du message n'est pas un chiffre");
+        // On vérifie que le nbElement est strictement positif et que c'est un entier.
+        if(!Number.isInteger(parseInt(idMessage)))
+            out.errors.push("L'identifiant du message n'est pas un chiffre");
 
-    if(idMessage < 1)
-        out.errors.push("L'identifiant du message demandé doit être strictement positif");
+        if(idMessage < 1)
+            out.errors.push("L'identifiant du message demandé doit être strictement positif");
 
-    return out;
-};
+        return out;
+    },
 
-/**
- * @param idTrajet
- * @param message
- *
- * On vérifie les parametres envoyé par le front pour la requete qui ajoute un message dans la db.
- */
-function verifierParametresAddMessage(idTrajet, message) {
-    var out = { "errors" : [] };
+    /**
+     * @param idTrajet
+     * @param message
+     *
+     * On vérifie les parametres envoyé par le front pour la requete qui ajoute un message dans la db.
+     */
+     verifierParametresAddMessage : function(idTrajet, message) {
+        var out = { "errors" : [] };
 
-    // On vérifie que idTrajet est un entier et qu'il n'est pas négatif
-    if(!Number.isInteger(parseInt(idTrajet)))
-        out.errors.push("Le trajet n'est pas un chiffre");
+        // On vérifie que idTrajet est un entier et qu'il n'est pas négatif
+        if(!Number.isInteger(parseInt(idTrajet)))
+            out.errors.push("Le trajet n'est pas un chiffre");
 
-    if(idTrajet < 0)
-        out.errors.push("Le trajet ne peut pas être négatif");
+        if(idTrajet < 0)
+            out.errors.push("Le trajet ne peut pas être négatif");
 
-    if(message.length === 0)
-        out.errors.push("Le message ne peut pas être vide");
+        if(message.length === 0)
+            out.errors.push("Le message ne peut pas être vide");
 
-    return out;
-};
+        return out;
+    },
 
-/**
- * @param idTrajet
- * @returns {{offre: Array, errors: Array}}
- *
- * Vérifie les champs recus dans la requete getTrajet.
- */
-function verifierParametresGetTrajet(idTrajet){
-    var out = { "offre" : [], "errors" : [] };
+    /**
+     * @param idTrajet
+     * @returns {{offre: Array, errors: Array}}
+     *
+     * Vérifie les champs recus dans la requete getTrajet.
+     */
+     verifierParametresGetTrajet: function(idTrajet){
+        var out = { "offre" : [], "errors" : [] };
 
-    // On vérifie que idTrajet est un entier et qu'il n'est pas négatif
-    if(!Number.isInteger(parseInt(idTrajet)))
-        out.errors.push("Le trajet n'est pas un chiffre");
+        // On vérifie que idTrajet est un entier et qu'il n'est pas négatif
+        if(!Number.isInteger(parseInt(idTrajet)))
+            out.errors.push("Le trajet n'est pas un chiffre");
 
-    if(idTrajet < 0)
-        out.errors.push("Le trajet ne peut pas être négatif");
+        if(idTrajet < 0)
+            out.errors.push("Le trajet ne peut pas être négatif");
 
-    return out;
-}
+        return out;
+    },
 
-var ChatController = {
     /**
      * On vérifie que dans la table InscriptionTrajet l'utilisateur est inscrit au trajet demandé.
      */
@@ -123,10 +124,11 @@ var ChatController = {
         if(token.revoked)
             res.status(200).send({success: false, message: "token revoqué"});
 
-        // On vérifie que l'id_user existe dans le token
+        // On vérifie que l'id_user existe dans le token.
         if(token.id_user == null)
             res.status(200).send({success: false, message: "Le token ne contient pas l'id de l'utilisateur connecté (id_user)."});
 
+        // On vérifie qu'un id trajet exist dans la requete.
         if(req.body.idTrajet == null)
             res.status(200).send({success: false, message: "Il faut renseigner l'id d'un trajet."});
 
@@ -151,7 +153,6 @@ var ChatController = {
      */
     getAuthorNameById: co.wrap(function * (id){
         return yield User.findById(id);
-
     }),
 
 
@@ -166,7 +167,7 @@ var ChatController = {
     getMessages: co.wrap(function * (req, res){
       ChatController.middlewareProtection(req,res);
         // On vérifie les paramètres
-        var out = verifierParametresGetMessages(req.body.idTrajet ,req.body.nbElement);
+        var out = ChatController.verifierParametresGetMessages(req.body.idTrajet ,req.body.nbElement);
         if(out["errors"].length > 0){
             res.send(out);
         }
@@ -216,7 +217,7 @@ var ChatController = {
         ChatController.middlewareProtection(req,res);
 
         // On vérifie les paramètres
-        var out = verifierParametresGetLastMessage(req.body.idTrajet, req.body.idMessage);
+        var out = ChatController.verifierParametresGetLastMessage(req.body.idTrajet, req.body.idMessage);
         if(out["errors"].length > 0){
             res.send(out);
         }
@@ -225,9 +226,12 @@ var ChatController = {
         var idMessage = req.body.idMessage;
 
         // On récupère les info du message passé en parametre
-        var messageData = yield Chat.find({ where: { id_trajet: idTrajet,  id : idMessage }, order:[['createdAt', 'ASC']] });
+        //var messageData = yield Chat.find({ where: { id_trajet: idTrajet,  id : idMessage }, order:[['createdAt', 'ASC']] });
 
         try {
+            // On récupère les info du message passé en parametre
+            var messageData = yield Chat.find({ where: { id_trajet: idTrajet,  id : idMessage }, order:[['createdAt', 'ASC']] });
+
             if (messageData) {
                 var dateMessage = messageData.createdAt;
                 var chat = yield Chat.find({where: {id_trajet: idTrajet, createdAt: {[Op.gt]: dateMessage}}});
@@ -273,7 +277,7 @@ var ChatController = {
 
       	req.accepts('application/json');
         // On vérifie les paramètres
-        var out = verifierParametresAddMessage(req.body.idTrajet, req.body.message);
+        var out = ChatController.verifierParametresAddMessage(req.body.idTrajet, req.body.message);
         if(out["errors"].length > 0){
             res.send(out);
         }
@@ -293,7 +297,7 @@ var ChatController = {
                 // On envoi un message à chaque participant.
                 for (var i = 0; i<allParticipants.length; i++){
                     var userInfo = yield User.findById(allParticipants[i].id_user);
-                    yield ChatController.sendEmail(userInfo.username, userInfo.email);
+                    //yield ChatController.sendEmail(userInfo.username, userInfo.email);
                 }
 
                 res.send({
@@ -334,7 +338,7 @@ var ChatController = {
       ChatController.middlewareProtection(req,res);
 
         // On vérifie les paramètres
-        var out = verifierParametresGetTrajet(req.body.idTrajet);
+        var out = ChatController.verifierParametresGetTrajet(req.body.idTrajet);
         if(out["errors"].length > 0){
             res.send(out);
         }

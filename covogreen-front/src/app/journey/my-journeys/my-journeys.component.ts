@@ -3,14 +3,16 @@ import {JourneyService} from '../../../services/journey.service';
 import {MatPaginator, MatTableDataSource} from '@angular/material';
 import {Journey} from '../../../class/journey';
 import { NgxSmartModalService } from 'ngx-smart-modal';
+import {InscriptionTrajetService} from "../../../services/inscription-trajet.service";
+import {JourneyDetailsComponent} from "../journey-details/journey-details.component";
 
 /**
  * @author Romain Lembo
  */
 @Component({
-  selector: 'app-my-journeys',
-  templateUrl: './my-journeys.component.html',
-  styleUrls: ['./my-journeys.component.css']
+    selector: 'app-my-journeys',
+    templateUrl: './my-journeys.component.html',
+    styleUrls: ['./my-journeys.component.css']
 })
 export class MyJourneysComponent implements OnInit, AfterViewInit {
 
@@ -22,13 +24,19 @@ export class MyJourneysComponent implements OnInit, AfterViewInit {
 
     constructor(
         private journeyService: JourneyService,
-        private ngxSmartModalService: NgxSmartModalService
+        private inscriptionTrajetService: InscriptionTrajetService,
+        private ngxSmartModalService: NgxSmartModalService,
     ) { }
 
     ngOnInit() {
+        this.getJourneysByUser();
+    }
 
+    ngAfterViewInit() {}
+
+    getJourneysByUser() {
         this.journeyService.getJourneysByUser()
-          .subscribe(result => {
+            .subscribe(result => {
 
                 for (let journey of result) {
                     this.journeyService.isDriverThisJourney(journey)
@@ -37,12 +45,10 @@ export class MyJourneysComponent implements OnInit, AfterViewInit {
                         });
                 }
 
-              this.dataSource = new MatTableDataSource<Journey>(result);
-              this.dataSource.paginator = this.paginator;
-          });
+                this.dataSource = new MatTableDataSource<Journey>(result);
+                this.dataSource.paginator = this.paginator;
+            });
     }
-
-    ngAfterViewInit() {}
 
     applyFilter(filterValue: string) {
         filterValue = filterValue.trim(); // Remove whitespace
@@ -50,8 +56,15 @@ export class MyJourneysComponent implements OnInit, AfterViewInit {
         this.dataSource.filter = filterValue;
     }
 
-    getSchedule(value): string {
+    checkHappended(value) {
+        let date = new Date(value).getTime();
+        let now = Date.now();
 
+        if (now < date) return false;
+        else return true;
+    }
+
+    getSchedule(value): string {
         let date = new Date(value);
 
         let day = this.journeyService.getDay(date);
@@ -61,7 +74,7 @@ export class MyJourneysComponent implements OnInit, AfterViewInit {
         let minutes = date.getMinutes();
 
         return  day + ' ' + dayUTC + ' ' + month + ', à ' +
-                hours + 'h' + minutes;
+            hours + 'h' + minutes;
     }
 
     getStatus(value): string {
@@ -71,10 +84,10 @@ export class MyJourneysComponent implements OnInit, AfterViewInit {
 
     getEvent(value): string {
 
-        let date = new Date(value);
+        let date = new Date(value).getTime();
         let now = Date.now();
 
-        if (now < date.getTime()) return 'A venir';
+        if (now < date) return 'A venir';
         else return 'Terminé';
     }
 
@@ -83,4 +96,16 @@ export class MyJourneysComponent implements OnInit, AfterViewInit {
         this.id_journey = id_journey;
     }
 
+    desinscriptionTrajet(id_journey){
+        this.inscriptionTrajetService.desinscriptionTrajet(id_journey)
+            .subscribe(result => {
+                console.log('desinscriptionTrajet : ', result.success);
+
+                if (result.success) {
+                    alert('Succès de la désinscription du trajet');
+                    this.getJourneysByUser();
+                } else alert('Echec de la désinscription du trajet');
+
+            });
+    }
 }

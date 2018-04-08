@@ -4,13 +4,7 @@ process.env.NODE_ENV = 'test';
 //Require the dev-dependencies
 var app = require('../app');
 const request = require('supertest');
-
-var jwt = require('jsonwebtoken');
-var fs = require("fs");
-var path = require('path');
-
-var skey_path = path.join(__dirname, '../skey.txt');
-var skey = fs.readFileSync(skey_path, 'utf-8');
+var authToken = require("../controller/tools/authToken");
 
 /**
  * @author Romain Lembo
@@ -19,53 +13,52 @@ describe('User', function () {
 
     var headersUser;
     var tokenSignUser;
-    var user;
 
     var headersUserRevoked;
     var tokenSignUserRevoked;
-    var userRevoked;
 
     var headersUserAdmin;
     var tokenSignUserAdmin;
-    var userAdmin;
 
     var headersUserTata;
     var tokenSignUserTata;
-    var userTata;
 
     beforeEach(function () {
 
-
-        user = JSON.stringify({id_user: 1, username: "test", privilege: 1, revoked: false});
-        tokenSignUser = jwt.sign(user, skey);
+        tokenSignUser = authToken.createToken(
+            {id_user: 1, username: "test", privilege: 1, revoked: false}
+        );
 
         headersUser = {
             'Content-Type': 'application/json',
             'Authorization': 'bearer ' + tokenSignUser
         };
 
-        userRevoked = JSON.stringify({id_user: 8, username: "revoked", privilege: 1, revoked: true});
-        tokenSignUserRevoked = jwt.sign(userRevoked, skey);
+        tokenSignUserRevoked = authToken.createToken(
+            {id_user: 8, username: "revoked", privilege: 1, revoked: true}
+        );
 
         headersUserRevoked = {
             'Content-Type': 'application/json',
             'Authorization': 'bearer ' + tokenSignUserRevoked
         };
 
-        userAdmin = JSON.stringify({id_user: 3, username: "admin", privilege: 2, revoked: false});
-        tokenSignUserAdmin = jwt.sign(userAdmin, skey);
+        tokenSignUserAdmin = authToken.createToken(
+            {id_user: 3, username: "admin", privilege: 2, revoked: false}
+        );
 
         headersUserAdmin = {
             'Content-Type': 'application/json',
             'Authorization': 'bearer ' + tokenSignUserAdmin
         };
 
-        userTata = JSON.stringify({id_user: 11, username: "tata1", privilege: 1, revoked: false});
-        tokenSignUserRevoked = jwt.sign(userTata, skey);
+        tokenSignUserTata = authToken.createToken(
+            {id_user: 11, username: "tata1", privilege: 1, revoked: false}
+        );
 
         headersUserTata = {
             'Content-Type': 'application/json',
-            'Authorization': 'bearer ' + tokenSignUserRevoked
+            'Authorization': 'bearer ' + tokenSignUserTata
         };
     });
 
@@ -96,7 +89,7 @@ describe('User', function () {
                 });
         });
 
-        it('should refuse and return error 500 status', function testLogin (done) {
+        it('should refuse and return error 500 status', function testLoginRefused (done) {
             request(app)
                 .post('/user/login')
                 .send({
@@ -110,14 +103,14 @@ describe('User', function () {
                 });
         });
 
-        it('should refuse, because user is revoked', function testLogin (done) {
+        it('should refuse, because user is revoked', function testLoginRevoked (done) {
             request(app)
                 .post('/user/login')
                 .send({
                     username: "revoked",
                     password: "098f6bcd4621d373cade4e832627b4f6"
                 })
-                .expect(500)
+                .expect(401)
                 .end(function(err, res) {
                     console.log('Result:', res.text);
                     done();
