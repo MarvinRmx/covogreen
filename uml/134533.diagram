@@ -1,81 +1,79 @@
 format 216
 
-classcanvas 128005 class_ref 128005 // User
+classcanvas 132357 class_ref 148485 // car
   classdiagramsettings member_max_width 0 end
-  xyz 218.8 406.42 2000
+  xyz 849 156 2000
 end
-classcanvas 128133 class_ref 134533 // Car
+classcanvas 132485 class_ref 148613 // chat
   classdiagramsettings member_max_width 0 end
-  xyz 626.84 404.92 2000
+  xyz 330 83 2000
 end
-classcanvas 128261 class_ref 134661 // Passager
+classcanvas 132613 class_ref 148741 // journey
   classdiagramsettings member_max_width 0 end
-  xyz 320.35 406.98 2000
+  xyz 316 195 2000
 end
-classcanvas 128389 class_ref 134789 // Driver
+classcanvas 132741 class_ref 148869 // participation
   classdiagramsettings member_max_width 0 end
-  xyz 467.2 404.72 2000
+  xyz 39 208 2000
 end
-classcanvas 129029 class_ref 134917 // Order
+classcanvas 132869 class_ref 148997 // user
   classdiagramsettings member_max_width 0 end
-  xyz 472.36 225.2 2000
+  xyz 692 84 2000
 end
-classcanvas 129157 class_ref 135045 // Messager
+classcanvas 133125 class_ref 141829 // inscriptionJourney
   classdiagramsettings member_max_width 0 end
-  xyz 292.32 101.35 2005
+  xyz 493 209 2000
 end
-classcanvas 129669 class_ref 135173 // Evaluation
-  classdiagramsettings member_max_width 0 end
-  xyz 269.08 209.44 2000
+relationcanvas 133253 relation_ref 128005 // <directional composition>
+  from ref 132869 z 2001 to ref 132357
+  role_a_pos 802 197 3000 no_role_b
+  multiplicity_a_pos 817 224 3000 multiplicity_b_pos 769 224 3000
 end
-classcanvas 130693 class_ref 141701 // e
-  classdiagramsettings member_max_width 0 end
-  xyz 54 233 2000
-end
-classcanvas 130949 class_ref 141829 // inscrire
-  classdiagramsettings member_max_width 0 end
-  xyz 427.85 348.56 3005
-end
-classcanvas 131589 class_ref 141957 // m
-  classdiagramsettings member_max_width 0 end
-  xyz 88 171 2000
-end
-relationcanvas 128517 relation_ref 128005 // <directional composition>
-  from ref 128389 z 2001 to ref 128133
+relationcanvas 133381 relation_ref 128133 // <directional aggregation>
+  from ref 132741 z 2001 to point 89 41
+  line 134789 z 2001 to point 727 41
+  line 134917 z 2001 to ref 132869
   no_role_a no_role_b
-  multiplicity_a_pos 612 431 3000 multiplicity_b_pos 524 431 3000
+  multiplicity_a_pos 710 61 3000 multiplicity_b_pos 73 186 3000
 end
-relationcanvas 128901 relation_ref 128261 // <generalisation>
-  from ref 128261 z 2001 to ref 128005
-  no_role_a no_role_b
-  no_multiplicity_a no_multiplicity_b
+relationcanvas 133509 relation_ref 128261 // <composition>
+  decenter_end 538
+  from ref 132613 z 2001 to ref 132741
+  role_a_pos 147 234 3000 role_b_pos 245 234 3000
+  multiplicity_a_pos 147 262 3000 multiplicity_b_pos 297 263 3000
 end
-relationcanvas 129285 relation_ref 128389 // <directional composition>
-  decenter_begin 527
-  from ref 128389 z 2001 to ref 129029
-  no_role_a no_role_b
-  multiplicity_a_pos 485 271 3000 multiplicity_b_pos 480 384 3000
+relationcanvas 133637 relation_ref 128389 // <directional aggregation>
+  decenter_begin 455
+  from ref 132613 z 2001 to point 358 393
+  line 134533 z 2001 to point 727 393
+  line 134661 z 2001 to ref 132869
+  role_a_pos 737 359 3000 no_role_b
+  multiplicity_a_pos 710 359 3000 multiplicity_b_pos 347 324 3000
 end
-relationcanvas 129925 relation_ref 135301 // <generalisation>
-  from ref 128389 z 2001 to ref 128261
-  no_role_a no_role_b
-  no_multiplicity_a no_multiplicity_b
+relationcanvas 133893 relation_ref 128517 // <directional aggregation>
+  decenter_begin 538
+  decenter_end 646
+  from ref 133125 z 2001 to ref 132869
+  role_a_pos 638 235 3000 no_role_b
+  multiplicity_a_pos 674 264 3000 multiplicity_b_pos 664 264 3000
 end
-relationcanvas 130053 relation_ref 135429 // <association>
-  from ref 128261 z 2001 to ref 129029
-  no_role_a no_role_b
-  multiplicity_a_pos 464 271 3000 multiplicity_b_pos 364 386 3000
+relationcanvas 134149 relation_ref 128773 // <directional aggregation>
+  decenter_begin 538
+  from ref 133125 z 2001 to ref 132613
+  role_a_pos 425 235 3000 no_role_b
+  multiplicity_a_pos 425 263 3000 multiplicity_b_pos 476 263 3000
 end
-relationcanvas 132101 relation_ref 142213 // <aggregation>
-  from ref 129029 z 2001 to ref 129669
-  no_role_a no_role_b
-  no_multiplicity_a no_multiplicity_b
+relationcanvas 134277 relation_ref 128901 // <directional aggregation>
+  decenter_begin 435
+  decenter_end 111
+  from ref 132485 z 2001 to ref 132869
+  role_a_pos 627 94 3000 no_role_b
+  multiplicity_a_pos 674 120 3000 multiplicity_b_pos 402 120 3000
 end
-relationcanvas 132229 relation_ref 142341 // <aggregation>
-  from ref 129029 z 2006 to ref 129157
-  no_role_a no_role_b
-  no_multiplicity_a no_multiplicity_b
+relationcanvas 134405 relation_ref 129029 // <directional aggregation>
+  decenter_end 455
+  from ref 132485 z 2001 to ref 132613
+  role_a_pos 370 173 3000 no_role_b
+  multiplicity_a_pos 343 173 3000 multiplicity_b_pos 347 160 3000
 end
-line 131845 -_-_
-  from ref 130053 z 3006 to ref 130949
 end

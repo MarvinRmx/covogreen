@@ -4,11 +4,17 @@ diagrams
   usecasediagram_ref 128005 // diagUc
     1344 719 100 A4 0 0
   active  classdiagram_ref 134533 // diagClassSql
-    1464 819 159 A4 96 0
+    1464 819 118 A3 0 0
 end
 show_stereotypes
+selected attribute_ref 131845 // revoked
 open
   usecaseview_ref 128005 // ucView
-  class_ref 134661 // Passager
+  class_ref 141829 // inscriptionJourney
+  class_ref 148485 // car
+  class_ref 148613 // chat
+  class_ref 148741 // journey
+  class_ref 148869 // participation
+  class_ref 148997 // user
 end
 end

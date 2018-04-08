@@ -6,17 +6,19 @@ import {InscriptionTrajetService} from '../../services/inscription-trajet.servic
 import {Response} from '@angular/http';
 import {TrajetEnt} from "../../class/TrajetEnt";
 import {JourneyService} from "../../services/journey.service";
+import {UserService} from "../../services/user.service";
 import {isBoolean} from "util";
 
 @Component({
   selector: 'app-bouton-inscription',
   templateUrl: './bouton-inscription.component.html',
   styleUrls: ['./bouton-inscription.component.css'],
-  providers: [InscriptionTrajetService]
+  providers: [InscriptionTrajetService, UserService]
 })
 export class BoutonInscriptionComponent implements OnInit {
   	@Input() idTrajet: number;
   	inscrit: boolean;
+  	connected: boolean;
   	messages: string[];
   	is_creator: boolean;
 
@@ -24,12 +26,17 @@ export class BoutonInscriptionComponent implements OnInit {
 
   	constructor(
   	    private inscriptionService: InscriptionTrajetService,
-        private journeyService: JourneyService
+        private journeyService: JourneyService,
+        private userService: UserService
     ) { }
 
-	ngOnInit() {
+	  ngOnInit() {
   		this.verifUserInscription();
   		this.isCreatorOfJourney();
+
+      this.userService.getUser().subscribe((res: Response) => {
+        this.connected = (res['id_user'] !== 0)?true:false;
+      });
   	}
 
   	/**
