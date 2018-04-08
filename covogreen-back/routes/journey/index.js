@@ -2,7 +2,7 @@ var controller = require("../../controller/journey");
 var co = require('co');
 
 /**
- * @author Romain Lembo
+ * @author Romain Lembo & Marvin RAMEIX
  * @param router
  */
 module.exports = function (router) {

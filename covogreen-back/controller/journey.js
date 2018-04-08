@@ -14,6 +14,7 @@ var jwt = require('jsonwebtoken');
 var JourneyController = {
 
     /**
+     * @author Marvin RAMEIX & Romain LEMBO
      * FR: Pour créer un nouveau trajet.
      * ENG: For creating a new journey.
      * Creation of a journey

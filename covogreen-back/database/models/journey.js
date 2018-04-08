@@ -3,6 +3,7 @@ const Sequelize = require('sequelize');
 var User = require('./user');
 
 /**
+ * @author Marvin RAMEIX
  * Journey entity
  */
 const Journey = db.define('journey',
