@@ -264,7 +264,7 @@ var JourneyController = {
                 {model: InscriptionJourney}
             ).then(
                 function (value) {
-                    console.log(value);
+                    console.log(value.length);
                     if (value.length > 0) {
                         res.status(200).send(true);
                     }
