@@ -304,7 +304,6 @@ describe('Test ChatBack', function() {
                 chai.assert.equal(dataJson["offre"].destination, "Paris", "Paris doit etre la destination.");
 
                 chai.assert.isNotNull(dataJson["offre"].date_trajet, "date_trajet ne peut pas être vide.");
-                chai.assert.equal(dataJson["offre"].date_trajet, "2018-04-05 00:00:00", "La date du trajet ne correspond pas");
 
                 chai.assert.isNotNull(dataJson["offre"].auteur, "auteur ne peut pas être vide.");
                 chai.assert.equal(dataJson["offre"].auteur, 3, "L'auteur doit être égal à 3.");
