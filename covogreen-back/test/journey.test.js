@@ -122,7 +122,7 @@ describe('Journey', function () {
     describe('delete()', function () {
         it('should accept and delete the selected journey', function testDelete(done) {
             request(app)
-                .delete('/del/5')
+                .delete('/journey/del/5')
                 .expect('Content-Type', /json/)
                 .set('Authorization', 'bearer ')
                 .set(headersDriver)
@@ -135,7 +135,7 @@ describe('Journey', function () {
 
         it('should decline and return an 500 error because user is not the driver', function testGetJourney(done) {
             request(app)
-                .delete('/del/5')
+                .delete('/journey/del/5')
                 .expect('Content-Type', /json/)
                 .set('Authorization', 'bearer ')
                 .set(headersUser)
@@ -148,7 +148,7 @@ describe('Journey', function () {
 
         it('should decline and return an 500 error because the journey does not exist', function testGetJourney(done) {
             request(app)
-                .delete('/del/1')
+                .delete('/journey/del/1')
                 .expect('Content-Type', /json/)
                 .expect(500)
                 .end(function (err, res) {
@@ -161,7 +161,7 @@ describe('Journey', function () {
     describe('canRateAndComment()', function () {
         it('should refuse because the user is the driver', function testDelete(done) {
             request(app)
-                .get('/rateComment/5')
+                .get('/journey/rateComment/5')
                 .expect('Content-Type', /json/)
                 .set('Authorization', 'bearer ')
                 .set(headersDriver)
@@ -175,7 +175,7 @@ describe('Journey', function () {
 
         it('should return true because the user is a passenger and the journey is finished', function testGetJourney(done) {
             request(app)
-                .get('/rateComment/5')
+                .get('/journey/rateComment/5')
                 .expect('Content-Type', /json/)
                 .set('Authorization', 'bearer ')
                 .set(headersPassenger)
@@ -188,7 +188,7 @@ describe('Journey', function () {
 
         it('should decline and return an 500 error because the user is not registered', function testGetJourney(done) {
             request(app)
-                .get('/rateComment/5')
+                .get('/journey/rateComment/5')
                 .expect('Content-Type', /json/)
                 .expect(500)
                 .end(function (err, res) {
@@ -199,7 +199,7 @@ describe('Journey', function () {
 
         it('should decline and return an 500 error because the user is not registered to the journey', function testGetJourney(done) {
             request(app)
-                .get('/rateComment/5')
+                .get('/journey/rateComment/5')
                 .expect('Content-Type', /json/)
                 .set('Authorization', 'bearer ')
                 .set(headersUser)
