@@ -173,11 +173,20 @@ var JourneyController = {
                     res.status(200).send(response);
                 }
                 else {
-                    res.status(500).send("Aucun trajet correspondant.");
+                    res.status(err.status || 500);
+                    res.json({
+                        message: err.message,
+                        error: err
+                    });
                 }
             }).catch(function (error) {
             console.log(error);
-            res.status(500).send("Aucun trajet correspondant.");
+
+            res.status(err.status || 500);
+            res.json({
+                message: err.message,
+                error: err
+            });
         });
     },
 
@@ -219,7 +228,7 @@ var JourneyController = {
         Journey.findById(req.params.id_journey)
             .then(function (response) {
                 if (response !== null) {
-                    if (userToken.id_user === response.dataValues.id_driver) {
+                    if (response.dataValues.id_driver == userToken.id_user) {
                         Journey.destroy({
                             where: {
                                 id_journey: response.dataValues.id_journey
@@ -227,17 +236,18 @@ var JourneyController = {
                         }).then(function (resp) {
                             res.status(200).send("Trajet supprimé");
                         }).catch(function (err) {
-                            console.log(err);
-                            res.status(500).send("Auteur non conducteur.");
+                            res.status(err.status || 500).send("Impossible de supprimer le trajet");
                         });
+                    }
+                    else {
+                        res.status(500).send("Impossible de supprimer le trajet");
                     }
                 }
                 else {
-                    res.status(500).send("Trajet non trouvé.");
+                    res.status(500).send("Aucun trajet trouvé");
                 }
             }).catch(function (error) {
-            console.log(error);
-            res.status(500).send("Trajet non trouvé.");
+            res.status(500).send("Impossible de supprimer le trajet");
         });
     },
 
