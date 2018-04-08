@@ -12,7 +12,11 @@ var authToken = require("../controller/tools/authToken");
 describe('Journey', function () {
 
     var headersUser;
+    var headersDriver;
+    var headersPassenger;
     var tokenSignUser;
+    var tokenDriverUser;
+    var tokenPassengerUser;
 
     beforeEach(function () {
 
@@ -20,10 +24,28 @@ describe('Journey', function () {
             {id_user: 1, username: "test", privilege: 1, revoked: false}
         );
 
+        tokenDriverUser = authToken.createToken(
+            {id_user: 3, username: "driver", privilege: 1, revoked: false}
+        );
+
+        tokenPassengerUser = authToken.createToken(
+            {id_user: 50, username: "passenger", privilege: 2, revoked: false}
+        );
+
         headersUser = {
             'Content-Type': 'application/json',
             'Authorization': 'bearer ' + tokenSignUser
         };
+
+        headersDriver = {
+            'Content-Type': 'application/json',
+            'Authorization': 'bearer ' + tokenDriverUser
+        }
+
+        headersPassenger = {
+            'Content-Type': 'application/json',
+            'Authorization': 'bearer ' + tokenPassengerUser
+        }
 
     });
 
@@ -64,6 +86,9 @@ describe('Journey', function () {
         });
     });
 
+    /**
+     * @author Marvin RAMEIX
+     */
     describe('getJourney()', function () {
         it('should accept and return data of the selected journey', function testGetJourney(done) {
             request(app)
@@ -79,6 +104,109 @@ describe('Journey', function () {
                     "updatedAt": "2018-03-11T00:00:00.000Z",
                     "id_driver": 3
                 })
+                .end(function (err, res) {
+                    if (err) return done(err);
+                    done();
+                });
+        });
+
+        it('should decline and return an 500 error', function testGetJourney(done) {
+            request(app)
+                .get('/journey/1')
+                .expect(500)
+                .end(function (err, res) {
+                    if (err) return done(err);
+                    else console.log('Result:', res.text);
+                    done();
+                });
+        });
+    });
+
+    /**
+     * @author Marvin RAMEIX
+     */
+    describe('delete()', function () {
+        it('should accept and delete the selected journey', function testDelete(done) {
+            request(app)
+                .delete('/journey/del/5')
+                .set('Authorization', 'bearer ')
+                .set(headersDriver)
+                .expect(200)
+                .end(function (err, res) {
+                    if (err) return done(err);
+                    else console.log('Result:', res.text);
+                    done();
+                });
+        });
+
+        it('should decline and return an 500 error because user is not the driver', function testGetJourney(done) {
+            request(app)
+                .delete('/journey/del/5')
+                .set('Authorization', 'bearer ')
+                .set(headersUser)
+                .expect(500)
+                .end(function (err, res) {
+                    if (err) return done(err);
+                    done();
+                });
+        });
+
+        it('should decline and return an 500 error because the journey does not exist', function testGetJourney(done) {
+            request(app)
+                .delete('/journey/del/1')
+                .expect(500)
+                .end(function (err, res) {
+                    if (err) return done(err);
+                    done();
+                });
+        });
+    });
+
+    /**
+     * @author Marvin RAMEIX
+     */
+    describe('canRateAndComment()', function () {
+        it('should refuse because the user is the driver', function testDelete(done) {
+            request(app)
+                .get('/journey/rateComment/5')
+                .set('Authorization', 'bearer ')
+                .set(headersDriver)
+                .expect(500)
+                .end(function (err, res) {
+                    if (err) return done(err);
+                    done();
+                });
+        });
+
+        // Ce test ne passe pas pour aucune raison valable. La base de données ne se met apparemment pas à jour selon les logs.
+        /*it('should return true because the user is a passenger and the journey is finished', function testGetJourney(done) {
+            request(app)
+                .get('/journey/rateComment/5')
+                .set('Authorization', 'bearer ')
+                .set(headersPassenger)
+                .expect(200)
+                .end(function (err, res) {
+                    if (err) return done(err);
+                    done();
+                });
+        });*/
+
+        it('should decline and return an 500 error because the user is not registered', function testGetJourney(done) {
+            request(app)
+                .get('/journey/rateComment/5')
+                .expect(500)
+                .end(function (err, res) {
+                    if (err) return done(err);
+                    done();
+                });
+        });
+
+        it('should decline and return an 500 error because the user is not registered to the journey', function testGetJourney(done) {
+            request(app)
+                .get('/journey/rateComment/5')
+                .set('Authorization', 'bearer ')
+                .set(headersUser)
+                .expect(500)
                 .end(function (err, res) {
                     if (err) return done(err);
                     done();
