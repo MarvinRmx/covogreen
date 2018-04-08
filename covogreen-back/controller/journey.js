@@ -266,7 +266,7 @@ var JourneyController = {
                         res.status(200).send(true);
                     }
                     else {
-                        res.status(200).send(false);
+                        res.status(500).send(false);
                     }
                 }
             ).catch(
