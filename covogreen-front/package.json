@@ -1,5 +1,5 @@
 {
-  "name": "tp-ecommerce",
+  "name": "CovoGreen-front",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
@@ -26,13 +26,13 @@
     "@angular/platform-browser": "^5.2.4",
     "@angular/platform-browser-dynamic": "^5.2.4",
     "@angular/router": "^5.2.4",
-    "angular-confirmation-popover": "^4.1.0",
     "@angularclass/form-errors": "^2.0.0",
     "@angularclass/match-control": "^2.0.0",
     "@ngui/map": "^0.20.2",
     "@swimlane/ngx-datatable": "^11.2.0",
     "@types/googlemaps": "^3.30.8",
     "angular-compare-validator": "^0.2.0",
+    "angular-confirmation-popover": "^4.1.0",
     "angular-datatables": "^5.0.0",
     "angular-stormpath": "^0.2.0",
     "angular2-data-table": "^3.0.0",
