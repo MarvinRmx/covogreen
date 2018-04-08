@@ -251,11 +251,7 @@ var JourneyController = {
      */
     canRateAndComment: function (req, res) {
         var userToken = authToken.getToken(req);
-        console.log(userToken);
         if (userToken) {
-            InscriptionJourney.findAll().then(function (value){
-                console.log(value);
-            })
             sequelize.query(' SELECT * ' +
                 'FROM inscriptionjourneys ij, journeys j ' +
                 'WHERE ij.id_trajet = j.id_journey ' +
