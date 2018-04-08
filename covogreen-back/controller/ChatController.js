@@ -311,7 +311,7 @@ var ChatController = {
             }
         }catch(erreur){
             out["errors"].push("Une erreur est survenue lors de l'execution de la req sql");
-            res.status(500).send(out);
+            //res.status(500).send(out);
         }
     }),
 

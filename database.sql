@@ -80,17 +80,19 @@ CREATE TABLE `inscriptionjourneys` (
   `updatedAt` datetime NOT NULL,
   `id_user` int(11) DEFAULT NULL,
   `id_trajet` int(11) DEFAULT NULL,
-  `rate` int(11) NOT NULL
+  `rate` int(11) NOT NULL,
+  `comment` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Déchargement des données de la table `inscriptionjourneys`
 --
 
-INSERT INTO `inscriptionjourneys` (`id`, `createdAt`, `updatedAt`, `id_user`, `id_trajet`, `rate`) VALUES
-(3, '2018-03-20 00:00:00', '2018-03-13 00:00:00', 3, 5, 5),
-(4, '2018-03-14 00:00:00', '2018-03-14 00:00:00', 2, 6, 1),
-(5, '2018-03-14 00:00:00', '2018-03-14 00:00:00', 3, 6, 1);
+INSERT INTO `inscriptionjourneys` (`id`, `createdAt`, `updatedAt`, `id_user`, `id_trajet`,`rate`, `comment`) VALUES
+(3, '2018-03-20 00:00:00', '2018-03-13 00:00:00', 3, 5, 5, ''),
+(4, '2018-03-14 00:00:00', '2018-03-14 00:00:00', 2, 6, 1, ''),
+(5, '2018-03-14 00:00:00', '2018-03-14 00:00:00', 3, 6, 1, ''),
+(6, '2018-03-14 00:00:00', '2018-03-14 00:00:00', 3, 8, 5, '');
 
 -- --------------------------------------------------------
 
@@ -116,7 +118,8 @@ CREATE TABLE `journeys` (
 INSERT INTO `journeys` (`id_journey`, `origin`, `destination`, `seats_available`, `date_journey`, `createdAt`, `updatedAt`, `id_driver`) VALUES
 (5, 'Nice', 'Antibes', 2, '2018-03-13 00:00:00', '2018-03-13 00:00:00', '2018-03-11 00:00:00', 3),
 (6, 'Villeneuve-Loubet', 'Cannes', 3, '2018-03-21 12:30:00', '2018-03-14 00:00:00', '2018-03-14 00:00:00', 8),
-(7, 'Monaco', 'Nice', 5, '2018-04-05 00:00:00', '2018-03-25 17:40:33', '2018-03-25 17:40:33', 3);
+(7, 'Monaco', 'Nice', 5, '2018-04-05 00:00:00', '2018-03-25 17:40:33', '2018-03-25 17:40:33', 3),
+(8, 'Marseille', 'Paris', 5, '2018-04-05 00:00:00', '2018-03-25 17:40:33', '2018-03-25 17:40:33', 3);
 
 -- --------------------------------------------------------
 
@@ -303,4 +306,7 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
+
 
