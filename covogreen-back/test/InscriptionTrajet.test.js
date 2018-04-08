@@ -41,7 +41,7 @@ describe('InscriptionTrajet', function () {
 
   //inscrit l'utilisateur retour pas d'erreur
   it('verifierSubscribeUser', function(done) {
-      request(app).get('/inscriptionTrajet/byjourneyuser/7').set('Authorization', 'bearer ')
+      request(app).get('/inscriptionTrajet/byjourneyuser').set('Authorization', 'bearer ')
       .set(headersUserRomain).send({ idTrajet: 7 }).expect(200).end(function(err, res) {
           if (err)
             return done(err);
