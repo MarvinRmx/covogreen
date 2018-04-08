@@ -15,9 +15,10 @@ var authToken = require("../controller/tools/authToken");
  */
 describe('InscriptionTrajet', function () {
   var headersUserRomain;
+  var tokenSignUserRomain;
 
   beforeEach(function () {
-      var tokenSignUserRomain = authToken.createToken(
+      tokenSignUserRomain = authToken.createToken(
           {id_user: 3, username: "Romain", privilege: 1, revoked: false}
       );
 
@@ -40,14 +41,16 @@ describe('InscriptionTrajet', function () {
   // });
 
   //inscrit l'utilisateur retour pas d'erreur
-  it('verifierSubscribeUser', function(done) {
-      request(app).get('/inscriptionTrajet/byjourneyuser/7').set('Authorization', 'bearer ')
-      .set(headersUserRomain).send({ idTrajet: 7 }).expect(200).end(function(err, res) {
-          if (err)
-            return done(err);
-          else
-            console.log('Result:', res.text);
-          done();
-      });
-  });
+  describe('verifierSubscribeUser()', function () {
+    it('verifierSubscribeUser', function(done) {
+        request(app).get('/inscriptionTrajet/byjourneyuser/7').set('Authorization', 'bearer ')
+        .set(headersUserRomain).send({ idTrajet: 7 }).expect(200).end(function(err, res) {
+            if (err)
+              return done(err);
+            else
+              console.log('Result:', res.text);
+            done();
+        });
+    });
+  }
 });
