@@ -134,6 +134,8 @@ var RechercheTrajetController = {
       condition.where[Op.and].push({ "date_journey" : {[Op.between] : [ date + " 00:00:00", date + " 23:59:59" ]} });
     }
 
+    condition.where[Op.and].push({ "date_journey" : {[Op.gte] : (new Date().format('m-d-Y H:i:s')) } });
+
     if (request.page != "" && request.page > 1)
       condition.offset = ((request.page-1)*10);
 

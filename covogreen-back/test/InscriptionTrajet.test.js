@@ -7,20 +7,6 @@ process.env.NODE_ENV = 'test';
 //Require the dev-dependencies
 var app = require('../app');
 const request = require('supertest');
-
-var jwt = require('jsonwebtoken');
-var fs = require("fs");
-var path = require('path');
-
-var skey_path = path.join(__dirname, '../skey.txt');
-var skey = fs.readFileSync(skey_path, 'utf-8');
-
-var Journey = require("../database/models/journey");
-var User = require("../database/models/user");
-var InscriptionJourney = require("../database/models/inscriptionJourney");
-const Op = require('sequelize').Op;
-var co = require('co');
-
 var authToken = require("./tools/authToken");
 
 
@@ -28,6 +14,41 @@ var authToken = require("./tools/authToken");
  * Test InscriptionTrajet
  */
 describe('InscriptionTrajet', function () {
+  var headersUserRomain;
 
+  beforeEach(function () {
+      var tokenSignUserRomain = authToken.createToken(
+          {id_user: 3, username: "Romain", privilege: 1, revoked: false}
+      );
 
+      headersUserRomain = {
+          'Content-Type': 'application/json',
+          'Authorization': 'bearer ' + tokenSignUserRomain
+      };
+  });
+
+  //verifi si l'utilisateur est inscrit retour erreur
+  it('verifierInscriptionAloradySubscribed', function(done) {
+      request(app).post('/inscriptionTrajet/verif').set('Authorization', 'bearer ').set(headersUserRomain).send({
+          idTrajet: 5
+      }).expect(200).end(function(err, res) {
+          if (err)
+            return done(err);
+          else
+            console.log('Result:', res.text);
+          done();
+      });
+  });
+
+  //inscrit l'utilisateur retour pas d'erreur
+  it('verifierSubscribeUser', function(done) {
+      request(app).get('/inscriptionTrajet/byjourneyuser/6').set('Authorization', 'bearer ')
+      .set(headersUserRomain).expect(200).end(function(err, res) {
+          if (err)
+            return done(err);
+          else
+            console.log('Result:', res.text);
+          done();
+      });
+  });
 });
