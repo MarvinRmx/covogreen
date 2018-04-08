@@ -30,8 +30,7 @@ var JourneyController = {
 
         var userToken = authToken.getToken(req);
 
-        if (!userToken.revoked)
-        {
+        if (!userToken.revoked) {
             Journey.create({
                 origin: req.body.origin,
                 destination: req.body.destination,
@@ -39,20 +38,20 @@ var JourneyController = {
                 date_journey: req.body.date_journey,
                 id_driver: userToken.id_user
             })
-            .then(function (response) {
+                .then(function (response) {
 
-                var inscriptionJourney = {
-                    id_user: response.dataValues.id_driver,
-                    id_trajet: response.dataValues.id_journey
-                };
-                InscriptionJourney.create(inscriptionJourney);
+                    var inscriptionJourney = {
+                        id_user: response.dataValues.id_driver,
+                        id_trajet: response.dataValues.id_journey
+                    };
+                    InscriptionJourney.create(inscriptionJourney);
 
-                res.status(200).send('Trajet ajouté');
-            })
-            .catch(function (error) {
-                console.log('create error : ', error);
-                res.status(500).json(error);
-            });
+                    res.status(200).send('Trajet ajouté');
+                })
+                .catch(function (error) {
+                    console.log('create error : ', error);
+                    res.status(500).json(error);
+                });
         }
         else res.status(500).send("Compte bloqué !");
     },
@@ -66,14 +65,14 @@ var JourneyController = {
     getJourneys: function (req, res) {
 
         Journey.findAll()
-        .then(function (response) {
-            console.log('getJourneys :', response);
-            res.status(200).send(response);
-        })
-        .catch(function (error) {
-            console.log('Fail find for getting journeys :', error);
-            res.status(500).send("Echec de la récupération du profil.");
-        });
+            .then(function (response) {
+                console.log('getJourneys :', response);
+                res.status(200).send(response);
+            })
+            .catch(function (error) {
+                console.log('Fail find for getting journeys :', error);
+                res.status(500).send("Echec de la récupération du profil.");
+            });
 
     },
 
@@ -88,19 +87,19 @@ var JourneyController = {
         var userToken = authToken.getToken(req);
         var id_journey = req.params.id_journey;
 
-        if(userToken != null)
-        {
-            Journey.findOne({ where:
+        if (userToken != null) {
+            Journey.findOne({
+                where:
                     {
                         id_driver: userToken.id_user,
-                        id_journey:  id_journey
+                        id_journey: id_journey
                     }
             })
-            .then(function (response) {
-                var result = false;
-                if(response != null) result = true;
-                res.status(200).send(result);
-            });
+                .then(function (response) {
+                    var result = false;
+                    if (response != null) result = true;
+                    res.status(200).send(result);
+                });
         }
         else res.status(200).send(false);
 
@@ -115,8 +114,7 @@ var JourneyController = {
     getJourneysByUser: function (req, res) {
 
         var userToken = authToken.getToken(req);
-        if (!userToken.revoked)
-        {
+        if (!userToken.revoked) {
             sequelize.query(' SELECT j.* ' +
                 'FROM inscriptionjourneys ij, journeys j ' +
                 'WHERE ij.id_trajet = j.id_journey ' +
@@ -149,9 +147,8 @@ var JourneyController = {
         var id_journey = req.params.id_journey;
         //var userToken = authToken.getToken(req);
 
-        if (!userToken.revoked)
-        {
-            Journey.findOne({ where: {id_journey: id_journey} })
+        if (!userToken.revoked) {
+            Journey.findOne({where: {id_journey: id_journey}})
                 .then(function (response) {
                     res.status(200).send(response);
                 })
@@ -172,7 +169,12 @@ var JourneyController = {
     getJourney: function (req, res) {
         Journey.findById(req.params.id_journey)
             .then(function (response) {
-                res.status(200).send(response);
+                if (response !== null) {
+                    res.status(200).send(response);
+                }
+                else {
+                    res.status(500).send("Aucun trajet correspondant.");
+                }
             }).catch(function (error) {
             console.log(error);
             res.status(500).send("Aucun trajet correspondant.");
@@ -185,13 +187,12 @@ var JourneyController = {
      * @param req
      * @param res
      */
-    isDriverThisJourney: function  (req, res) {
+    isDriverThisJourney: function (req, res) {
 
         var userToken = authToken.getToken(req);
         var journeyReq = req.body;
 
-        if(!userToken.revoked)
-        {
+        if (!userToken.revoked) {
             Journey.findById(journeyReq.id_journey)
                 .then(function (response) {
                     var journeyRes = response;
@@ -217,17 +218,22 @@ var JourneyController = {
         var userToken = authToken.getToken(req);
         Journey.findById(req.params.id_journey)
             .then(function (response) {
-                if (userToken.id_user === response.dataValues.id_driver) {
-                    Journey.destroy({
-                        where: {
-                            id_journey: response.dataValues.id_journey
-                        }
-                    }).then(function (resp) {
-                        res.status(200).send("Trajet supprimé");
-                    }).catch(function (err) {
-                        console.log(err);
-                        res.status(500).send("Auteur non conducteur.");
-                    });
+                if (response !== null) {
+                    if (userToken.id_user === response.dataValues.id_driver) {
+                        Journey.destroy({
+                            where: {
+                                id_journey: response.dataValues.id_journey
+                            }
+                        }).then(function (resp) {
+                            res.status(200).send("Trajet supprimé");
+                        }).catch(function (err) {
+                            console.log(err);
+                            res.status(500).send("Auteur non conducteur.");
+                        });
+                    }
+                }
+                else {
+                    res.status(500).send("Trajet non trouvé.");
                 }
             }).catch(function (error) {
             console.log(error);
@@ -243,21 +249,21 @@ var JourneyController = {
      */
     canRateAndComment: function (req, res) {
         var userToken = authToken.getToken(req);
-        if(userToken){
+        if (userToken) {
             sequelize.query(' SELECT *' +
                 'FROM inscriptionjourneys ij, journeys j ' +
                 'WHERE ij.id_trajet = j.id_journey ' +
-                ' AND ij.id_trajet = '+ req.params.id_journey +
-                ' AND ij.id_user ='+ userToken.id_user+
+                ' AND ij.id_trajet = ' + req.params.id_journey +
+                ' AND ij.id_user =' + userToken.id_user +
                 ' AND ij.id_user NOT IN (SELECT id_driver ' +
                 '                       FROM journeys ' +
-                '                       WHERE id_journey = '+ req.params.id_journey +')'
+                '                       WHERE id_journey = ' + req.params.id_journey + ')'
             ).then(
                 function (value) {
-                    if(value !== null){
+                    if (value !== null) {
                         res.status(200).send(true);
                     }
-                    else{
+                    else {
                         res.status(200).send(false);
                     }
                 }
@@ -268,7 +274,7 @@ var JourneyController = {
                 }
             )
         }
-        else{
+        else {
             res.status(500).send("Cet internaute n'est pas inscrit");
         }
     }
