@@ -306,7 +306,7 @@ describe('Test ChatBack', function() {
                 chai.assert.isNotNull(dataJson["offre"].date_trajet, "date_trajet ne peut pas être vide.");
 
                 chai.assert.isNotNull(dataJson["offre"].auteur, "auteur ne peut pas être vide.");
-                chai.assert.equal(dataJson["offre"].auteur, 3, "L'auteur doit être égal à 3.");
+                chai.assert.equal(dataJson["offre"].auteur, "Romain Lembo", "Romain Lembo doit etres l'auteur.");
 
                 chai.assert.isNotNull(dataJson["offre"].nombre_place_disponible, "nombre_place_disponible ne peut pas être vide.");
                 chai.assert.equal(dataJson["offre"].nombre_place_disponible, 5, "Le nombre de place doit être de 5.");
