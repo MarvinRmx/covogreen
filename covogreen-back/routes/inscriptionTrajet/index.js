@@ -1,6 +1,6 @@
 
 /**
- * Author: Alex Zarzitski
+ * Author: Alex Zarzitski & Marvin RAMEIX
  * Date: 19/03/2018
  */
 var InscriptionTrajetController = require("../../controller/InscriptionTrajetController");

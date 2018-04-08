@@ -4,6 +4,7 @@ var User = require('./user');
 var Journey = require('./journey');
 
 /**
+ * @author Marvin RAMEIX
  * Participation entity
  */
 const Participation = db.define('participation',

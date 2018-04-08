@@ -4,6 +4,7 @@ var User = require('./user');
 var Journey = require('./journey');
 
 /**
+ * @author Marvin RAMEIX
  * Chat entity
  */
 const Chat = db.define('chat',

@@ -1,3 +1,7 @@
+/**
+ * @author : Marvin RAMEIX
+ * Fichier d'initialisation de la base de données
+ */
 var co = require('co');
 
 var Car = require('./models/car');

@@ -128,12 +128,12 @@ describe('Test ChatBack', function() {
 
     // OK
     it('getAuthorNameById',     function(done) {
-       co(ChatController.getAuthorNameById(3)).then( function(val){
-           chai.assert.isObject(val, 'getAuthorNameById retourne bien un objet');
-           chai.assert.isNotNull(val.id_user);
-           chai.assert.isNotNull(val.firstName);
-           chai.assert.isNotNull(val.lastName);
-       });
+        co(ChatController.getAuthorNameById(3)).then( function(val){
+            chai.assert.isObject(val, 'getAuthorNameById retourne bien un objet');
+            chai.assert.isNotNull(val.id_user);
+            chai.assert.isNotNull(val.firstName);
+            chai.assert.isNotNull(val.lastName);
+        });
 
         done();
     });
@@ -216,7 +216,7 @@ describe('Test ChatBack', function() {
         request(app).post('/chat/getLastMessageById')
             .send({
                 idTrajet: 5,
-                idMessage: 2
+                idMessage: 100
             })
             .set('Authorization', 'bearer ')
             .set(headersUser)
@@ -227,6 +227,7 @@ describe('Test ChatBack', function() {
                 }else{
                     var dataJson = JSON.parse(res.text)
                     chai.assert.isObject(dataJson);
+                    console.log(dataJson);
                     chai.assert.isEmpty(dataJson["messages"], "Messages doit etre vide");
                 }
             });
@@ -282,7 +283,7 @@ describe('Test ChatBack', function() {
         // On récupère un trajet depuis la db
         request(app).post('/chat/getTrajet')
             .send({
-                idTrajet: 5
+                idTrajet: 8
             })
             .set('Authorization', 'bearer ').set(headersUser)
             .expect(200).end(function(err, res) {
@@ -290,26 +291,25 @@ describe('Test ChatBack', function() {
                 return done(err);
             } else{
                 var dataJson = JSON.parse(res.text)
+
                 chai.assert.isObject(dataJson);
 
-                chai.assert.isNotNull(dataJson.id, "id ne peut pas être vide.");
-                chai.assert.equal(dataJson.id, 5, "L'id doit etre 5");
+                chai.assert.isNotNull(dataJson["offre"].id, "id ne peut pas être vide.");
+                chai.assert.equal(dataJson["offre"].id, 8, "L'id doit etre 8");
 
-                chai.assert.isNotNull(dataJson.depart, "depart ne peut pas être vide.");
-                chai.assert.equal(dataJson.depart, "Nice", "Nice doit etre le depart.");
+                chai.assert.isNotNull(dataJson["offre"].depart, "depart ne peut pas être vide.");
+                chai.assert.equal(dataJson["offre"].depart, "Marseille", "Marseille doit etre le depart.");
 
-                chai.assert.isNotNull(dataJson.destination, "destination ne peut pas être vide.");
-                chai.assert.equal(dataJson.destination, "Antibes", "Antibes doit etre la destination.");
+                chai.assert.isNotNull(dataJson["offre"].destination, "destination ne peut pas être vide.");
+                chai.assert.equal(dataJson["offre"].destination, "Paris", "Paris doit etre la destination.");
 
-                chai.assert.isNotNull(dataJson.date_trajet, "date_trajet ne peut pas être vide.");
-                chai.assert.equal(dataJson.date_trajet, "2018-03-13 00:00:00", "La date du trajet ne correspond pas");
+                chai.assert.isNotNull(dataJson["offre"].date_trajet, "date_trajet ne peut pas être vide.");
 
-                chai.assert.isNotNull(dataJson.auteur, "auteur ne peut pas être vide.");
-                chai.assert.equal(dataJson.auteur, 3, "L'auteur doit êtrre égal à 3.");
+                chai.assert.isNotNull(dataJson["offre"].auteur, "auteur ne peut pas être vide.");
+                chai.assert.equal(dataJson["offre"].auteur, "Romain Lembo", "Romain Lembo doit etres l'auteur.");
 
-                chai.assert.isNotNull(dataJson.nombre_place_disponible, "nombre_place_disponible ne peut pas être vide.");
-                chai.assert.equal(dataJson.nombre_place_disponible, 2, "Le nombre de place doit être de 2.");
-
+                chai.assert.isNotNull(dataJson["offre"].nombre_place_disponible, "nombre_place_disponible ne peut pas être vide.");
+                chai.assert.equal(dataJson["offre"].nombre_place_disponible, 5, "Le nombre de place doit être de 5.");
             }
         });
 

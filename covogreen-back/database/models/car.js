@@ -2,7 +2,7 @@ var db = require('../db.js');
 const Sequelize = require('sequelize');
 
 /**
- * @author Romain Lembo
+ * @author Marvin RAMEIX
  * Car entity
  */
 const Car =  db.define('car',

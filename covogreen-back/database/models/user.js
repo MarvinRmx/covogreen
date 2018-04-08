@@ -3,7 +3,7 @@ const Sequelize = require('sequelize');
 var Car = require('./car');
 
 /**
- * @author Romain Lembo
+ * @author Marvin RAMEIX & Romain Lembo
  * User entity.
  */
 const User = db.define('user',

@@ -1,4 +1,7 @@
-
+/**
+ * @author Marvin RAMEIX
+ * Connexion à la base de données
+ */
 const Sequelize = require('sequelize');
 
 const DB_NAME = 'covogreen';
