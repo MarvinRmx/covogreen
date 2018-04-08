@@ -7,6 +7,7 @@ import {Response} from '@angular/http';
 import {TrajetEnt} from "../../class/TrajetEnt";
 import {JourneyService} from "../../services/journey.service";
 import {UserService} from "../../services/user.service";
+import {User} from '../../class/user';
 import {isBoolean} from "util";
 
 @Component({
@@ -34,8 +35,8 @@ export class BoutonInscriptionComponent implements OnInit {
   		this.verifUserInscription();
   		this.isCreatorOfJourney();
 
-      this.userService.getUser().subscribe((res: Response) => {
-        this.connected = (res['id_user'] !== 0)?true:false;
+      this.userService.getUser().subscribe((res: User) => {
+        this.connected = (res.id_user !== 0)?true:false;
       });
   	}
 
