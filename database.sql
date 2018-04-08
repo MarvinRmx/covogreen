@@ -80,8 +80,8 @@ CREATE TABLE `inscriptionjourneys` (
   `updatedAt` datetime NOT NULL,
   `id_user` int(11) DEFAULT NULL,
   `id_trajet` int(11) DEFAULT NULL,
-  `rate` int(11) NOT NULL
-  `comment` varchar(500) NOT NULL
+  `rate` int(11) NOT NULL,
+  `comment` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
