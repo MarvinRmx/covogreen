@@ -21,7 +21,10 @@ import {ChatComponent} from '../detailed-card/chat/chat.component';
 import {JourneyDetailsComponent} from '../journey/journey-details/journey-details.component';
 import {UserPageComponent} from '../user/user-page/user-page.component';
 
-
+/**
+ * Redirection selon les URL vers des components
+ * @type {({path: string; component: HomeComponent} | {path: string; component: NewuserComponent} | {path: string; component: AdminComponent; canActivate: GuardAdminService[]} | {path: string; component: UserComponent; canActivate: GuardService[]} | {path: string; component: CreateJourneyComponent; canActivate: GuardService[]} | {path: string; component: MyJourneysComponent; canActivate: GuardService[]} | {path: string; component: RecherchePageComponent} | {path: string; component: ChatComponent; canActivate: GuardService[]} | {path: string; component: JourneyDetailsComponent} | {path: string; component: UserPageComponent})[]}
+ */
 const routes: Routes = [
     { path: '', component: HomeComponent},
 

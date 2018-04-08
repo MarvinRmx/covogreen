@@ -9,28 +9,39 @@ import {AuthRequest} from '../../services/authrequest.service';
 
 /**
  * @author Romain Lembo
+ * Component permettant à un utilisateur de se connecter à l'application.
  */
 @Component({
-	selector: 'app-login',
-	templateUrl: './login.component.html',
+    selector: 'app-login',
+    templateUrl: './login.component.html',
     styleUrls: ['./login.component.css'],
     providers: [AuthentificationService]
 })
 
 export class LoginComponent implements OnInit {
 
+    /**
+     * Objet User
+     */
     public user: User;
+
+    /**
+     * Formulaire de connexion
+     */
     public loginForm: FormGroup;
 
-	constructor(
-		private router: Router,
+    constructor(
+        private router: Router,
         private appComponent: AppComponent,
         private authenticationService: AuthentificationService,
         private formBulder: FormBuilder,
         private authRequest: AuthRequest
-	) { }
+    ) { }
 
-	ngOnInit() {
+    /**
+     * Inialisation du component
+     */
+    ngOnInit() {
         this.loginForm = this.formBulder.group({
             username: '',
             password: ''
@@ -38,7 +49,7 @@ export class LoginComponent implements OnInit {
     }
 
     /**
-     * Method for accept or refuse connexion for users.
+     * Transmission de la pair username / mot de passe pour la connexion.
      */
     login() {
         this.user = this.loginForm.value;
@@ -67,7 +78,7 @@ export class LoginComponent implements OnInit {
 
 
     /**
-     * Method for checking the protected pages, reserved for authentified users.
+     * Méthode pour vérifier si il y a eu authentification.
      * @returns {boolean}
      */
     checkAuth(): boolean {

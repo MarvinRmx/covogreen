@@ -5,23 +5,39 @@ import {MyJourneysComponent} from "../journey/my-journeys/my-journeys.component"
 
 /**
  * @author Romain Lembo
+ * Component principal du détail d'un trajet sélectionné.
  */
 @Component({
-  selector: 'app-detailed-card',
-  templateUrl: './detailed-card.component.html',
-  styleUrls: ['./detailed-card.component.css']
+    selector: 'app-detailed-card',
+    templateUrl: './detailed-card.component.html',
+    styleUrls: ['./detailed-card.component.css']
 })
 export class DetailedCardComponent implements OnInit {
 
     private googleAPIKey = 'AIzaSyCn_4UrHcbZH6TXsuVe15odOdZusR0hUgs';
+
+    /**
+     * Objet journey
+     */
     private journey: Journey;
+
+    /**
+     * Récupération de l'identifiant du conducteur.
+     */
     private id_driver: number;
+
+    /**
+     * Pour vérifier si le trajet est passé ou pas.
+     */
     private happended: boolean;
 
     constructor(
         private journeyService: JourneyService
     ) { }
 
+    /**
+     * Inialisation du component
+     */
     ngOnInit() {
         this.happended = false;
     }
@@ -38,6 +54,10 @@ export class DetailedCardComponent implements OnInit {
         }
     }
 
+    /**
+     * Pour modifier la valeur de la variable "happended".
+     * @param value
+     */
     setHappended(value) {
 
         let date = new Date(value);
@@ -47,6 +67,11 @@ export class DetailedCardComponent implements OnInit {
         else this.happended = true;
     }
 
+    /**
+     * Récupération de la date du trajet et traitement de son information.
+     * @param value
+     * @returns {string}
+     */
     getSchedule(value): string {
         this.setHappended(value);
 
@@ -62,6 +87,10 @@ export class DetailedCardComponent implements OnInit {
             hours + 'h' + minutes;
     }
 
+    /**
+     * API Google Map (Remplacé par le component JourneyDetails)
+     * @returns {string}
+     */
     getMap() {
         return 'https://www.google.com/maps/embed/v1/directions?' +
             'key=' + this.googleAPIKey +

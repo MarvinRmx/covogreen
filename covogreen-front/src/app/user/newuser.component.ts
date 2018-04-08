@@ -9,6 +9,7 @@ import * as md5 from 'md5';
 
 /**
  * @author Romain Lembo
+ * Component pour la création d'un compte utilisateur.
  */
 @Component({
     selector: 'app-newuser',
@@ -19,15 +20,32 @@ import * as md5 from 'md5';
 
 export class NewuserComponent implements OnInit {
 
+    /**
+     * Objet Utilisateur.
+     */
     public user: User;
+
+    /**
+     * Objet Car.
+     */
     public car: Car;
 
+    /**
+     * Si l'utilisateur a une voiture.
+     */
     public have_car: boolean = false;
     public have_car_ctrl: FormControl;
 
+
+    /**
+     * Si l'utilisateur est conducteur.
+     */
     public is_driver: boolean;
     public is_driver_ctrl: FormControl;
 
+    /**
+     * Formulaire de création de compte.
+     */
     public createUserForm: FormGroup;
 
     constructor(
@@ -35,6 +53,9 @@ export class NewuserComponent implements OnInit {
         private userService: UserService,
     ) { }
 
+    /**
+     * Initialisation du component.
+     */
     ngOnInit() {
 
         this.have_car_ctrl = this.formBulder.control('');
@@ -61,6 +82,9 @@ export class NewuserComponent implements OnInit {
 
     }
 
+    /**
+     * Création d'un utilisateur.
+     */
     createUser() {
         this.user = this.createUserForm.value;
         this.car = this.createUserForm.value;
@@ -73,18 +97,34 @@ export class NewuserComponent implements OnInit {
             });
     }
 
+    /**
+     * Modification de la variable is_driver
+     * @param $event
+     */
     changeIsDriver($event): void {
         this.is_driver = JSON.parse($event.value);
     }
 
+    /**
+     * Modification de la variable have_car
+     * @param $event
+     */
     changeHaveCar($event): void {
         this.have_car = JSON.parse($event.value);
     }
 
+    /**
+     * Vérification de la variable is_driver
+     * @returns {boolean}
+     */
     checkIsDriver(): boolean {
         return this.is_driver;
     }
 
+    /**
+     * Vérification de la variable have_car
+     * @returns {boolean}
+     */
     checkHaveCar(): boolean {
         return this.have_car;
     }

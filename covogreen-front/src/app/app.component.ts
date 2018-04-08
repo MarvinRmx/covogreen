@@ -5,6 +5,7 @@ import 'hammerjs';
 
 /**
  * @author Romain Lembo
+ * Component principal de l'application.
  */
 @Component({
     selector: 'app-root',

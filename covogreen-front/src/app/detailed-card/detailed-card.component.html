@@ -2,6 +2,10 @@
 author Romain Lembo
 -->
 
+<app-journey-details *ngIf="journey != null || journey != undefined"
+                     [id_journey]="journey.id_journey">
+</app-journey-details>
+
 <!--<mat-card class="example-card"
           *ngIf="journey != null || journey != undefined">
 
@@ -23,8 +27,3 @@ author Romain Lembo
           [id_driver]="id_driver"
           [happended]="happended">
 </app-rate>-->
-
-<app-journey-details *ngIf="journey != null || journey != undefined"
-                     [id_journey]="journey.id_journey">
-</app-journey-details>
-
