@@ -253,14 +253,15 @@ var JourneyController = {
         var userToken = authToken.getToken(req);
         console.log(userToken);
         if (userToken) {
-            sequelize.query(' SELECT *' +
+            sequelize.query(' SELECT * ' +
                 'FROM inscriptionjourneys ij, journeys j ' +
                 'WHERE ij.id_trajet = j.id_journey ' +
-                ' AND ij.id_trajet IN (SELECT id_journey FROM journeys WHERE id_journey = ' + req.params.id_journey +' AND date_journey < SYSDATE())' +
+                ' AND ij.id_trajet IN (SELECT id_journey FROM journeys WHERE id_journey = ' + req.params.id_journey +
+                ' AND date_journey < SYSDATE()) ' +
                 ' AND ij.id_user =' + userToken.id_user +
                 ' AND ij.id_user NOT IN (SELECT id_driver ' +
-                '                       FROM journeys ' +
-                '                       WHERE id_journey = ' + req.params.id_journey + ')',
+                ' FROM journeys ' +
+                ' WHERE id_journey = ' + req.params.id_journey + ')',
                 {model: InscriptionJourney}
             ).then(
                 function (value) {
