@@ -29,7 +29,7 @@ describe('Journey', function () {
         );
 
         tokenPassengerUser = authToken.createToken(
-            {id_user: 50, username: "passenger", privilege: 1, revoked: false}
+            {id_user: 50, username: "passenger", privilege: 2, revoked: false}
         );
 
         headersUser = {
@@ -141,7 +141,6 @@ describe('Journey', function () {
                 .expect(500)
                 .end(function (err, res) {
                     if (err) return done(err);
-                    else
                     done();
                 });
         });
