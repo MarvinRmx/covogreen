@@ -29,7 +29,7 @@ describe('Journey', function () {
         );
 
         tokenPassengerUser = authToken.createToken(
-            {id_user: 8, username: "passenger", privilege: 1, revoked: false}
+            {id_user: 50, username: "passenger", privilege: 1, revoked: false}
         );
 
         headersUser = {
