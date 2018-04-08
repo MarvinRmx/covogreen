@@ -38,7 +38,7 @@ var RechercheTrajetController = {
   getListTrajet: co.wrap(function * (request, result, condition) {
       var journeyList = yield Journey.findAll(condition);
 
-      if(journeyList != null) {
+      if(journeyList !== null) {
           for (var i = 0; i < journeyList.length; i++) {
               var driver = yield User.findById(journeyList[i].id_driver);
 
@@ -52,7 +52,7 @@ var RechercheTrajetController = {
                   nombre_place_disponible: journeyList[i].seats_available
               };
 
-              if (request.place_libre == "true") {
+              if (request.place_libre === "true") {
                   if (journeyList[i].seats_available > 0) {
                       result.trajets.push(truc);
                   }
@@ -68,7 +68,7 @@ var RechercheTrajetController = {
   /*getListTrajet: co.wrap(function * (request, result, condition) {
     var journeyList = yield Journey.findAll(condition);
 
-    if(journeyList != null)
+    if(journeyList !== null)
       for(var i = 0; i < journeyList.length; i++){
         var driver = yield User.findById(journeyList[i].id_driver);
         console.log("id_user ---- "+driver.id_user);
@@ -82,7 +82,7 @@ var RechercheTrajetController = {
           nombre_place_disponible : journeyList[i].seats_available
         };
 
-        if(request.place_libre == "true"){
+        if(request.place_libre === "true"){
           if(journeyList[i].seats_available > 0 ){
             result.trajets.push(truc);
           }
@@ -108,7 +108,7 @@ var RechercheTrajetController = {
 
     var nb_page = parseInt(result.count / 10);
 
-    if( (result.count % 10) != 0)
+    if( (result.count % 10) !== 0)
       nb_page++;
 
     return nb_page;
@@ -124,20 +124,20 @@ var RechercheTrajetController = {
     var condition = { 'where' : { [Op.and] : [] }, 'offset' : 0, 'limit' : 10, order: [['date_journey', 'DESC']] };
     var dateTimeNow = (new Date().toISOString().split('T')[0] + ' ' + new Date().toTimeString().split(' ')[0])
 
-    if (request.depart != "")
+    if (request.depart !== "")
       condition.where[Op.and].push({ "origin" : {[Op.like] : '%' + request.depart + '%'} });
 
-    if (request.destination != "")
+    if (request.destination !== "")
       condition.where[Op.and].push({ "destination" : {[Op.like] : '%' + request.destination + '%'} });
 
-    if (request.date_trajet != ""){
+    if (request.date_trajet !== ""){
       var date = request.date_trajet;
       condition.where[Op.and].push({ "date_journey" : {[Op.between] : [ date + " 00:00:00", date + " 23:59:59" ]} });
     }
 
     condition.where[Op.and].push({ "date_journey" : {[Op.gte] : dateTimeNow } });
 
-    if (request.page != "" && request.page > 1)
+    if (request.page !== "" && request.page > 1)
       condition.offset = ((request.page-1)*10);
 
 		return condition;
@@ -152,23 +152,23 @@ var RechercheTrajetController = {
 	{
     var result = { "success" : true, "message" : [], "trajets" : [], "nb_total_page" : 5 };
 
-    if (typeof(request.depart) == "undefined"){
+    if (typeof(request.depart) === "undefined"){
       result.success = false;
       result.message.push("Error can't find 'depart' attribute!");
     }
-    if (typeof(request.destination) == "undefined"){
+    if (typeof(request.destination) === "undefined"){
       result.success = false;
       result.message.push("Error can't find 'destination' attribute!");
     }
-    if (typeof(request.date_trajet) == "undefined"){
+    if (typeof(request.date_trajet) === "undefined"){
       result.success = false;
       result.message.push("Error can't find 'date_trajet' attribute!");
     }
-    if (typeof(request.place_libre) == "undefined"){
+    if (typeof(request.place_libre) === "undefined"){
       result.success = false;
       result.message.push("Error can't find 'place_libre' attribute!");
     }
-    if (typeof(request.page) == "undefined"){
+    if (typeof(request.page) === "undefined"){
       result.success = false;
       result.message.push("Error can't find 'page' attribute!");
     }

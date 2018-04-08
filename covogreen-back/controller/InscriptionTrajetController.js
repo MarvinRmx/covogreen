@@ -35,7 +35,7 @@ var InscriptionTrajetController = {
             if(user != null)
                 if(journey.seats_available >= 1){
                     var test = yield InscriptionTrajetController.checkSubscribe(journey, user);
-                    if(test == false){
+                    if(test === false){
                         journey.seats_available = journey.seats_available-1;
                         journey.save();
                         var inscriptionJourney = yield InscriptionJourney.create({ "id_user" : user.id_user, "id_trajet" : journey.id_journey});
@@ -71,7 +71,7 @@ var InscriptionTrajetController = {
             if(journey != null)
                 if(user != null){
                     var test = yield InscriptionTrajetController.checkSubscribe(journey, user);
-                    if(test == false)
+                    if(test === false)
                         res.status(200).send({success: true});
                     else
                         res.status(200).send({success: false, message: ["User is already subscribed to journey"]});

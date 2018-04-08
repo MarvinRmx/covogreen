@@ -35,7 +35,7 @@ var DesinscriptionTrajetController = {
     if(journey != null)
       if(user != null){
         var test = yield InscriptionTrajetController.checkSubscribe(journey, user);
-        if(test == true){
+        if(test === true){
           journey.seats_available = journey.seats_available+1;
           journey.save();
           var condition = { 'where' : { [Op.and] : [{"id_user" : user.id_user}, {"id_trajet" : journey.id_journey}] } };
