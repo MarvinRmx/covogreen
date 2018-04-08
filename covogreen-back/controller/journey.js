@@ -259,10 +259,11 @@ var JourneyController = {
                 ' AND ij.id_user =' + userToken.id_user +
                 ' AND ij.id_user NOT IN (SELECT id_driver ' +
                 '                       FROM journeys ' +
-                '                       WHERE id_journey = ' + req.params.id_journey + ')'
+                '                       WHERE id_journey = ' + req.params.id_journey + ')',
+                {model: InscriptionJourney}
             ).then(
                 function (value) {
-                    if (value !== null) {
+                    if (value.length > 0) {
                         res.status(200).send(true);
                     }
                     else {
