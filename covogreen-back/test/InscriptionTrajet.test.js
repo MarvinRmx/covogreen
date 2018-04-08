@@ -27,22 +27,21 @@ describe('InscriptionTrajet', function () {
       };
   });
 
-  //verifi si l'utilisateur est inscrit retour erreur
-  it('verifierInscriptionAloradySubscribed', function(done) {
-      request(app).post('/inscriptionTrajet/verif').set('Authorization', 'bearer ').set(headersUserRomain).send({
-          idTrajet: 5
-      }).expect(200).end(function(err, res) {
-          if (err)
-            return done(err);
-          else
-            console.log('Result:', res.text);
-          done();
-      });
-  });
+  // //verifi si l'utilisateur est inscrit retour erreur
+  // it('verifierInscriptionAloradySubscribed', function(done) {
+  //     request(app).post('/inscriptionTrajet/verif').set('Authorization', 'bearer ').set(headersUserRomain)
+  //     .send({ idTrajet: 5 }).expect(200).end(function(err, res) {
+  //         if (err)
+  //           return done(err);
+  //         else
+  //           console.log('Result:', res.text);
+  //         done();
+  //     });
+  // });
 
   //inscrit l'utilisateur retour pas d'erreur
   it('verifierSubscribeUser', function(done) {
-      request(app).get('/inscriptionTrajet/byjourneyuser/6').set('Authorization', 'bearer ')
+      request(app).get('/inscriptionTrajet/byjourneyuser/7').set('Authorization', 'bearer ')
       .set(headersUserRomain).expect(200).end(function(err, res) {
           if (err)
             return done(err);
