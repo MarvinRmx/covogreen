@@ -122,6 +122,7 @@ var RechercheTrajetController = {
   getResearchCondition: function(request)
 	{
     var condition = { 'where' : { [Op.and] : [] }, 'offset' : 0, 'limit' : 10, order: [['date_journey', 'DESC']] };
+    var dateTimeNow = (new Date().toISOString().split('T')[0] + ' ' + new Date().toTimeString().split(' ')[0])
 
     if (request.depart != "")
       condition.where[Op.and].push({ "origin" : {[Op.like] : '%' + request.depart + '%'} });
@@ -133,6 +134,8 @@ var RechercheTrajetController = {
       var date = request.date_trajet;
       condition.where[Op.and].push({ "date_journey" : {[Op.between] : [ date + " 00:00:00", date + " 23:59:59" ]} });
     }
+
+    condition.where[Op.and].push({ "date_journey" : {[Op.gte] : dateTimeNow } });
 
     if (request.page != "" && request.page > 1)
       condition.offset = ((request.page-1)*10);
