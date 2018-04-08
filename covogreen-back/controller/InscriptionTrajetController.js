@@ -82,6 +82,8 @@ var InscriptionTrajetController = {
                 res.status(200).send({success: false, message: ["Impossible to find journey"]});
 
         }
+        else
+            res.status(200).send({success: false, message: ["User is not connected"]});
     }),
 
     /**

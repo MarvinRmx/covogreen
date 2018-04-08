@@ -9,6 +9,7 @@ var app = require('../app');
 const request = require('supertest');
 var authToken = require("../controller/tools/authToken");
 
+const assert = require('assert');
 
 /**
  * Test InscriptionTrajet
@@ -28,31 +29,31 @@ describe('InscriptionTrajet', function () {
       };
   });
 
-  //verifi si l'utilisateur est inscrit retour erreur
-  describe('verifierInscriptionIfAlreadySubscribed', function () {
-    it('should accept', function testLogin (done) {
+  // verifi si l'utilisateur est inscrit retour erreur
+  describe('Verifier inscription if user is already subscribed', function () {
+    it('Should return success the user is subscribed', function testLogin (done) {
       request(app).post('/inscriptionTrajet/verif').set('Authorization', 'bearer ').set(headersUserRomain)
-      .send({ idTrajet: 5 }).expect(200).end(function(err, res) {
+      .send({ idTrajet: "5" }).expect(200).end(function(err, res) {
           if (err)
             return done(err);
-          else
-            console.log('Result:', res.text);
+
+          var tmp = JSON.parse(res.text);
+          assert.equal(tmp.success, false);
           done();
       });
     });
   });
 
-  //inscrit l'utilisateur retour pas d'erreur
-  // describe('verifierSubscribeUser()', function () {
-  //   it('should accept', function testLogin (done) {
-  //     request(app).get('/inscriptionTrajet/byjourneyuser/7').set('Authorization', 'bearer ')
-  //     .set(headersUserRomain).send({ idTrajet: 7 }).expect(200).end(function(err, res) {
-  //         if (err)
-  //           return done(err);
-  //         else
-  //           console.log('Result:', res.text);
-  //         done();
-  //     });
-  //   });
-  // });
+  // inscrit l'utilisateur retour pas d'erreur
+  describe('verifierSubscribeUser()', function () {
+    it('should accept', function testLogin (done) {
+      request(app).get('/inscriptionTrajet/byjourneyuser/6').set('Authorization', 'bearer ')
+      .set(headersUserRomain).expect(200).end(function(err, res) {
+          if (err)
+            return done(err);
+            
+          done();
+      });
+    });
+  });
 });
