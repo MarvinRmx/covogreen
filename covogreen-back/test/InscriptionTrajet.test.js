@@ -8,7 +8,6 @@ process.env.NODE_ENV = 'test';
 var app = require('../app');
 const request = require('supertest');
 var authToken = require("../controller/tools/authToken");
-
 const assert = require('assert');
 
 /**
@@ -46,12 +45,12 @@ describe('InscriptionTrajet', function () {
 
   // inscrit l'utilisateur retour pas d'erreur
   describe('verifierSubscribeUser()', function () {
-    it('should accept', function testLogin (done) {
-      request(app).get('/inscriptionTrajet/byjourneyuser/6').set('Authorization', 'bearer ')
+    it('Should subscrib user to the journey', function testLogin (done) {
+      request(app).get('/inscriptionTrajet/byjourneyuser/7').set('Authorization', 'bearer ')
       .set(headersUserRomain).expect(200).end(function(err, res) {
           if (err)
             return done(err);
-            
+
           done();
       });
     });
