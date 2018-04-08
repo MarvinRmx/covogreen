@@ -113,6 +113,7 @@ describe('Journey', function () {
                 .expect(500)
                 .end(function (err, res) {
                     if (err) return done(err);
+                    else console.log('Result:', res.text);
                     done();
                 });
         });

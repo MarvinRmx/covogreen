@@ -173,21 +173,13 @@ var JourneyController = {
                     res.status(200).send(response);
                 }
                 else {
-                    res.status(err.status || 500);
-                    res.json({
-                        message: err.message,
-                        error: err
-                    });
+                    res.status(500).send('Trajet non trouvé');
                 }
-            }).catch(function (error) {
-            console.log(error);
-
-            res.status(err.status || 500);
-            res.json({
-                message: err.message,
-                error: err
+            })
+            .catch(function (error) {
+                console.log(error);
+                res.status(500).send('Trajet non trouvé');
             });
-        });
     },
 
     /**
