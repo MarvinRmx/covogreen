@@ -42,15 +42,15 @@ describe('InscriptionTrajet', function () {
 
   //inscrit l'utilisateur retour pas d'erreur
   describe('verifierSubscribeUser()', function () {
-    it('verifierSubscribeUser', function(done) {
-        request(app).get('/inscriptionTrajet/byjourneyuser/7').set('Authorization', 'bearer ')
-        .set(headersUserRomain).send({ idTrajet: 7 }).expect(200).end(function(err, res) {
-            if (err)
-              return done(err);
-            else
-              console.log('Result:', res.text);
-            done();
-        });
+    it('should accept', function testLogin (done) {
+      request(app).get('/inscriptionTrajet/byjourneyuser/7').set('Authorization', 'bearer ')
+      .set(headersUserRomain).send({ idTrajet: 7 }).expect(200).end(function(err, res) {
+          if (err)
+            return done(err);
+          else
+            console.log('Result:', res.text);
+          done();
+      });
     });
-  }
+  });
 });
