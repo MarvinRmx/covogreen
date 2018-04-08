@@ -1,7 +1,9 @@
 # Projet Tutoré
 
-## Gestion de projet
-* **https://forge-iutinfo.unice.fr/**
+## Sources
+* **Gestion de projet : <https://forge-iutinfo.unice.fr/>**
+* **Intégration continue avec CircleCI : <https://circleci.com/gh/MarvinRmx/covogreen>**
+* **Qualité de code avec Codacy (accès avec le compte covogreenproject@gmail.com ): <https://app.codacy.com/app/Covogreen-project/covogreen/dashboard>**
 
 ## Auteurs
 
