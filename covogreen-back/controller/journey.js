@@ -11,6 +11,11 @@ var jwt = require('jsonwebtoken');
  * FR: Couche contrôleur de l'entité Journey.
  * ENG: Controller layer of Journey Entity.
  */
+
+/**
+ * @author Marvin RAMEIX
+ * @type {{create: JourneyController.create, getJourney: JourneyController.getJourney, delete: JourneyController.delete, canRateAndComment: JourneyController.canRateAndComment}}
+ */
 var JourneyController = {
 
     /**
@@ -259,12 +264,12 @@ var JourneyController = {
             ).catch(
                 function (reason) {
                     console.log(reason);
-                    res.status(500).send("Cet utilisateur ne participe pas au trajet");
+                    res.status(500).send("Cet utilisateur ne peut pas noter le trajet");
                 }
             )
         }
         else{
-            res.status(400).send("Cet internaute n'est pas inscrit");
+            res.status(500).send("Cet internaute n'est pas inscrit");
         }
     }
 
