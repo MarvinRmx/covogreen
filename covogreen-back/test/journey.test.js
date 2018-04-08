@@ -28,7 +28,7 @@ describe('Journey', function () {
             {id_user: 3, username: "driver", privilege: 1, revoked: false}
         );
 
-        tokenDriverUser = authToken.createToken(
+        tokenPassengerUser = authToken.createToken(
             {id_user: 8, username: "passenger", privilege: 1, revoked: false}
         );
 
@@ -128,6 +128,7 @@ describe('Journey', function () {
                 .expect(200)
                 .end(function (err, res) {
                     if (err) return done(err);
+                    else console.log('Result:', res.text);
                     done();
                 });
         });
@@ -140,6 +141,7 @@ describe('Journey', function () {
                 .expect(500)
                 .end(function (err, res) {
                     if (err) return done(err);
+                    else
                     done();
                 });
         });
