@@ -2,6 +2,7 @@
 /covogreen-back/package-lock.json
 
 /covogreen-front/node_modules/
+/covogreen-front/documentation/
 /covogreen-front/package-lock.json
 
 /.idea/

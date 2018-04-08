@@ -18,6 +18,7 @@ var authToken = require("./tools/authToken");
 var NoteConducteurController = {
 
   /**
+   * @author Romain Lembo & Alex Zarzitski
    * Cette methode calcule la note moyenne du conducteur
    * @param req Trame envoyée par le client
    * @param res Trame de retour vers le client

@@ -9,6 +9,7 @@ import * as md5 from 'md5';
 
 /**
  * @author Romain Lembo
+ * Component principal de la gestion de profil d'un utilisateur.
  */
 @Component({
     selector: 'app-user',
@@ -17,15 +18,42 @@ import * as md5 from 'md5';
 })
 export class UserComponent implements OnInit {
 
+    /**
+     * Objet User.
+     */
     public user: User;
+
+    /**
+     * Objet Car.
+     */
     public car: Car;
 
+    /**
+     * Si l'utilisateur a une voiture.
+     */
     public have_car: boolean;
+
+    /**
+     * Si l'utilisateur est conducteur.
+     */
     public is_driver: boolean;
 
-    //public confirm_delete: boolean = false;
+    /**
+     * Formulaire de MAJ de l'utilisateur.
+     * @type {FormGroup}
+     */
     private updateUserForm: FormGroup = new FormGroup({});
+
+    /**
+     * Formulaire de MAJ du mot de passe.
+     * @type {FormGroup}
+     */
     private updatePasswordForm: FormGroup = new FormGroup({});
+
+    /**
+     * Formulaire de MAJ ou de création de la voiture.
+     * @type {FormGroup}
+     */
     private updateOrCreateCarForm: FormGroup = new FormGroup({});
 
     constructor(
@@ -35,6 +63,9 @@ export class UserComponent implements OnInit {
         private carService: CarService,
     ) {}
 
+    /**
+     * Initialisation du component.
+     */
     ngOnInit() {
 
         this.updatePasswordForm = this.formBulder.group({
@@ -99,6 +130,9 @@ export class UserComponent implements OnInit {
 
     }
 
+    /**
+     * MAJ du mot de passe.
+     */
     updatePassword() {
 
         let old_password = "";
@@ -122,6 +156,9 @@ export class UserComponent implements OnInit {
             });
     }
 
+    /**
+     * Suppréssion d'un utilisateur.
+     */
     deleteUser() {
 
         this.userService.deleteUser()
@@ -134,6 +171,9 @@ export class UserComponent implements OnInit {
 
     }
 
+    /**
+     * MAJ d'un utilisateur.
+     */
     updateUser() {
         this.user = this.updateUserForm.value;
 
@@ -143,6 +183,9 @@ export class UserComponent implements OnInit {
             });
     }
 
+    /**
+     * MAJ ou création d'une voiture.
+     */
     updateOrCreateCar() {
         if(this.user.id_car !== null)
         {
@@ -166,6 +209,9 @@ export class UserComponent implements OnInit {
 
     }
 
+    /**
+     * Suppréssion d'une voiture.
+     */
     deleteCar() {
 
         this.carService.deleteCar(this.car)
@@ -175,14 +221,26 @@ export class UserComponent implements OnInit {
             });
     }
 
+    /**
+     * Modification de la variable is_driver
+     * @param $event
+     */
     changeIsDriver($event): void {
         this.is_driver = JSON.parse($event.value);
     }
 
+    /**
+     * Modification de la variable have_car
+     * @param $event
+     */
     changeHaveCar($event): void {
         this.have_car = JSON.parse($event.value);
     }
 
+    /**
+     * Vérification de la voiture.
+     * @returns {boolean}
+     */
     checkCar(): boolean {
         return this.car.id_car != null;
     }

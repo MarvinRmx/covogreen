@@ -101,7 +101,9 @@ var InscriptionTrajetController = {
     }),
 
     /**
-     * Method for getting inscriptionJourney data with id_user and id_journey
+     * @author Romain Lembo
+     * FR: Methode pour récupérer les données d'inscription au trajet selon l'id_user et l'id_journey
+     * ENG: Method for getting inscriptionJourney data with id_user and id_journey
      * @param req
      * @param res
      */
