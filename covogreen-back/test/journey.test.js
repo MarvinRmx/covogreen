@@ -86,6 +86,9 @@ describe('Journey', function () {
         });
     });
 
+    /**
+     * @author Marvin RAMEIX
+     */
     describe('getJourney()', function () {
         it('should accept and return data of the selected journey', function testGetJourney(done) {
             request(app)
@@ -119,6 +122,9 @@ describe('Journey', function () {
         });
     });
 
+    /**
+     * @author Marvin RAMEIX
+     */
     describe('delete()', function () {
         it('should accept and delete the selected journey', function testDelete(done) {
             request(app)
@@ -156,6 +162,9 @@ describe('Journey', function () {
         });
     });
 
+    /**
+     * @author Marvin RAMEIX
+     */
     describe('canRateAndComment()', function () {
         it('should refuse because the user is the driver', function testDelete(done) {
             request(app)
