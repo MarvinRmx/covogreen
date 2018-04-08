@@ -220,7 +220,7 @@ var JourneyController = {
         Journey.findById(req.params.id_journey)
             .then(function (response) {
                 if (response !== null) {
-                    if (response.dataValues.id_driver == userToken.id_user) {
+                    if (response.dataValues.id_driver === userToken.id_user) {
                         Journey.destroy({
                             where: {
                                 id_journey: response.dataValues.id_journey
