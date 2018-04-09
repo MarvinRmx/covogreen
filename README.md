@@ -5,7 +5,7 @@
 Avec le prompt/terminal...
 
 1) Cloner le répertoire Git.
-2) Faire un la commande <code>npm install</code> dans le dossier :
+2) Faire un la commande <code>npm install</code> dans les dossiers :
   - "covogreen-back"
   - "covogreen-front"
 3) Lancer le backend : faire la commande <code>npm start</code> dans le dossier "covogreen-back".
