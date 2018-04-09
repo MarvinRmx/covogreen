@@ -10,7 +10,7 @@ Avec le prompt/terminal...
   - "covogreen-front"
 3) Lancer le backend : faire la commande <code>npm start</code> dans le dossier "covogreen-back".
 4) Lancer le frontend : faire la commande <code>ng serve</code> dans le dossier "covogreen-front".
-   PS : Si vous rencontrez des problème de dépendances dans le dossier "covogreen-front", faire ceci :
+   PS : Si vous rencontrez des problèmes de dépendances dans le dossier "covogreen-front", faire ceci :
    <ol>
      <li>Dans le dossier "covogreen-front", supprimer le fichier "package-lock.json".</li>
      <li>Dans le dossier "covogreen-front", supprimer le dossier "node_modules".</li>
