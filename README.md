@@ -14,7 +14,7 @@ Avec le prompt/terminal...
    <ol>
      <li>Dans le dossier "covogreen-front", supprimer le fichier "package-lock.json".</li>
      <li>Dans le dossier "covogreen-front", supprimer le dossier "node_modules".</li>
-     <li>Télécharger (Ce lien : <https://drive.google.com/open?id=1Mt1yjcz-6puBYNztX5OyjCTzwaC_ZYsQ>) et décompréssé cette archive et le placer à la racine du dossier "covogreen-front".</li>
+     <li>Télécharger (Ce lien : <https://drive.google.com/open?id=1Mt1yjcz-6puBYNztX5OyjCTzwaC_ZYsQ>) et décomprésser cette archive et le placer à la racine du dossier "covogreen-front".</li>
      <li>Dans le dossier "covogreen-front", faire la commande <code>npm install</code>.</li>
      <li>Enfin dans le dossier "covogreen-front", faire la commande <code>ng serve</code>.</li>
   </ol>
